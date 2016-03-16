@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">    
+
+
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                    
+                <!-- User Account: style can be found in dropdown.less -->
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="../../resources/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                        <span class="hidden-xs">#{usuarioControl.loggedUser.nome}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- User image -->
+                        <li class="user-header">
+                            <img src="../../resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                            <p>
+                                #{usuarioControl.loggedUser.nome}
+                                <small>#{usuarioControl.loggedUser.email}</small>
+                            </p>
+                        </li>
+                        
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="../../SairServlet" class="btn btn-default btn-flat">Sair</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Control Sidebar Toggle Button 
+                <li>
+                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                </li>-->
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="../../resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                </div>
+                <div class="pull-left info">
+                    <p>#{usuarioControl.loggedUser.nome}</p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="active treeview">
+                    <a href="index.faces">
+                        <i class="fa fa-home"></i> <span>Home</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Cadastros</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="usuarios.faces"><i class="fa fa-circle-o"></i>Usuários</a></li>
+                        <li><a href="clientes.faces"><i class="fa fa-circle-o"></i>Clientes</a></li>
+                        <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>Produtos</a></li>
+                        <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Fornecedores</a></li>
+                        <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Eventos</a></li>
+                        <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Categorias</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-list"></i>
+                        <span>Pedidos</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="orcamentos.faces"><i class="fa fa-circle-o"></i>Orçamentos</a></li>
+                        <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i>Faturamentos</a></li>
+                        <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Atendidos</a></li>
+                        <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Cancelados</a></li>
+                        <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Devoluções</a></li>
+                    </ul>
+                </li>
+               
+                <li class="treeview">
+                    <a href="index.faces">
+                        <i class="fa fa-dropbox"></i> <span>Estoque</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+</ui:composition>
+

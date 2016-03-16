@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"                
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="titleOfPage">
+        Usuários
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h:form style="height: 35px;" >
+                <h:commandLink class="btn btn-default" title="Voltar" actionListener="#{usuarioControl.esconde}" style="margin-right: 10px; float: left;">
+                    <i class="fa fa-reply"></i>
+                </h:commandLink>
+
+                <h:commandLink class="btn btn-success" title="Novo" actionListener="#{usuarioControl.addNovo}" 
+                               style="float:left;margin-right: 10px;" 
+                               rendered="#{usuarioControl.showAdd eq false and usuarioControl.showEdit eq false}">
+                    <i class="fa fa-plus"></i>
+                </h:commandLink>
+
+                <h:commandLink class="btn btn-danger" title="Excluir" actionListener="#{usuarioControl.doFinishExcluir}" onclick="return confirm('Tem certeza que deseja excluir o cliente selecionado?')" style="margin-right: 10px;float:left;" rendered="#{usuarioControl.showEdit eq true}">
+                    <i class="fa fa-remove"></i>
+                </h:commandLink>
+
+                <h:panelGroup rendered="#{usuarioControl.showAdd eq false and usuarioControl.showEdit eq false}">
+                    <div class="input-group input-group-sm" style="max-width: 30%;float:left;" >
+                        <h:inputText onkeypress="#{usuarioControl.pesquisaUsuario()}" class="form-control" value="#{usuarioControl.localizarNome}"/>
+                        <span class="input-group-btn">
+                            <h:commandLink class="btn btn-info btn-flat" type="button" action="#{usuarioControl.pesquisaUsuario}">
+                                <i class="fa fa-search"></i>
+                            </h:commandLink>
+                        </span>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-files-o"></i> Home</a></li>
+                <li><a href="#">Cadastro</a></li>
+                <li class="active">Usuários</li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <h:form id="form_message" style="margin: 0 10px;">
+                <p:messages id="msg" autoUpdate="form_message" closable="true"/>
+            </h:form>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <h:panelGroup rendered="#{usuarioControl.showAdd eq false and usuarioControl.showEdit eq false}">
+                            <div class="box-header">
+                                <h3 class="box-title">Usuários</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <h:dataTable id="example1" value="#{usuarioControl.listUsuarios}" var="item" class="table table-bordered table-hover">
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Nome"/>                                                
+                                        </f:facet>
+                                        <h:form>
+                                            <h:commandLink action="#{usuarioControl.doStartAlterar}">
+                                                <h:outputText value="#{item.nome}"/>
+                                                <f:setPropertyActionListener value="#{item}" target="#{usuarioControl.usuSelected}"/> 
+                                            </h:commandLink>
+                                        </h:form>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="E-mail"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.email}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="CPF"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.cpf}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Telefone"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.telefone}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Celular"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.celular}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Administrador"/>                                                
+                                        </f:facet>
+                                        <h:panelGroup rendered="#{item.admin eq true}">
+                                            <i class="fa fa-check-square-o"></i>
+                                        </h:panelGroup>
+
+                                        <h:panelGroup rendered="#{item.admin eq false}">
+                                            <i class="fa fa-square-o"></i>
+                                        </h:panelGroup>
+
+                                    </h:column>
+                                </h:dataTable>
+                            </div><!-- /.box-body -->
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{usuarioControl.showAdd eq true}">
+                            <div class="box-header">
+                                <h3 class="box-title">Usuários &gt; Cadastro</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form class="form">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="nome">Nome</h:outputLabel>
+                                                    <h:inputText class="form-control" id="nome" value="#{usuarioControl.usuSelected.nome}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="email">E-mail</h:outputLabel>
+                                                    <h:inputText class="form-control" id="email" value="#{usuarioControl.usuSelected.email}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div  class="col-xs-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="fone">Telefone</h:outputLabel>
+                                                    <h:inputText class="form-control" id="fone" value="#{usuarioControl.usuSelected.telefone}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cel">Celular</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cel" value="#{usuarioControl.usuSelected.celular}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cpf">CPF</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cpf" value="#{usuarioControl.usuSelected.cpf}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="senha">Senha</h:outputLabel>
+                                                    <h:inputSecret class="form-control" id="senha" value="#{usuarioControl.usuSelected.senha}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="tipo">Administrador</h:outputLabel>
+                                                    <h:selectOneMenu id="tipo" value="#{usuarioControl.usuSelected.admin}"
+                                                                     requiredMessage="Administrador">
+                                                        <f:selectItem itemValue="FALSE" itemLabel="NÃO"/>
+                                                        <f:selectItem itemValue="TRUE" itemLabel="SIM"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.box -->
+                                    <div class="box-footer">
+                                        <h:commandButton action="#{usuarioControl.salvarNovo}" styleClass="btn btn-primary" value="Salvar" />
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box -->
+                        </h:panelGroup>
+
+                        <!-- PAINEL DE EDIÇÃOO
+                        *********************
+                        **************
+                        -->
+
+                        <h:panelGroup rendered="#{usuarioControl.showEdit eq true}">
+                            <div class="box-header">
+                                <h3 class="box-title">Usuários &gt; Editar &gt; ${usuarioControl.usuSelected.nome}</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form class="form">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="nome">Nome</h:outputLabel>
+                                                    <h:inputText class="form-control" id="nome" value="#{usuarioControl.usuSelected.nome}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="email">E-mail</h:outputLabel>
+                                                    <h:inputText class="form-control" id="email" value="#{usuarioControl.usuSelected.email}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div  class="col-xs-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="fone">Telefone</h:outputLabel>
+                                                    <h:inputText class="form-control" id="fone" value="#{usuarioControl.usuSelected.telefone}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cel">Celular</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cel" value="#{usuarioControl.usuSelected.celular}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cpf">CPF</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cpf" value="#{usuarioControl.usuSelected.cpf}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="senha">Senha</h:outputLabel>
+                                                    <h:inputSecret class="form-control" id="rg" value="#{usuarioControl.usuSelected.senha}" disabled="true"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="tipo">Administrador</h:outputLabel>
+                                                    <h:selectOneMenu id="tipo" value="#{usuarioControl.usuSelected.admin}"
+                                                                     requiredMessage="Tipo">
+
+                                                        <f:selectItem itemValue="#{usuarioControl.usuSelected.admin}" itemLabel="#{usuarioControl.usuSelected.admin}"/>
+                                                        <f:selectItem itemValue="TRUE" itemLabel="SIM"/>
+                                                        <f:selectItem itemValue="FALSE" itemLabel="NÃO"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.box -->
+                                    <div class="box-footer">
+                                        <h:commandButton action="#{usuarioControl.salvarEditado()}" styleClass="btn btn-primary" value="Salvar" />
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box -->
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </ui:define>
+
+</ui:composition>

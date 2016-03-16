@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"                
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="titleOfPage">
+        Clientes
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h:form style="height: 35px;" >
+                <h:commandLink class="btn btn-default" title="Voltar" actionListener="#{clientesControl.esconde}" style="margin-right: 10px; float: left;">
+                    <i class="fa fa-reply"></i>
+                </h:commandLink>
+
+                <h:commandLink class="btn btn-success" title="Novo" actionListener="#{clientesControl.addNovo}" 
+                               style="float:left;margin-right: 10px;" 
+                               rendered="#{clientesControl.showAdd eq false and clientesControl.showEdit eq false}">
+                    <i class="fa fa-plus"></i>
+                </h:commandLink>
+
+                <h:commandLink class="btn btn-danger" title="Excluir" actionListener="#{clientesControl.doFinishExcluir}" onclick="return confirm('Tem certeza que deseja excluir o cliente selecionado?')" style="margin-right: 10px;float:left;" rendered="#{clientesControl.showEdit eq true}">
+                    <i class="fa fa-remove"></i>
+                </h:commandLink>
+
+                <h:panelGroup rendered="#{clientesControl.showAdd eq false and clientesControl.showEdit eq false}">
+                    <div class="input-group input-group-sm" style="max-width: 30%;float:left;" >
+                        <h:inputText onkeypress="#{clientesControl.pesquisaCliente()}" class="form-control" value="#{clientesControl.localizarNome}"/>
+                        <span class="input-group-btn">
+                            <h:commandLink class="btn btn-info btn-flat" type="button" action="#{clientesControl.pesquisaCliente}">
+                                <i class="fa fa-search"></i>
+                            </h:commandLink>
+                        </span>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-files-o"></i> Home</a></li>
+                <li><a href="#">Cadastro</a></li>
+                <li class="active">Clientes</li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <h:form id="form_message" style="margin: 0 10px;">
+                <p:messages id="msg" autoUpdate="form_message" closable="true"/>
+            </h:form>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <h:panelGroup rendered="#{clientesControl.showAdd eq false and clientesControl.showEdit eq false}">
+                            <div class="box-header">
+                                <h3 class="box-title">Clientes</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <h:dataTable id="dataTableJs" value="#{clientesControl.listClientes}" var="item" class="table table-bordered table-hover">
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Nome"/>                                                
+                                        </f:facet>
+                                        <h:form>
+                                            <h:commandLink action="#{clientesControl.doStartAlterar}">
+                                                <h:outputText value="#{item.nome}"/>
+                                                <f:setPropertyActionListener value="#{item}" target="#{clientesControl.cliSelected}"/> 
+                                            </h:commandLink>
+                                        </h:form>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="E-mail"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.email}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="CPF"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.cpf}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Telefone"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.telefone}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Celular"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.celular}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Cidade"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.cidade}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Bairro"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.bairro}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Endereço"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.endereco}"/>
+                                    </h:column>
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Nº"/>                                                
+                                        </f:facet>
+                                        <h:outputText value="#{item.numero}"/>
+                                    </h:column>
+                                </h:dataTable>
+                            </div><!-- /.box-body -->
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{clientesControl.showAdd eq true}">
+                            <div class="box-header">
+                                <h3 class="box-title">Clientes &gt; Cadastro</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form class="form">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="nome">Nome/Razão Social</h:outputLabel>
+                                                    <h:inputText class="form-control" id="nome" value="#{clientesControl.cliSelected.nome}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="email">E-mail</h:outputLabel>
+                                                    <h:inputText class="form-control" id="email" value="#{clientesControl.cliSelected.email}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div  class="col-xs-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="fone">Telefone</h:outputLabel>
+                                                    <h:inputText class="form-control" id="fone" value="#{clientesControl.cliSelected.telefone}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cel">Celular</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cel" value="#{clientesControl.cliSelected.celular}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cpf">CPF / CNPJ</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cpf" value="#{clientesControl.cliSelected.cpf}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="rg">Inscrição</h:outputLabel>
+                                                    <h:inputText class="form-control" id="rg" value="#{clientesControl.cliSelected.inscricao}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="tipo">Tipo</h:outputLabel>
+                                                    <h:selectOneMenu id="tipo" value="#{clientesControl.cliSelected.tipo}"
+                                                                     requiredMessage="Tipo">
+
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                        <f:selectItem itemValue="Fisica" itemLabel="Física"/>
+                                                        <f:selectItem itemValue="Juridica" itemLabel="Jurídica"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-xs-4">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="end">Endereço</h:outputLabel>
+                                                    <h:inputText class="form-control" id="end" value="#{clientesControl.cliSelected.endereco}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="n">N°</h:outputLabel>
+                                                    <h:inputText class="form-control" id="n" value="#{clientesControl.cliSelected.numero}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cid">Cidade</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cid" value="#{clientesControl.cliSelected.cidade}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="est">Estado</h:outputLabel>
+                                                    <h:selectOneMenu id="est" value="#{clientesControl.cliSelected.estado}"
+                                                                     requiredMessage="Estado">
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                        <f:selectItem itemValue="AC" itemLabel="AC"/>
+                                                        <f:selectItem itemValue="AP" itemLabel="AP"/>
+                                                        <f:selectItem itemValue="BA" itemLabel="BA"/>
+                                                        <f:selectItem itemValue="CE" itemLabel="CE"/>
+                                                        <f:selectItem itemValue="DF" itemLabel="DF"/>
+                                                        <f:selectItem itemValue="ES" itemLabel="ES"/>
+                                                        <f:selectItem itemValue="GO" itemLabel="GO"/>
+                                                        <f:selectItem itemValue="MA" itemLabel="MA"/>
+                                                        <f:selectItem itemValue="MT" itemLabel="MT"/>
+                                                        <f:selectItem itemValue="ES" itemLabel="ES"/>
+                                                        <f:selectItem itemValue="MG" itemLabel="MG"/>
+                                                        <f:selectItem itemValue="PA" itemLabel="PA"/>
+                                                        <f:selectItem itemValue="PB" itemLabel="PB"/>
+                                                        <f:selectItem itemValue="PR" itemLabel="PB"/>
+                                                        <f:selectItem itemValue="PE" itemLabel="PE"/>
+                                                        <f:selectItem itemValue="PI" itemLabel="PI"/>
+                                                        <f:selectItem itemValue="RJ" itemLabel="RJ"/>
+                                                        <f:selectItem itemValue="RN" itemLabel="RN"/>
+                                                        <f:selectItem itemValue="RS" itemLabel="RS"/>
+                                                        <f:selectItem itemValue="RO" itemLabel="RO"/>
+                                                        <f:selectItem itemValue="RR" itemLabel="RR"/>
+                                                        <f:selectItem itemValue="SC" itemLabel="SC"/>
+                                                        <f:selectItem itemValue="SP" itemLabel="SP"/>
+                                                        <f:selectItem itemValue="SE" itemLabel="SE"/>
+                                                        <f:selectItem itemValue="TO" itemLabel="TO"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="bai">Bairro</h:outputLabel>
+                                                    <h:inputText class="form-control" id="bai" value="#{clientesControl.cliSelected.bairro}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cep">CEP</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cep" value="#{clientesControl.cliSelected.cep}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.box -->
+                                    <div class="box-footer">
+                                        <h:commandButton action="#{clientesControl.salvarNovo}" styleClass="btn btn-primary" value="Salvar" />
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box -->
+                        </h:panelGroup>
+
+                        <!-- PAINEL DE EDIÇÃOO
+                        *********************
+                        **************
+                        -->
+
+                        <h:panelGroup rendered="#{clientesControl.showEdit eq true}">
+                            <div class="box-header">
+                                <h3 class="box-title">Clientes &gt; Editar &gt; ${clientesControl.cliSelected.nome}</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form class="form">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="nome">Nome/Razão Social</h:outputLabel>
+                                                    <h:inputText class="form-control" id="nome" value="#{clientesControl.cliSelected.nome}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="email">E-mail</h:outputLabel>
+                                                    <h:inputText class="form-control" id="email" value="#{clientesControl.cliSelected.email}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div  class="col-xs-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="fone">Telefone</h:outputLabel>
+                                                    <h:inputText class="form-control" id="fone" value="#{clientesControl.cliSelected.telefone}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cel">Celular</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cel" value="#{clientesControl.cliSelected.celular}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cpf">CPF / CNPJ</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cpf" value="#{clientesControl.cliSelected.cpf}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="rg">Inscrição</h:outputLabel>
+                                                    <h:inputText class="form-control" id="rg" value="#{clientesControl.cliSelected.inscricao}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="tipo">Tipo</h:outputLabel>
+                                                    <h:selectOneMenu id="tipo" value="#{clientesControl.cliSelected.tipo}"
+                                                                     requiredMessage="Tipo">
+
+                                                        <f:selectItem itemValue="#{clientesControl.cliSelected.tipo}" itemLabel="#{clientesControl.cliSelected.tipo}"/>
+                                                        <f:selectItem itemValue="Fisica" itemLabel="Física"/>
+                                                        <f:selectItem itemValue="Juridica" itemLabel="Jurídica"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-xs-4">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="end">Endereço</h:outputLabel>
+                                                    <h:inputText class="form-control" id="end" value="#{clientesControl.cliSelected.endereco}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="n">N°</h:outputLabel>
+                                                    <h:inputText class="form-control" id="n" value="#{clientesControl.cliSelected.numero}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cid">Cidade</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cid" value="#{clientesControl.cliSelected.cidade}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="est">Estado</h:outputLabel>
+                                                    <h:selectOneMenu id="est" value="#{clientesControl.cliSelected.estado}"
+                                                                     requiredMessage="Estado">
+                                                        <f:selectItem itemValue="#{clientesControl.cliSelected.estado}" itemLabel="#{clientesControl.cliSelected.estado}"/>
+                                                        <f:selectItem itemValue="AC" itemLabel="AC"/>
+                                                        <f:selectItem itemValue="AP" itemLabel="AP"/>
+                                                        <f:selectItem itemValue="BA" itemLabel="BA"/>
+                                                        <f:selectItem itemValue="CE" itemLabel="CE"/>
+                                                        <f:selectItem itemValue="DF" itemLabel="DF"/>
+                                                        <f:selectItem itemValue="ES" itemLabel="ES"/>
+                                                        <f:selectItem itemValue="GO" itemLabel="GO"/>
+                                                        <f:selectItem itemValue="MA" itemLabel="MA"/>
+                                                        <f:selectItem itemValue="MT" itemLabel="MT"/>
+                                                        <f:selectItem itemValue="ES" itemLabel="ES"/>
+                                                        <f:selectItem itemValue="MG" itemLabel="MG"/>
+                                                        <f:selectItem itemValue="PA" itemLabel="PA"/>
+                                                        <f:selectItem itemValue="PB" itemLabel="PB"/>
+                                                        <f:selectItem itemValue="PR" itemLabel="PB"/>
+                                                        <f:selectItem itemValue="PE" itemLabel="PE"/>
+                                                        <f:selectItem itemValue="PI" itemLabel="PI"/>
+                                                        <f:selectItem itemValue="RJ" itemLabel="RJ"/>
+                                                        <f:selectItem itemValue="RN" itemLabel="RN"/>
+                                                        <f:selectItem itemValue="RS" itemLabel="RS"/>
+                                                        <f:selectItem itemValue="RO" itemLabel="RO"/>
+                                                        <f:selectItem itemValue="RR" itemLabel="RR"/>
+                                                        <f:selectItem itemValue="SC" itemLabel="SC"/>
+                                                        <f:selectItem itemValue="SP" itemLabel="SP"/>
+                                                        <f:selectItem itemValue="SE" itemLabel="SE"/>
+                                                        <f:selectItem itemValue="TO" itemLabel="TO"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="bai">Bairro</h:outputLabel>
+                                                    <h:inputText class="form-control" id="bai" value="#{clientesControl.cliSelected.bairro}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cep">CEP</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cep" value="#{clientesControl.cliSelected.cep}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.box -->
+                                    <div class="box-footer">
+                                        <h:commandButton action="#{clientesControl.doFinishAlterar}" styleClass="btn btn-primary" value="Salvar" />
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box -->
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </ui:define>
+
+</ui:composition>
