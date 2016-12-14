@@ -3,6 +3,7 @@ package br.com.locacao.repositorio;
 import br.com.locacao.entidades.Produtos;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -37,8 +38,30 @@ public class RepositorioProduto extends RepositorioBasico{
     }
     
     public List<Produtos> getProdutosByName(String nome){
+        String nomeFormat = "%"+nome.toUpperCase()+"%";
         return getPureList(Produtos.class, "select p from Produtos p "
-                + " where p.nome like %?1%", nome);
+                + " where upper(p.nome) like ?1", nomeFormat);
+    }
+    
+    public int getQuantidadeEstoque(){
+        Query query = entityManager.createQuery("select sum(p.quantidade) from Produtos p");
+        
+        List lista = query.getResultList();
+        long valor = 0;
+        if(lista.get(0) != null){
+            valor = (long) lista.get(0);
+            return (int) valor;
+        }else{
+            return 0;
+        }
+    }
+    
+    public List<Produtos> get10Produtos(){
+        List lista;
+        Query query = entityManager.createQuery("select p from Produtos p");
+        query.setMaxResults(10);
+        lista = query.getResultList();
+        return lista;
     }
 
 }

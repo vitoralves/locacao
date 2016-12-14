@@ -5,7 +5,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"                
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns="http://www.w3.org/1999/xhtml">
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="titleOfPage">
         Clientes
@@ -30,7 +31,7 @@
                 </h:commandLink>
 
                 <h:panelGroup rendered="#{clientesControl.showAdd eq false and clientesControl.showEdit eq false}">
-                    <div class="input-group input-group-sm" style="max-width: 30%;float:left;" >
+                    <div class="input-group input-group-sm  pesquisa" style="max-width: 30%;float:left;" >
                         <h:inputText onkeypress="#{clientesControl.pesquisaCliente()}" class="form-control" value="#{clientesControl.localizarNome}"/>
                         <span class="input-group-btn">
                             <h:commandLink class="btn btn-info btn-flat" type="button" action="#{clientesControl.pesquisaCliente}">
@@ -52,82 +53,60 @@
                 <p:messages id="msg" autoUpdate="form_message" closable="true"/>
             </h:form>
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-md-12">
                     <div class="box">
                         <h:panelGroup rendered="#{clientesControl.showAdd eq false and clientesControl.showEdit eq false}">
                             <div class="box-header">
                                 <h3 class="box-title">Clientes</h3>
                             </div><!-- /.box-header -->
                             <div class="box-body">
-                                <h:dataTable id="dataTableJs" value="#{clientesControl.listClientes}" var="item" class="table table-bordered table-hover">
-                                    <h:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Nome"/>                                                
-                                        </f:facet>
-                                        <h:form>
-                                            <h:commandLink action="#{clientesControl.doStartAlterar}">
-                                                <h:outputText value="#{item.nome}"/>
-                                                <f:setPropertyActionListener value="#{item}" target="#{clientesControl.cliSelected}"/> 
-                                            </h:commandLink>
-                                        </h:form>
-                                    </h:column>
+                                <h:form acceptcharset="ISO-8859-1">
+                                    <p:dataTable tableStyleClass="table table-bordered table-hover" var="item" 
+                                                 value="#{clientesControl.listClientes}" 
+                                                 selectionMode="single"
+                                                 selection="#{clientesControl.cliSelected}"
+                                                 rowKey="#{item.idCliente}"
+                                                 rows="30"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="30,50,100" scrollable="true">
 
-                                    <h:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="E-mail"/>                                                
-                                        </f:facet>
-                                        <h:outputText value="#{item.email}"/>
-                                    </h:column>
+                                        <p:ajax event="rowSelect"  listener="#{clientesControl.onRowSelect}" update="@all" />
 
-                                    <h:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="CPF"/>                                                
-                                        </f:facet>
-                                        <h:outputText value="#{item.cpf}"/>
-                                    </h:column>
+                                        <p:column headerText="Nome" sortBy="#{item.nome}">
+                                            <h:outputText value="#{item.nome}"/>
+                                        </p:column>
 
-                                    <h:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Telefone"/>                                                
-                                        </f:facet>
-                                        <h:outputText value="#{item.telefone}"/>
-                                    </h:column>
+                                        <p:column headerText="E-mail" sortBy="#{item.email}">
+                                            <h:outputText value="#{item.email}" />
+                                        </p:column>
 
-                                    <h:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Celular"/>                                                
-                                        </f:facet>
-                                        <h:outputText value="#{item.celular}"/>
-                                    </h:column>
+                                        <p:column headerText="CPF" sortBy="#{item.cpf}">
+                                            <h:outputText value="#{item.cpf}"/>
+                                        </p:column>
 
-                                    <h:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Cidade"/>                                                
-                                        </f:facet>
-                                        <h:outputText value="#{item.cidade}"/>
-                                    </h:column>
+                                        <p:column headerText="Telefone" sortBy="#{item.telefone}">
+                                            <h:outputText value="#{item.telefone}"/>
+                                        </p:column>
 
-                                    <h:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Bairro"/>                                                
-                                        </f:facet>
-                                        <h:outputText value="#{item.bairro}"/>
-                                    </h:column>
+                                        <p:column headerText="Celular" sortBy="#{item.celular}">
+                                            <h:outputText value="#{item.celular}"/>
+                                        </p:column>
+                                        <p:column headerText="Bairro" sortBy="#{item.bairro}">
+                                            <h:outputText value="#{item.bairro}"/>
+                                        </p:column>
+                                        <p:column headerText="Cidade" sortBy="#{item.cidade}">
+                                            <h:outputText value="#{item.cidade}"/>
+                                        </p:column>
+                                        <p:column headerText="Endereço" sortBy="#{item.endereco}">
+                                            <h:outputText value="#{item.endereco}"/>
+                                        </p:column>
+                                        <p:column headerText="Nro" sortBy="#{item.numero}">
+                                            <h:outputText value="#{item.numero}"/>
+                                        </p:column>
 
-                                    <h:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Endereço"/>                                                
-                                        </f:facet>
-                                        <h:outputText value="#{item.endereco}"/>
-                                    </h:column>
-
-                                    <h:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Nº"/>                                                
-                                        </f:facet>
-                                        <h:outputText value="#{item.numero}"/>
-                                    </h:column>
-                                </h:dataTable>
+                                    </p:dataTable>
+                                </h:form>
                             </div><!-- /.box-body -->
                         </h:panelGroup>
 
@@ -137,87 +116,83 @@
                             </div><!-- /.box-header -->
                             <div class="box box-primary">
                                 <!-- form start -->
-                                <h:form class="form">
+                                <h:form id="form_1" class="form" acceptcharset="ISO-8859-1">
                                     <div class="box-body">
                                         <div class="row">
-                                            <div class="col-xs-6">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="nome">Nome/Razão Social</h:outputLabel>
-                                                    <h:inputText class="form-control" id="nome" value="#{clientesControl.cliSelected.nome}"/>
+                                                    <h:outputLabel for="nome">Nome*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="nome" value="#{clientesControl.cliSelected.nome}" required="true"/>
                                                 </div>
                                             </div>
 
-                                            <div class="col-xs-6">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="email">E-mail</h:outputLabel>
-                                                    <h:inputText class="form-control" id="email" value="#{clientesControl.cliSelected.email}"/>
+                                                    <h:outputLabel for="email">E-mail*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="email" value="#{clientesControl.cliSelected.email}" required="true"/>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div  class="col-xs-3">
+                                            <div  class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="fone">Telefone</h:outputLabel>
-                                                    <h:inputText class="form-control" id="fone" value="#{clientesControl.cliSelected.telefone}"/>
+                                                    <h:outputLabel value="Telefone" for="tel" />
+                                                    <p:inputMask id="tel" styleClass="form-control" value="#{clientesControl.cliSelected.telefone}" mask="(99) 9999-9999" />
                                                 </div>
                                             </div>
-                                            <div class="col-xs-3">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="cel">Celular</h:outputLabel>
-                                                    <h:inputText class="form-control" id="cel" value="#{clientesControl.cliSelected.celular}"/>
+                                                    <h:outputLabel value="Celular" for="cel"/>
+                                                    <p:inputMask styleClass="form-control" id="cel" value="#{clientesControl.cliSelected.celular}" mask="(99)9 9999-9999"/>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-2">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="cpf">CPF / CNPJ</h:outputLabel>
-                                                    <h:inputText class="form-control" id="cpf" value="#{clientesControl.cliSelected.cpf}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="rg">Inscrição</h:outputLabel>
-                                                    <h:inputText class="form-control" id="rg" value="#{clientesControl.cliSelected.inscricao}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-1">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="tipo">Tipo</h:outputLabel>
-                                                    <h:selectOneMenu id="tipo" value="#{clientesControl.cliSelected.tipo}"
-                                                                     requiredMessage="Tipo">
 
-                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
-                                                        <f:selectItem itemValue="Fisica" itemLabel="Física"/>
-                                                        <f:selectItem itemValue="Juridica" itemLabel="Jurídica"/>
-                                                    </h:selectOneMenu>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="end">Endereço*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="end" value="#{clientesControl.cliSelected.endereco}" required="true"/>
                                                 </div>
                                             </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="n">N°*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="n" value="#{clientesControl.cliSelected.numero}" required="true"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cid">Cidade*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cid" value="#{clientesControl.cliSelected.cidade}" required="true"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="bai">Bairro*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="bai" value="#{clientesControl.cliSelected.bairro}" required="true"/>
+                                                </div>
+                                            </div>                                            
                                         </div>
-                                        <div class="row">
-
-                                            <div class="col-xs-4">
+                                        <div class="row">                                          
+                                            <div class="col-md-1">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="end">Endereço</h:outputLabel>
-                                                    <h:inputText class="form-control" id="end" value="#{clientesControl.cliSelected.endereco}"/>
+                                                    <h:outputLabel for="comp">Complemento</h:outputLabel>
+                                                    <h:inputText class="form-control" id="comp" value="#{clientesControl.cliSelected.complemento}"/>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-1">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="n">N°</h:outputLabel>
-                                                    <h:inputText class="form-control" id="n" value="#{clientesControl.cliSelected.numero}"/>
+                                                    <h:outputLabel for="cep">CEP*</h:outputLabel>
+                                                    <p:inputMask styleClass="form-control" id="cep" value="#{clientesControl.cliSelected.cep}" mask="99999-999" required="true"/>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-2">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="cid">Cidade</h:outputLabel>
-                                                    <h:inputText class="form-control" id="cid" value="#{clientesControl.cliSelected.cidade}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="est">Estado</h:outputLabel>
+                                                    <h:outputLabel for="est">Estado*</h:outputLabel>
+                                                    <br/>
                                                     <h:selectOneMenu id="est" value="#{clientesControl.cliSelected.estado}"
-                                                                     requiredMessage="Estado">
+                                                                     requiredMessage="Estado" styleClass="selectOne" style="height:34px; width: 100%;" required="true">
                                                         <f:selectItem itemValue="" itemLabel="Selecione..."/>
                                                         <f:selectItem itemValue="AC" itemLabel="AC"/>
                                                         <f:selectItem itemValue="AP" itemLabel="AP"/>
@@ -247,18 +222,39 @@
                                                     </h:selectOneMenu>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-2">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="bai">Bairro</h:outputLabel>
-                                                    <h:inputText class="form-control" id="bai" value="#{clientesControl.cliSelected.bairro}"/>
+                                                    <h:outputLabel for="tipo">Tipo*</h:outputLabel>
+                                                    <br/>
+                                                    <h:selectOneMenu id="tipo" value="#{clientesControl.cliSelected.tipo}"
+                                                                     requiredMessage="Tipo" styleClass="selectOne" style="height:34px;width: 100%;" required="true">
+
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                        <f:selectItems value="#{clientesControl.listTipo}"/>
+                                                        <f:ajax render="cpf1" listener="#{clientesControl.mudaVisible()}"/>
+                                                        <f:ajax render="cnpj"/>
+                                                    </h:selectOneMenu>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-1">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="cep">CEP</h:outputLabel>
-                                                    <h:inputText class="form-control" id="cep" value="#{clientesControl.cliSelected.cep}"/>
+                                                    <h:outputLabel id="labelTipo" value="CPF*" for="cpf1"/>
+                                                    <p:inputMask id="cpf1" mask="999.999.999-99" disabled="#{clientesControl.cpf}" styleClass="form-control" value="#{clientesControl.cliSelected.cpf}" required="#{clientesControl.cpfReq}"/>                                                        
                                                 </div>
-                                            </div>
+                                            </div>    
+                                            <div class="col-md-2" >
+                                                <div class="form-group">
+                                                    <h:outputLabel id="labelTipo1" value="CNPJ*" for="cnpj"/>
+                                                    <p:inputMask id="cnpj" mask="99.999.999/9999-99" disabled="#{clientesControl.cnpj}" styleClass="form-control" value="#{clientesControl.cliSelected.cnpj}" required="#{clientesControl.cnpjReq}"/>
+                                                </div>
+                                            </div>    
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="RG*" for="rg"/>
+                                                    <p:inputMask mask="99.999.999-9" styleClass="form-control" id="rg" value="#{clientesControl.cliSelected.rg}" required="true"/>
+                                                </div>
+                                            </div> 
                                         </div>
 
                                     </div><!-- /.box -->
@@ -280,88 +276,84 @@
                             </div><!-- /.box-header -->
                             <div class="box box-primary">
                                 <!-- form start -->
-                                <h:form class="form">
+                                <h:form class="form" acceptcharset="ISO-8859-1">
                                     <div class="box-body">
                                         <div class="row">
-                                            <div class="col-xs-6">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="nome">Nome/Razão Social</h:outputLabel>
-                                                    <h:inputText class="form-control" id="nome" value="#{clientesControl.cliSelected.nome}"/>
+                                                    <h:outputLabel for="nome">Nome*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="nome" value="#{clientesControl.cliSelected.nome}" required="true"/>
                                                 </div>
                                             </div>
 
-                                            <div class="col-xs-6">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="email">E-mail</h:outputLabel>
-                                                    <h:inputText class="form-control" id="email" value="#{clientesControl.cliSelected.email}"/>
+                                                    <h:outputLabel for="email">E-mail*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="email" value="#{clientesControl.cliSelected.email}" required="true"/>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div  class="col-xs-3">
+                                            <div  class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="fone">Telefone</h:outputLabel>
-                                                    <h:inputText class="form-control" id="fone" value="#{clientesControl.cliSelected.telefone}"/>
+                                                    <h:outputLabel value="Telefone" />
+                                                    <p:inputMask value="#{clientesControl.cliSelected.telefone}" styleClass="form-control" mask="(99) 9999-9999"/>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-3">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="cel">Celular</h:outputLabel>
-                                                    <h:inputText class="form-control" id="cel" value="#{clientesControl.cliSelected.celular}"/>
+                                                    <h:outputLabel value="Celular" for="cel"/>
+                                                    <p:inputMask styleClass="form-control" id="cel" value="#{clientesControl.cliSelected.celular}" mask="(99)9 9999-9999"/>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-3">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="cpf">CPF / CNPJ</h:outputLabel>
-                                                    <h:inputText class="form-control" id="cpf" value="#{clientesControl.cliSelected.cpf}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="rg">Inscrição</h:outputLabel>
-                                                    <h:inputText class="form-control" id="rg" value="#{clientesControl.cliSelected.inscricao}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-1">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="tipo">Tipo</h:outputLabel>
-                                                    <h:selectOneMenu id="tipo" value="#{clientesControl.cliSelected.tipo}"
-                                                                     requiredMessage="Tipo">
 
-                                                        <f:selectItem itemValue="#{clientesControl.cliSelected.tipo}" itemLabel="#{clientesControl.cliSelected.tipo}"/>
-                                                        <f:selectItem itemValue="Fisica" itemLabel="Física"/>
-                                                        <f:selectItem itemValue="Juridica" itemLabel="Jurídica"/>
-                                                    </h:selectOneMenu>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="end">Endereço*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="end" value="#{clientesControl.cliSelected.endereco}" required="true"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="n">N°*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="n" value="#{clientesControl.cliSelected.numero}" required="true"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cid">Cidade*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cid" value="#{clientesControl.cliSelected.cidade}" required="true"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="bai">Bairro*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="bai" value="#{clientesControl.cliSelected.bairro}" required="true"/>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-
-                                            <div class="col-xs-4">
+                                        <div class="row">  
+                                            <div class="col-md-1">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="end">Endereço</h:outputLabel>
-                                                    <h:inputText class="form-control" id="end" value="#{clientesControl.cliSelected.endereco}"/>
+                                                    <h:outputLabel for="comp">Complemento</h:outputLabel>
+                                                    <h:inputText class="form-control" id="comp" value="#{clientesControl.cliSelected.complemento}"/>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-1">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="n">N°</h:outputLabel>
-                                                    <h:inputText class="form-control" id="n" value="#{clientesControl.cliSelected.numero}"/>
+                                                    <h:outputLabel for="cep">CEP*</h:outputLabel>
+                                                    <p:inputMask styleClass="form-control" id="cep" value="#{clientesControl.cliSelected.cep}" mask="99999-999" required="true"/>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-2">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="cid">Cidade</h:outputLabel>
-                                                    <h:inputText class="form-control" id="cid" value="#{clientesControl.cliSelected.cidade}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-1">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="est">Estado</h:outputLabel>
+                                                    <h:outputLabel for="est">Estado*</h:outputLabel>
+                                                    <br/>
                                                     <h:selectOneMenu id="est" value="#{clientesControl.cliSelected.estado}"
-                                                                     requiredMessage="Estado">
-                                                        <f:selectItem itemValue="#{clientesControl.cliSelected.estado}" itemLabel="#{clientesControl.cliSelected.estado}"/>
+                                                                     requiredMessage="Estado" styleClass="selectOne" style="height:34px;width: 100%;" required="true">
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
                                                         <f:selectItem itemValue="AC" itemLabel="AC"/>
                                                         <f:selectItem itemValue="AP" itemLabel="AP"/>
                                                         <f:selectItem itemValue="BA" itemLabel="BA"/>
@@ -390,20 +382,40 @@
                                                     </h:selectOneMenu>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-2">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="bai">Bairro</h:outputLabel>
-                                                    <h:inputText class="form-control" id="bai" value="#{clientesControl.cliSelected.bairro}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-1">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="cep">CEP</h:outputLabel>
-                                                    <h:inputText class="form-control" id="cep" value="#{clientesControl.cliSelected.cep}"/>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                    <h:outputLabel for="tipo">Tipo*</h:outputLabel>
+                                                    <br/>
+                                                    <h:selectOneMenu id="tipo" value="#{clientesControl.cliSelected.tipo}"
+                                                                     requiredMessage="Tipo" styleClass="selectOne" style="height:34px;width: 100%;" required="true">
 
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                        <f:selectItems value="#{clientesControl.listTipo}"/>
+                                                        <f:ajax render="cpf2" listener="#{clientesControl.mudaVisible()}"/>
+                                                        <f:ajax render="cnpj1"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel id="labelTipo" value="CPF*" for="cpf2"/>
+                                                    <p:inputMask id="cpf2" mask="999.999.999-99" disabled="#{clientesControl.cpf}" styleClass="form-control" value="#{clientesControl.cliSelected.cpf}" required="#{clientesControl.cpfReq}"/>                                                        
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-2" >
+                                                <div class="form-group">
+                                                    <h:outputLabel id="labelTipo1" value="CNPJ*" for="cnpj1"/>
+                                                    <p:inputMask id="cnpj1" mask="99.999.999/9999-99" disabled="#{clientesControl.cnpj}" styleClass="form-control" value="#{clientesControl.cliSelected.cnpj}" required="#{clientesControl.cnpjReq}"/>
+                                                </div>
+                                            </div>    
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="RG*" for="rg"/>
+                                                    <p:inputMask mask="99.999.999-9" styleClass="form-control" id="rg" value="#{clientesControl.cliSelected.rg}" required="true"/>
+                                                </div>
+                                            </div> 
+                                        </div>
                                     </div><!-- /.box -->
                                     <div class="box-footer">
                                         <h:commandButton action="#{clientesControl.doFinishAlterar}" styleClass="btn btn-primary" value="Salvar" />
@@ -414,8 +426,6 @@
                     </div>
                 </div>
             </div>
-
         </section>
     </ui:define>
-
 </ui:composition>

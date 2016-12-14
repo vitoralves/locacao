@@ -1,0 +1,6 @@
+/build/
+/dist/
+/locacao-ejb/build/
+/locacao-war/build/
+/locacao-war/dist/
+/locacao-ejb/dist/

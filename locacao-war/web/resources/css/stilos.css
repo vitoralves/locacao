@@ -1,0 +1,106 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 27/03/2016, 17:57:22
+    Author     : vitor
+*/
+@media screen and (max-width: 800px){
+    .pesquisa{
+        max-width: 66% !important;
+    }
+}
+
+.login-page, .register-page{
+    background: #fff !important;
+}
+
+.selectOne{
+    height: 34px;
+    width: 90px;
+    border: 1px solid rgb(210, 214, 222);
+}
+
+.ui-widget-header{
+    border:none !important;
+    background-color: #fff !important;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+    background-color: #fff !important;
+}
+.table > caption + thead > tr:first-child > td, .table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > td, .table > 
+colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > td, .table > thead:first-child > tr:first-child > th{
+    border:none;
+    border-right: 1px solid #f4f4f4;
+}
+
+
+.ui-datatable .ui-datatable-scrollable-body{
+    height: -41px !important;
+}
+
+.ui-datatable-scrollable .ui-datatable-scrollable-header, .ui-datatable-scrollable .ui-datatable-scrollable-footer {
+    height:40px !important;
+}
+
+.ui-datatable-scrollable .ui-datatable-scrollable-header, .ui-datatable-scrollable .ui-datatable-scrollable-footer tabelaMaior{
+    height:71px !important;
+}
+
+.ui-autocomplete-input{
+    border: 1px solid #ccc;
+    box-shadow: none !important;
+    margin-top: -6px;
+    margin-left: -11px;
+    width: 114%;
+    height: 34px;
+}
+
+.ui-autocomplete-input:hover{
+    border-color: #3c8dbc !important;
+}
+
+.ui-autocomplete-item{
+    background-color: #3C8DBC !important;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    background: #3C8DBC !important;
+    background:#3C8DBC -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.25)), to(rgba(0,0,0,0))) !important;
+}
+
+.ui-widget-content ui-datatable-even ui-datatable-selectable ui-state-highlight{
+    text-align: center !important;
+}
+
+.ui-state-default.ui-sortable-column.ui-resizable-column.ui-state-active{
+    color: #fff !important;
+    background-color: #186ba0 !important;
+}
+
+.label{
+    margin-top: 4px !important; 
+    margin-left: 5px !important;; 
+}
+
+.conteudo_extra {
+    width: 100%;
+}
+
+.ui-dialog {
+    /*position:absolute !important;*/
+    top: 48px !important;
+    width: auto !important;
+    height: auto !important;
+    left:606px !important;
+}
+
+.ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow ui-hidden-container ui-draggable ui-resizable{
+    top: 48px !important;
+    width: auto !important;
+    height: auto !important;
+    left:606px !important;
+}

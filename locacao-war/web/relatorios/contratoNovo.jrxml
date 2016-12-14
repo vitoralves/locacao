@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contratoNovo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="3757524f-ce5c-4ff1-ae05-2a3347ecbd06">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.lang.Object"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="cpf" class="java.lang.String"/>
+	<parameter name="endereco" class="java.lang.String"/>
+	<parameter name="localEvento" class="java.lang.String"/>
+	<parameter name="dataEntrega" class="java.util.Date"/>
+	<parameter name="somaValor" class="java.lang.Double"/>
+	<parameter name="dataDevolucao" class="java.util.Date"/>
+	<parameter name="totalLocacao" class="java.lang.Double"/>
+	<parameter name="formaPagmto" class="java.lang.String"/>
+	<parameter name="texto" class="java.lang.String"/>
+	<parameter name="parameter1" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vitor/NetBeansProjects/locacao/locacao-war/web/relatorios/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalVenda" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="desconto" class="java.math.BigDecimal"/>
+	<parameter name="somaValorDiaria" class="java.lang.Double"/>
+	<parameter name="somaValorTotal" class="java.lang.Double"/>
+	<parameter name="frete" class="java.math.BigDecimal"/>
+	<field name="qntd" class="java.lang.Integer"/>
+	<field name="produto" class="java.lang.String"/>
+	<field name="valUnitario" class="java.lang.Double"/>
+	<field name="valDiaria" class="java.lang.Double"/>
+	<field name="valTotal" class="java.lang.Double"/>
+	<variable name="variable1" class="java.lang.String"/>
+	<variable name="variable2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="127">
+			<line>
+				<reportElement uuid="ce2d31a5-034f-4590-8ce4-9744831c6402" x="147" y="-1" width="1" height="38"/>
+			</line>
+			<line>
+				<reportElement uuid="fc7e9684-79e9-40ad-a045-e68486af1303" x="148" y="35" width="426" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="b4901218-371d-4095-ba68-242c1bdf2f37" x="147" y="63" width="427" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="9012a79a-2bf6-4390-a530-c13dd5f6f60d" x="574" y="43" width="1" height="20"/>
+			</line>
+			<image scaleImage="Clip">
+				<reportElement uuid="8dc22f51-835a-42f8-a127-a9206ae4a25b" mode="Transparent" x="1" y="-1" width="137" height="78" forecolor="#FFFFFF"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="3330dac7-c5aa-411b-bfd1-dfc9630bad43" mode="Opaque" x="148" y="0" width="426" height="35" forecolor="#000000" backcolor="#D2D2D2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO DE LOCAÇÃO DE MÓVEIS E OBJETOS COM PRESTAÇÃO DE SERVIÇOS E OUTRAS AVENÇAS - CL.nº. 67459]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="60aeab15-89ad-4130-ba29-eec727d8946c" x="574" y="71" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="1ea4c908-3054-4429-bd31-6d23715f5e38" x="148" y="71" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="de22889c-f026-41da-a018-66838cb20723" x="574" y="0" width="1" height="35"/>
+			</line>
+			<line>
+				<reportElement uuid="16865160-f6e4-498c-8767-1bfe9eba8f74" x="149" y="70" width="425" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="2d9b4156-6a4e-4577-9d8e-bc739ae2e7d2" mode="Opaque" x="149" y="71" width="425" height="20" forecolor="#000000" backcolor="#D2D2D2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[1 - LOCADORA / CONTRATADA]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="f7bb1108-d2d7-4338-964a-95a2f6c017df" x="147" y="42" width="427" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="de0d97b6-4968-47f6-94ff-5d8a9eb3e940" x="147" y="43" width="1" height="20"/>
+			</line>
+			<staticText>
+				<reportElement uuid="806b8661-c3d8-4681-a819-f025af9dabca" x="149" y="95" width="426" height="32"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[L A F PANSANI LOCAÇÕES-ME (nome fantasia "DECOVILLE LOCAÇÕES") pessoa jurídica de direito privado, estabelecida na Rua Amazonas nº844, Jardim Rivieira, Franca - SP, 14402-025 , inscrita no CNPJ/MF sob n.  55.710.719/0001-08, neste ato representada por seu(s) representante(s) legal(is) abaixo assinado(s), doravante denominada simplesmente LOCADORA.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ade9de0e-c6c4-4368-8387-bed59bb9b5e7" mode="Opaque" x="148" y="43" width="426" height="20" forecolor="#000000" backcolor="#D2D2D2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contato: 16 3017 3759 / 16 991814071]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="27c2b62b-d00f-499d-989d-687d11cbad97" x="149" y="91" width="425" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="d81f91ca-8fe5-41b5-8e1f-e0e9e21bf30f" x="148" y="-1" width="427" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<line>
+				<reportElement uuid="909e9e70-c6b5-4bdf-8def-8feb633fe081" positionType="Float" x="576" y="0" width="1" height="21" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+			</line>
+			<line>
+				<reportElement uuid="6dd50e4e-2e47-473f-8034-04f8dc14ef7a" positionType="Float" x="2" y="21" width="574" height="1" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+			</line>
+			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+				<reportElement uuid="33ec4acb-d524-4906-a4c7-8bc315620f46" positionType="Float" x="387" y="1" width="93" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valDiaria}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement uuid="b64010a8-e0aa-45cc-8e8e-48e502064b5a" positionType="Float" x="43" y="1" width="229" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{produto}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="152f8092-95f9-4808-8a0b-35b246520de3" positionType="Float" x="2" y="-1" width="574" height="1" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+			</line>
+			<line>
+				<reportElement uuid="99cd4013-32c7-458e-adf6-80477b6887fe" positionType="Float" x="1" y="0" width="1" height="21" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+			</line>
+			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="7a6e1002-4486-4672-bf4c-d76698ad1ebf" positionType="Float" x="279" y="1" width="107" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valUnitario}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="976b5e70-4747-45e6-93be-ef4ac95beb45" positionType="Float" x="39" y="0" width="1" height="21" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement uuid="78e47ba1-851d-4d0a-8183-9a625843e986" positionType="Float" x="2" y="1" width="37" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qntd}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="f04ea1f1-907c-4231-aec7-77ed87fe9b49" positionType="Float" x="387" y="0" width="1" height="21" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+			</line>
+			<line>
+				<reportElement uuid="9e85bb1d-dcf0-43a0-aaf0-468932c882f9" positionType="Float" x="279" y="0" width="1" height="21" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+			</line>
+			<line>
+				<reportElement uuid="5c094224-0495-48fb-bf82-24790be3ee54" positionType="Float" x="481" y="0" width="1" height="21" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+			</line>
+			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+				<reportElement uuid="9eb55da3-a109-4218-aa38-d000ff15f158" positionType="Float" x="482" y="1" width="93" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="36" splitType="Immediate">
+			<line>
+				<reportElement uuid="5bd7c684-0a49-45b0-8930-b7db863a9532" x="576" y="-1" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="1e84b760-0a62-45f1-be78-5e56d67de86a" x="481" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="7d2325f8-e99d-4b51-b202-a26d5d55494b" x="1" y="20" width="576" height="1"/>
+			</line>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="63a68227-fc3d-4ff6-ad83-18f6fbf648d9" x="482" y="0" width="94" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{somaValorTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="289ed981-069d-4710-b08f-237ffd0a436d" x="439" y="0" width="42" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="37463614-b561-49b3-bb2a-6b43b03e6260" x="1" y="-1" width="1" height="21"/>
+			</line>
+			<subreport>
+				<reportElement uuid="d4f64203-7034-4b0f-906e-92381a18ee22" x="1" y="24" width="573" height="12"/>
+				<subreportParameter name="texto">
+					<subreportParameterExpression><![CDATA[$P{texto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "/report2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

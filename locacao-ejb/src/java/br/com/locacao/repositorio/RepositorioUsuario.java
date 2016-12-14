@@ -18,6 +18,11 @@ public class RepositorioUsuario extends RepositorioBasico{
     }
     
     public Usuarios setUsuario(Usuarios usr){
+        usr.setSenha(getMd5(usr.getSenha()));
+        return setEntity(Usuarios.class, usr);
+    }
+    
+    public Usuarios alterUsuario(Usuarios usr){
         return setEntity(Usuarios.class, usr);
     }
     

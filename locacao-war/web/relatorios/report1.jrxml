@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="17c70824-e7c3-4b99-a837-67cb067d5c76">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="texto1" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="194" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="eb1b7f87-753a-4980-8462-341d23e38ccb" x="235" y="41" width="186" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e5aa0ed7-0122-4268-b7d6-c37e29adcacd" x="332" y="152" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="da4e87b1-b2f6-45e5-9b5b-6c085ac42cb1" x="18" y="101" width="277" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="2dc01310-f81d-44d9-bc40-12ba79f3f40a" x="18" y="178" width="277" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="d9fc0629-b899-4ab4-a7ed-b2acf1d0e520" x="332" y="100" width="198" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="2e6342be-7085-4f3e-b620-f45faee116d0" x="332" y="151" width="198" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="88556450-0112-4a61-9b31-da5e9a81cf4e" x="177" y="41" width="58" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Franca-SP,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="815114d5-d6e3-45da-a6f3-b088c0cf7e2f" x="18" y="138" width="217" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOCATÁRIO(A) / CONTRATANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="19449b02-046f-4b2c-ad2d-b80d5b8da241" x="18" y="102" width="277" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[L A F PANSANI LOCAÇÕES ME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7c78420c-c750-4d6d-b54c-edb35a990aff" x="18" y="62" width="170" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOCADORA /CONTRATADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d9047eeb-942a-487a-821f-4bf1b814bb67" x="334" y="62" width="198" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TESTEMUNHAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d9f920a9-8050-467f-a8d6-05179b22be9b" x="332" y="101" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="dbdee045-698e-4ea4-9491-471d71bfd3da" stretchType="RelativeToBandHeight" x="0" y="0" width="555" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{texto1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

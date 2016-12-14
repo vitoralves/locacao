@@ -11,10 +11,12 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -46,24 +48,29 @@ public class Produtos implements Serializable {
     @Column(length = 60)
     private String descricao;
     @Column(name = "val_custo")
-    private BigInteger valCusto;
+    private double valCusto;
     @Column(name = "val_diaria")
-    private BigInteger valDiaria;
+    private double valDiaria;
     private Integer quantidade;
-    @OneToMany(mappedBy = "produto")
-    private List<Eventos> eventosList;
+//    @OneToMany(mappedBy = "produto")
+//    private List<Eventos> eventosList;
     @JoinColumn(name = "categoria", referencedColumnName = "id_categoria")
     @ManyToOne
     private Categorias categoria;
-    @JoinColumn(name = "fornecedor", referencedColumnName = "id_fornecedor")
-    @ManyToOne
-    private Fornecedores fornecedor;
+//    @JoinColumn(name = "fornecedor", referencedColumnName = "id_fornecedor")
+//    @ManyToOne
+//    private Fornecedores fornecedor;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "imagem")
+    private byte[] imagem;
 
     public Produtos() {
     }
 
-    public Produtos(Integer idProduto) {
+    public Produtos(Integer idProduto, String nome) {
         this.idProduto = idProduto;
+        this.nome = nome;
     }
 
     public Integer getIdProduto() {
@@ -90,19 +97,19 @@ public class Produtos implements Serializable {
         this.descricao = descricao;
     }
 
-    public BigInteger getValCusto() {
+    public double getValCusto() {
         return valCusto;
     }
 
-    public void setValCusto(BigInteger valCusto) {
+    public void setValCusto(double valCusto) {
         this.valCusto = valCusto;
     }
 
-    public BigInteger getValDiaria() {
+    public double getValDiaria() {
         return valDiaria;
     }
 
-    public void setValDiaria(BigInteger valDiaria) {
+    public void setValDiaria(double valDiaria) {
         this.valDiaria = valDiaria;
     }
 
@@ -114,14 +121,14 @@ public class Produtos implements Serializable {
         this.quantidade = quantidade;
     }
 
-    @XmlTransient
-    public List<Eventos> getEventosList() {
-        return eventosList;
-    }
-
-    public void setEventosList(List<Eventos> eventosList) {
-        this.eventosList = eventosList;
-    }
+//    @XmlTransient
+//    public List<Eventos> getEventosList() {
+//        return eventosList;
+//    }
+//
+//    public void setEventosList(List<Eventos> eventosList) {
+//        this.eventosList = eventosList;
+//    }
 
     public Categorias getCategoria() {
         return categoria;
@@ -131,14 +138,22 @@ public class Produtos implements Serializable {
         this.categoria = categoria;
     }
 
-    public Fornecedores getFornecedor() {
-        return fornecedor;
+//    public Fornecedores getFornecedor() {
+//        return fornecedor;
+//    }
+//
+//    public void setFornecedor(Fornecedores fornecedor) {
+//        this.fornecedor = fornecedor;
+//    }
+
+    public byte[] getImagem() {
+        return imagem;
     }
 
-    public void setFornecedor(Fornecedores fornecedor) {
-        this.fornecedor = fornecedor;
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

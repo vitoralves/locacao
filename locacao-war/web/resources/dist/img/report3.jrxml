@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report3" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cbde0def-1605-4eab-8dcc-080d5dffa487">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<detail>
+		<band height="539" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="ef8f2b5f-ecbc-45b0-9834-7bce4fcb0ca0" x="0" y="0" width="530" height="539"/>
+				<textElement/>
+				<text><![CDATA[sob pena das providências previstas no presente contrato e na lei civil e processual civil brasileira.
+1.6-) É expressamente vedado a(ao) LOCATÁRlA(O) o pagamento de qualquer valor, de qualquer natureza, diretamente a funcionários, motoristas ou prepostos da LOCADORA, que não expressamente autorizados pela mesma, ou ainda a terceiros contratados ou subcontratados tanto pela LOCADORA quanto pela(o) LOCATARlA(O), sob pena de não ser considerado como válido eventual pagamento, caso esse não chegue as mãos e poder da LOCADORA, por qualquer motivo que seja.
+3-) O valor total da locação dos móveis e objetos locados, bem como, de eventuais fretes realizados pela LOCADORA e ou terceiros subcontratados pela mesma, será devido pela(o) LOCATÁRIA(O), mesmo que esta(e) não venha utilizar os bens locados por qualquer motivo que seja, tais como exemplos: desistência da locação fora do prazo previsto no codigo de defesa do consumidor, não realização do evento (festa, congresso, reunião, convenção, etc), por qualquer motivo que seja, mesmo que por motivos de caso fortuito e ou de força maior.
+3.1-) Em havendo desistência tempestiva por parte da(o) LOCATÁRIA(O), ou seja, dentro do prazo previsto pelo codigo de defesa do consumidor, ficará este obrigado a ressarcir a LOCADORA, apenas eventuais despesas com materiais, locomoções, fretes, subcontratação com terceiros, etc., devidamente comprovados pela LOCADORA.
+4-) A(O) LOCATÁRlA(O) autoriza expressamente a LOCADORA à emitir e enviar-lhe, inclusive via boletos bancários, a cobrança dos valores devidos pela locação e ou por outros serviços prestados (executados), tais como por exemplos, fretes,  locação extras de móveis e objetos, danos nos bens locados (ver cláusulas 7 e seguintes), etc., sendo que, os boletos bancários poderão conter autorização à instituição bancária de proceder o apontamento e o protesto em caso de não pagamento pela(o) LOCATARIA(O), sem que isso implique em alegação de danos de quaisquer natureza, inclusive morais ou materiais, hipotese em que, a LOCADORA adotará ainda as demais medidas legais cabíveis, podendo, inclusive, emitir e sacar duplicatas mercantis contra a(o) LOCATARlA(O), inclusive para fins de execução judicial, sem prejuízo do que está previsto na cláusula seguinte (cláusula 5) do presente contrato.
+5-) As partes atribuem, de comum acordo, força executiva ao presente contrato, nos termos da lei civil e processual civil brasileira, onde a(o) LOCATARIA(O) desde já confessa expressamente dever à LOCADORA, o valor total do presente contrato, inclusive, valores de eventuais fretes e de locações extras de móveis e objetos, reconhecendo-os, desde já, como totalmente líquidos, certos e exigiveis.]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

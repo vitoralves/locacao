@@ -6,11 +6,7 @@
             <file>file:/C:/Users/vitor/Documents/NetBeansProjects/locacao/locacao-war/src/java/br/com/locacao/controle/EventoControl.java</file>
             <file>file:/C:/Users/vitor/Documents/NetBeansProjects/locacao/locacao-war/web/restrito/admin/orcamentos.xhtml</file>
         </group>
-        <group name="locacao">
-            <file>file:/C:/Users/vitor/Documents/NetBeansProjects/locacao/locacao-war/src/java/br/com/locacao/controle/ClientesControl.java</file>
-            <file>file:/C:/Users/vitor/Documents/NetBeansProjects/locacao/locacao-war/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/vitor/Documents/NetBeansProjects/locacao/locacao-war/web/restrito/admin/orcamentos.xhtml</file>
-            <file>file:/C:/Users/vitor/Documents/NetBeansProjects/locacao/locacao-war/src/java/br/com/locacao/controle/AutocompleteControl.java</file>
-        </group>
+        <group name="locacao"/>
+        <group/>
     </open-files>
 </project-private>

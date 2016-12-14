@@ -8,6 +8,7 @@ package br.com.locacao.entidades;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -45,32 +47,40 @@ public class Eventos implements Serializable {
     @Column(length = 60)
     private String tipo;
     @Column(name = "data_evento")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dataEvento;
     @Column(name = "data_entrega")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dataEntrega;
     @Column(name = "data_devolucao")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dataDevolucao;
     @Size(max = 60)
     @Column(length = 60)
     private String retirada;
-    @Column(name = "val_frete")
-    private BigInteger valFrete;
-    private Integer diarias;
-    private Integer descontos;
-    @Column(name = "val_total")
-    private BigInteger valTotal;
     @Size(max = 60)
-    @Column(name = "forma_pagto", length = 60)
-    private String formaPagto;
+    @Column(length = 60)
+    private String devolucao;
+    @Column(name="fg_ativo")
+    private Integer fgAtivo;
+    private Integer numero;
+    private Boolean finalizado;
+    private Boolean confirmado;
+    @Column(name="endereco")
+    private String endereco;
+    @Column(name="bairro")
+    private String bairro;
+    @Column(name="cidade")
+    private String cidade;
+    @Column(name="cep")
+    private String cep;
+    @Column(name="estado")
+    private String estado;    
+    @Column(name="local_evento")
+    private String localEvento;    
     @JoinColumn(name = "cliente", referencedColumnName = "id_cliente")
     @ManyToOne
     private Clientes cliente;
-    @JoinColumn(name = "produto", referencedColumnName = "id_produto")
-    @ManyToOne
-    private Produtos produto;
 
     public Eventos() {
     }
@@ -127,45 +137,14 @@ public class Eventos implements Serializable {
         this.retirada = retirada;
     }
 
-    public BigInteger getValFrete() {
-        return valFrete;
+    public String getDevolucao() {
+        return devolucao;
     }
 
-    public void setValFrete(BigInteger valFrete) {
-        this.valFrete = valFrete;
+    public void setDevolucao(String devolucao) {
+        this.devolucao = devolucao;
     }
-
-    public Integer getDiarias() {
-        return diarias;
-    }
-
-    public void setDiarias(Integer diarias) {
-        this.diarias = diarias;
-    }
-
-    public Integer getDescontos() {
-        return descontos;
-    }
-
-    public void setDescontos(Integer descontos) {
-        this.descontos = descontos;
-    }
-
-    public BigInteger getValTotal() {
-        return valTotal;
-    }
-
-    public void setValTotal(BigInteger valTotal) {
-        this.valTotal = valTotal;
-    }
-
-    public String getFormaPagto() {
-        return formaPagto;
-    }
-
-    public void setFormaPagto(String formaPagto) {
-        this.formaPagto = formaPagto;
-    }
+    
 
     public Clientes getCliente() {
         return cliente;
@@ -175,21 +154,95 @@ public class Eventos implements Serializable {
         this.cliente = cliente;
     }
 
-    public Produtos getProduto() {
-        return produto;
+    public Boolean getFinalizado() {
+        return finalizado;
     }
 
-    public void setProduto(Produtos produto) {
-        this.produto = produto;
+    public void setFinalizado(Boolean finalizado) {
+        this.finalizado = finalizado;
+    }
+    
+    public String getEndereco() {
+        return endereco;
     }
 
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Boolean getConfirmado() {
+        return confirmado;
+    }
+
+    public void setConfirmado(Boolean confirmado) {
+        this.confirmado = confirmado;
+    }  
+
+    public Integer getFgAtivo() {
+        return fgAtivo;
+    }
+
+    public void setFgAtivo(Integer fgAtivo) {
+        this.fgAtivo = fgAtivo;
+    }
+
+    public Integer getNumero() {
+        return numero;
+    }
+
+    public void setNumero(Integer numero) {
+        this.numero = numero;
+    }
+
+    public String getLocalEvento() {
+        return localEvento;
+    }
+
+    public void setLocalEvento(String localEvento) {
+        this.localEvento = localEvento;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (idEvento != null ? idEvento.hashCode() : 0);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set

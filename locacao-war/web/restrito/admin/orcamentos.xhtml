@@ -16,36 +16,14 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h:form style="height: 35px;" >
-                <h:commandLink class="btn btn-default" title="Voltar" actionListener="#{eventoControl.esconde}" style="margin-right: 10px; float: left;">
+                <h:commandLink class="btn btn-default" title="Voltar" action="#{orcamentoControl.esconde}" style="margin-right: 10px; float: left;">
                     <i class="fa fa-reply"></i>
                 </h:commandLink>
-
-                <h:commandLink class="btn btn-success" title="Novo" actionListener="#{eventoControl.addNovo}" 
-                               style="float:left;margin-right: 10px;" 
-                               rendered="#{eventoControl.showAdd eq false and eventoControl.showEdit eq false}">
-                    <i class="fa fa-plus"></i>
-                </h:commandLink>
-
-                <h:commandLink class="btn btn-danger" title="Excluir" actionListener="#{eventoControl.doFinishExcluir}" 
-                               onclick="return confirm('Tem certeza que deseja excluir o cliente selecionado?')" style="margin-right: 10px;float:left;" rendered="#{eventoControl.showEdit eq true}">
-                    <i class="fa fa-remove"></i>
-                </h:commandLink>
-
-                <h:panelGroup rendered="#{eventoControl.showAdd eq false and eventoControl.showEdit eq false}">
-                    <!--<div class="input-group input-group-sm" style="max-width: 30%;float:left;" >
-                        <h:inputText onkeypress="{eventoControl.pesquisaEvento()}" class="form-control" value="{eventoControl.localizarNome}"/>
-                        <span class="input-group-btn">
-                            <h:commandLink class="btn btn-info btn-flat" type="button" action="{eventoControl.pesquisaEvento}">
-                                <i class="fa fa-search"></i>
-                            </h:commandLink>
-                        </span>
-                    </div>-->
-                </h:panelGroup>
             </h:form>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-files-o"></i> Home</a></li>
-                <li><a href="#">Pedidos</a></li>
-                <li class="active">Orçamentos</li>
+                <li><a href="index.faces"><i class="fa fa-files-o"></i> Home</a></li>
+                <li><a href="eventos.faces">Eventos</a></li>
+                <li class="active">Orçamento</li>
             </ol>
         </section>
         <!-- Main content -->
@@ -53,185 +31,195 @@
             <h:form id="form_message" style="margin: 0 10px;">
                 <p:messages id="msg" autoUpdate="form_message" closable="true"/>
             </h:form>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box">
-                        <h:panelGroup rendered="#{eventoControl.showAdd eq false and eventoControl.showEdit eq false}">
-                            <div class="box-header">
-                                <h3 class="box-title">Orçamentos</h3>
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            <h:form>
-                                                <div class="input-group input-group-sm" style="max-width: 30%;float:left;" >
-                                                    <h:outputLabel for="pesquisaCli">Cliente</h:outputLabel>
-                                                    <h:inputText id="pesquisaCli" onkeypress="#{clientesControl.pesquisaCliente()}" class="form-control" 
-                                                                 value="#{clientesControl.localizarNome}"/>
-                                                    <span class="input-group-btn" style="padding-top:24px;">
-                                                        <h:commandLink class="btn btn-info btn-flat" type="button" 
-                                                                       action="#{clientesControl.pesquisaCliente}">
-                                                            <i class="fa fa-search"></i>
-                                                        </h:commandLink>
-                                                    </span>
+            <h:form acceptcharset="ISO-8859-1">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <h:panelGroup>
+                                <div class="box-header">
+                                    <h3 class="box-title">Orçamento #{orcamentoControl.orcSelected.evento.cliente.nome} 
+                                        Dt.Entrega - <b>#{comumControl.formataData(orcamentoControl.orcSelected.evento.dataEntrega)} </b>
+                                        Dt.Devolução - <b>#{comumControl.formataData(orcamentoControl.orcSelected.evento.dataDevolucao)}</b></h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <p:outputLabel value="Quantidade" id="qntd"/>
+                                                <p:inputText styleClass="form-control" value="#{orcamentoControl.quantidade}">
+                                                    <f:ajax immediate="true" />
+                                                </p:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <div class="input-group input-group-sm" style="margin-bottom: 15px;float:left;" >
+                                                    <p:outputLabel for="pesquisaProd" value="Produto"/>
+                                                    <h:inputText id="pesquisaProd" class="form-control" 
+                                                                 value="#{orcamentoControl.localizarNome}">
+                                                        <p:ajax event="keyup" update="prodTable" listener="#{orcamentoControl.pesquisaProduto()}"/>
+                                                    </h:inputText>
                                                 </div>
-                                            </h:form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <p:dataTable var="prod" value="#{orcamentoControl.listProdutos}" id="prodTable"
+                                                             emptyMessage="Nenhum produto Cadastrado" 
+                                                             selectionMode="single" selection="#{orcamentoControl.prodSelected}" rowKey="#{prod.idProduto}"
+                                                             >
+                                                    <p:ajax event="rowSelect" listener="#{orcamentoControl.onRowSelect}" update="@all"  />
+                                                    <p:ajax event="rowUnselect" listener="#{orcamentoControl.onRowUnselect}" />
+                                                    <p:column headerText="Nome">
+                                                        <h:outputText value="#{prod.nome}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="Quantidade">
+                                                        <h:outputText value="#{prod.quantidade}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="Val. Diária">
+                                                        <h:outputText value="#{prod.valDiaria}" >
+                                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                                        </h:outputText>
+                                                    </p:column>
+
+                                                    <p:column headerText="Val. Custo">
+                                                        <h:outputText value="#{prod.valCusto}">
+                                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                                        </h:outputText>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </div>                                    
+                                        </div>
+                                    </div>      
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:form id="listFinal">
+                                                    <p:dataTable var="orc" value="#{orcamentoControl.listProdutosPorOrcamento}" id="prodTable"
+                                                                 emptyMessage="Nada Selecionado" >
+                                                        <p:column headerText="Produto">
+                                                            <h:outputText value="#{orc.produto.nome}" />
+                                                        </p:column>
+                                                        <p:column headerText="Categoria">
+                                                            <h:outputText value="#{orc.produto.categoria.nome}" />
+                                                        </p:column>
+                                                        <p:column headerText="Val. Diária">
+                                                            <h:outputText value="#{orc.produto.valDiaria}" >
+                                                                <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column headerText="Quantidade">
+                                                            <h:outputText value="#{orc.quantidade}" />
+                                                        </p:column>
+                                                        <p:column headerText="Total">
+                                                            <h:outputText  value="#{orc.quantidade*orc.produto.valDiaria}">
+                                                                <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column style="width:100px;text-align: center">
+                                                            <p:commandLink>
+                                                                <i class="fa fa-fw fa-remove"></i>
+                                                                <p:ajax update="@all" listener="#{orcamentoControl.removeProdLista(orc)}"/> 
+                                                            </p:commandLink>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </h:form>
+                                                <br/>
+                                                <p:outputLabel value="Observações" />
+                                                <h:inputTextarea value="#{orcamentoControl.orcSelected.observacao}" rows="5" style="width: 100%;"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:form id="formFinal">
+                                                    <div class="box box-solid bg-gray-light">
+                                                        <div class="box-header">
+                                                            <i class="fa-shopping-cart"></i>
+                                                            <h3 class="box-title" style="color:#000;">Total da Locação</h3>
+                                                        </div>
+                                                        <div class="box-body">    
+                                                            <div  class="row">
+                                                                <div class="col-md-6">
+                                                                    <h:outputLabel value="Diárias" for="totalDiarias"/>&nbsp;
+                                                                    <h:inputText id="totalDiarias" value="#{orcamentoControl.nroDiarias}" style="width: 30px;">
+                                                                        <p:ajax immediate="true" update="formFinal"/>
+                                                                    </h:inputText>
+                                                                </div>
+                                                            </div>
+                                                            <div  class="row">
+                                                                <div class="col-md-6">
+                                                                    <h:outputLabel value="Val. Frete" for="frete"/>&nbsp;
+                                                                    <h:inputText id="frete" value="#{orcamentoControl.frete}" style="width: 50px;">
+                                                                        <p:ajax immediate="true" update="formFinal"/>
+                                                                    </h:inputText>
+                                                                </div>
+                                                            </div>
+                                                            <div  class="row">
+                                                                <div class="col-md-6">
+                                                                    <h:outputLabel value="Desconto em R$" for="desc"/>&nbsp;
+                                                                    <h:inputText id="desc" value="#{orcamentoControl.desconto}" style="width: 50px;">
+                                                                        <p:ajax immediate="true" update="formFinal"/>
+                                                                    </h:inputText>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <h:outputLabel for="forma_pg" value="Forma Pgto"/>
+                                                                        <h:selectOneMenu id="forma_pg" value="#{orcamentoControl.orcSelected.formaPagto}"
+                                                                                         class="form-control"  requiredMessage="Forma Pgto" >
+                                                                            <p:ajax immediate="true" />
+                                                                            <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                                            <f:selectItem itemValue="A" itemLabel="A vista"/>
+                                                                            <f:selectItem itemValue="B" itemLabel="Antes do Evento"/>
+                                                                            <f:selectItem itemValue="C" itemLabel="Na Entrega"/>
+                                                                            <f:selectItem itemValue="D" itemLabel="Outro"/>
+                                                                        </h:selectOneMenu>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div  class="row">
+                                                                <div class="col-md-6">
+                                                                    <h:outputLabel value="Total Itens:"/>&nbsp;
+                                                                    <h:outputLabel value="#{orcamentoControl.totalItens}"/>
+                                                                </div>
+                                                            </div>
+                                                            <div  class="row">
+                                                                <div class="col-md-6" id="total">
+                                                                    <h:outputLabel value="Total Orçamento:"/>&nbsp;
+                                                                    <h:outputLabel value="#{orcamentoControl.totalOrcamento} R$" />                                                                       
+                                                                </div>
+                                                            </div>                                                           
+                                                        </div>
+                                                    </div>  
+                                                </h:form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-md-6" style="float:right">
+                                            <div style="float:right">                                                   
+                                                <h:commandLink styleClass="btn btn-primary" value="Finalizar Contrato" action="#{orcamentoControl.imprimeContrato}" target="_blank"/> 
+                                                &nbsp;
+                                                <h:commandLink actionListener="#{orcamentoControl.imprimeOrcamento}" target="_blank" styleClass="btn btn-facebook" value="Salvar &bull; Imprimir"/>
+                                                &nbsp;
+                                                <h:commandLink action="#{orcamentoControl.salvarOrcamento}" styleClass="btn btn-success" value="Salvar" />                                                
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <hr/>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <h:outputLabel for="dtevento">Dt Evento</h:outputLabel>
-                                            <h:inputText class="form-control" id="dtevento" value="#{eventoControl.evtSelected.dataEvento}"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <h:outputLabel for="dtentrega"> Dt Entrega</h:outputLabel>
-                                            <h:inputText class="form-control" id="dtentrega" value="#{eventoControl.evtSelected.dataEntrega}"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <h:outputLabel for="tipoEvento" value="Tipo Evento"/>
-                                            <h:selectOneMenu id="tipoEvento" value="#{eventoControl.evtSelected.tipo}"
-                                                             class="form-control"  requiredMessage="Tipo Evento">
-
-                                                <f:selectItem itemValue="" itemLabel="Selecione..."/>
-                                                <f:selectItem itemValue="Jantar" itemLabel="Jantar"/>
-                                                <f:selectItem itemValue="Casamento" itemLabel="Casamento"/>
-                                                <f:selectItem itemValue="Aniversário" itemLabel="Aniversário"/>
-                                                <f:selectItem itemValue="Outro" itemLabel="Outro"/>
-                                            </h:selectOneMenu>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <h:outputLabel for="dev"> Dt Entrega</h:outputLabel>
-                                            <h:inputText class="form-control" id="dev" value="#{eventoControl.evtSelected.dataEntrega}"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <h:outputLabel for="entrega" value="Quem Entrega"/>
-                                            <h:selectOneMenu id="entrega" value="#{eventoControl.evtSelected.retirada}"
-                                                             class="form-control" requiredMessage="Entrega">
-
-                                                <f:selectItem itemValue="" itemLabel="Selecione..."/>
-                                                <f:selectItem itemValue="Locadora" itemLabel="Locadora"/>
-                                                <f:selectItem itemValue="Cliente" itemLabel="Cliente"/>                                                        
-                                            </h:selectOneMenu>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <h:outputLabel for="dt_dev"> Dt Devolução</h:outputLabel>
-                                        <h:inputText class="form-control" id="dt_dev" value="#{eventoControl.evtSelected.dataEntrega}"/>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <h:outputLabel for="devolucao" value="Quem Devolve"/>
-                                            <h:selectOneMenu id="devolucao" value="#{eventoControl.evtSelected.retirada}"
-                                                             class="form-control" requiredMessage="Entrega">
-
-                                                <f:selectItem itemValue="" itemLabel="Selecione..."/>
-                                                <f:selectItem itemValue="Locadora" itemLabel="Locadora"/>
-                                                <f:selectItem itemValue="Cliente" itemLabel="Cliente"/>                                                        
-                                            </h:selectOneMenu>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr/>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <h:outputLabel for="end">Endereço</h:outputLabel>
-                                            <h:inputText class="form-control" id="end" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <h:outputLabel for="bairro">Bairro</h:outputLabel>
-                                            <h:inputText class="form-control" id="bairro" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <h:outputLabel for="frete">Frete</h:outputLabel>
-                                            <h:inputText class="form-control" id="frete" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <h:outputLabel for="cidade">Cidade</h:outputLabel>
-                                            <h:inputText class="form-control" id="cidade" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <h:outputLabel for="cep">CEP</h:outputLabel>
-                                            <h:inputText class="form-control" id="cep" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <h:outputLabel for="est" value="Estado"/>
-                                            <h:selectOneMenu id="est" value="#{clientesControl.cliSelected.estado}"
-                                                             class="form-control" requiredMessage="Estado">
-                                                <f:selectItem itemValue="" itemLabel="Selecione..."/>
-                                                <f:selectItem itemValue="AC" itemLabel="AC"/>
-                                                <f:selectItem itemValue="AP" itemLabel="AP"/>
-                                                <f:selectItem itemValue="BA" itemLabel="BA"/>
-                                                <f:selectItem itemValue="CE" itemLabel="CE"/>
-                                                <f:selectItem itemValue="DF" itemLabel="DF"/>
-                                                <f:selectItem itemValue="ES" itemLabel="ES"/>
-                                                <f:selectItem itemValue="GO" itemLabel="GO"/>
-                                                <f:selectItem itemValue="MA" itemLabel="MA"/>
-                                                <f:selectItem itemValue="MT" itemLabel="MT"/>
-                                                <f:selectItem itemValue="ES" itemLabel="ES"/>
-                                                <f:selectItem itemValue="MG" itemLabel="MG"/>
-                                                <f:selectItem itemValue="PA" itemLabel="PA"/>
-                                                <f:selectItem itemValue="PB" itemLabel="PB"/>
-                                                <f:selectItem itemValue="PR" itemLabel="PB"/>
-                                                <f:selectItem itemValue="PE" itemLabel="PE"/>
-                                                <f:selectItem itemValue="PI" itemLabel="PI"/>
-                                                <f:selectItem itemValue="RJ" itemLabel="RJ"/>
-                                                <f:selectItem itemValue="RN" itemLabel="RN"/>
-                                                <f:selectItem itemValue="RS" itemLabel="RS"/>
-                                                <f:selectItem itemValue="RO" itemLabel="RO"/>
-                                                <f:selectItem itemValue="RR" itemLabel="RR"/>
-                                                <f:selectItem itemValue="SC" itemLabel="SC"/>
-                                                <f:selectItem itemValue="SP" itemLabel="SP"/>
-                                                <f:selectItem itemValue="SE" itemLabel="SE"/>
-                                                <f:selectItem itemValue="TO" itemLabel="TO"/>
-                                            </h:selectOneMenu>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr/>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <p:outputLabel value="Produto" for="prod"/>
-                                            <p:autoComplete styleClass="form-control" id="prod" value="#{autocompleteControl.produto}" completeMethod="#{autocompleteControl.completeProdutos(produto)}"/>
-                                        </div>
-                                    </div>
-                                </div>                            
-                            </div>
-                        </h:panelGroup>
-                    </div><!-- /.box-body -->
+                            </h:panelGroup>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </h:form>
         </section>
     </ui:define>
 </ui:composition>

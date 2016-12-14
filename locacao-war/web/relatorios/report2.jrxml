@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="575" pageHeight="762" columnWidth="575" leftMargin="0" rightMargin="0" topMargin="25" bottomMargin="0" isFloatColumnFooter="true" isIgnorePagination="true" uuid="fc38db94-bb36-4563-947b-28eb0cc2483a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="texto" class="java.lang.String"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<title>
+		<band height="47">
+			<line>
+				<reportElement uuid="a8ed93a0-b133-45b7-8e76-783362fa5a6c" x="1" y="21" width="573" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="e6c2f438-8e68-4d3b-a52b-366811cf566b" x="574" y="0" width="1" height="21"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="48f02521-8f68-417d-820d-092b2a1c650d" stretchType="RelativeToBandHeight" x="0" y="27" width="575" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{texto}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="a2715b9e-3548-40e9-946a-3351bb5dc9b0" x="0" y="1" width="1" height="20"/>
+			</line>
+			<staticText>
+				<reportElement uuid="cb5454f6-1774-4148-90fc-fab319621798" mode="Opaque" x="1" y="1" width="573" height="20" forecolor="#000000" backcolor="#D2D2D2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[CLÁUSULAS E DEMAIS CONDIÇÕES]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="6a7d466a-1dee-48ac-b9c9-f898ccd79a28" x="1" y="0" width="573" height="1"/>
+			</line>
+		</band>
+	</title>
+	<columnFooter>
+		<band height="192">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="62284c43-7362-4d98-a98d-7b60dafd5b37" x="248" y="16" width="186" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="88f6c031-d790-46d1-9799-53c5b4638feb" x="345" y="127" width="100" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="131e502d-d40b-4365-98e9-0479144f48e4" x="31" y="76" width="277" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="493d7ad2-7bde-42cf-a72b-86031f6f1d71" x="31" y="153" width="277" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="b20e04fe-fe98-4d2b-ad96-624914abf81c" x="345" y="75" width="198" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="a9a8cf9a-3f33-4aa4-b334-38f4426e273c" x="345" y="125" width="198" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="6d9c4380-36e4-4a1b-b6e8-fc3304255789" x="190" y="16" width="58" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[Franca-SP,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6e5bbcf4-3ddd-443a-aeb5-9902d6e6d5f6" x="31" y="112" width="217" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOCATÁRIO(A) / CONTRATANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1cc27940-b178-4af6-88f4-4ba17eb00566" x="31" y="77" width="277" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[L A F PANSANI LOCAÇÕES ME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="35b04954-0cd6-433a-b5ea-164927245543" x="31" y="36" width="170" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOCADORA /CONTRATADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7c74d80c-b864-42b6-b246-505939fce762" x="347" y="36" width="198" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TESTEMUNHAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff8fb32b-b6c4-4891-84a9-dbe9cc54e3d1" x="345" y="75" width="100" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="7b060593-49e6-450e-a48e-34bc22ca7b34" x="31" y="154" width="277" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cliente}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

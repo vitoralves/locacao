@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report4" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ac44d73c-4ba9-435f-b502-9b745025ae6e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="514" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="061803fd-fe3c-445f-975d-9a448f3a3666" x="0" y="0" width="530" height="233"/>
+				<textElement/>
+				<text><![CDATA[8-) Fica sob a responsabilidade exclusiva da(o) LOCATÁRIA(0) a remoção, remanejamento, manuseio, instalação e desinstalação, montagem e desmontagem, etc. dos bens locados junto ao local do evento, bem como, toda a orientação tecnica e disciplinar, direçao e organização, para tanto, mesmo que tais serviços sejam efetuado por terceiros, contratados e ou dos subcontratados pela(o) LOCATÁRIA(O), tais como, cerimonialistas, decoradores, instaladores, montadores, etc., ficando ressalvado a(ao) LOCATARlA(0) direito de regresso contra quem de direito.
+9-) É expressamente vedada a cessão ou transferencia, total ou parcial, do presente contrato, sob pena de imediata rescisão e demais medidas legais cabíveis.
+10-) O presente contrato não têm caráter de exclusividade, podendo, ambas as partes, contratar com terceiros, desde que respeitadas as cláusulas e condições do presente instrumento.
+11-) A infração das obrigações assumidas sujeitará a parte infratora, além do pagamento da multa sobre a parcela vencida e mora, acima previstos, ao pagamento de eventuais perdas, danos e lucros cessantes que se apurarem.
+12-) A eventual tolerância do presente contrato não constituirá renúncia aos direitos que são conferidos e ambas as partes.
+13-) O presente contrato obriga as parte por si, seus herdeiros ou sucessores, na forma da lei.
+14-) Fica eleito o foro da cidade de Ribeirão Preto - SP, com renúncia a qualquer outro. E por assim estarem justos, contratados e acordados, as partes firmam o presente instrumento em O2 vias, com um só conteúdo, na presença de O2 (duas) testemunhas abaixo assinados.]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="edf0123f-0b7f-4f2f-b794-b036ab8d7aa9" x="217" y="238" width="186" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="91464fed-3f56-4a6a-8c64-98481b101657" x="159" y="238" width="58" height="20"/>
+				<textElement/>
+				<text><![CDATA[Franca-SP,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fe22d778-210b-4e5b-bbf1-d749c668eaee" x="0" y="259" width="170" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOCADORA /CONTRATADA]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="170e7ed8-f7b7-4f43-b114-092e4c015425" x="0" y="298" width="277" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="e73bc483-afff-4df3-b65c-0990ac27c554" x="0" y="299" width="277" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[L A F PANSANI LOCAÇÕES ME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="68cfc840-bfea-4525-a4f8-98799f96d256" x="0" y="335" width="170" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOCATÁRIO(A) / CONTRATANTE]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="6cfb7a42-8d07-45f3-bdcf-7ab59db378f5" x="1" y="373" width="277" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="bb51f993-cecf-4403-9527-f489b66fc0dd" x="332" y="260" width="198" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TESTEMUNHAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5dc5fb22-3eb7-48fc-9908-bb3dc989c57d" x="332" y="305" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="7eea0d12-884f-4f7f-9c7a-887273686b85" x="332" y="304" width="198" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="ec927546-24ef-497d-88f3-8f866eb40d3d" x="332" y="355" width="198" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="78eb1db6-437c-4bed-8f01-ad443cb3c06a" x="332" y="356" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

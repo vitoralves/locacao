@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+                xmlns:h="http://java.sun.com/jsf/html"  
+                xmlns:f="http://java.sun.com/jsf/core"  
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml">
+
+    <ui:define name="titleOfPage">
+        Empresa
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h:form style="height: 35px;" ></h:form>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-files-o"></i> Home</a></li>
+                <li class="active"><a href="empresa.faces">Perfil</a></li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <h:form id="form_message" style="margin: 0 10px;">
+                <p:messages id="msg" autoUpdate="form_message" closable="true"/>
+            </h:form>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <h:panelGroup rendered="#{empresaControl.empresa ne null}">
+                            <div class="box-header">
+                                <h3 class="box-title">#{empresaControl.empresa.nome}</h3>
+                            </div><!-- /.box-header -->
+
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <img src="#{empresaControl.pathImage}"  alt="Image" style="width: 266px; height: 186px;"/>
+                                            <br/>
+                                            <h:form enctype="multipart/form-data" style="margin-top: 20px;">
+                                                <p:fileUpload value="#{empresaControl.file}" mode="simple" skinSimple="true"/>
+                                                
+                                                <p:commandButton value="Enviar" ajax="false" style="position: absolute;" actionListener="#{empresaControl.upload}"/>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                    <h:form  acceptcharset="ISO-8859-1"> 
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel value="Nome" for="nome"/>
+                                                <h:inputText id="nome" styleClass="form-control" value="#{empresaControl.empresa.nome}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel value="CNPJ" for="cnpj"/>
+                                                <p:inputMask mask="99.999.999/9999-99" id="cnpj" styleClass="form-control" value="#{empresaControl.empresa.cnpj}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel value="Endereço" for="end"/>
+                                                <h:inputText id="end" styleClass="form-control" value="#{empresaControl.empresa.endereco}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel value="Telefone" for="tel"/>
+                                                <p:inputMask mask="(99)9999-9999" id="tel" styleClass="form-control"  value="#{empresaControl.empresa.telefone}"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-offset-2 col-md-12">
+                                            <div class="form-group">
+                                                <h:commandButton action="#{empresaControl.editarEmpresa()}" styleClass="btn btn-primary" value="Salvar" />
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div><!-- /.box-body -->
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </ui:define>
+</ui:composition>

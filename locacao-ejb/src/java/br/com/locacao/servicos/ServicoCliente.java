@@ -64,4 +64,12 @@ public class ServicoCliente extends ServicoBasico{
     public List<Clientes> getClientesByParam(String nome){
         return cliRepositorio.getClienteByParam(nome);
     }
+    
+    public String verificaExistente(String cpf, String cnpj, String rg){
+        return cliRepositorio.verificaExistente(cpf, cnpj, rg);
+    }
+    
+    public Clientes getClienteRg(String rg){
+        return cliRepositorio.getClienteRg(rg);
+    }
 }

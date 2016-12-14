@@ -9,9 +9,13 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
@@ -53,12 +57,16 @@ public class Usuarios implements Serializable {
     @Column(length = 60)
     private String email;
     private Boolean admin;
-    @Size(max = 30)
-    @Column(length = 30)
-    private String login;
     @Size(max = 32)
     @Column(length = 32)
     private String senha;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "imagem")
+    private byte[] imagem;
+    @JoinColumn(name = "empresa", referencedColumnName = "id_empresa")
+    @ManyToOne
+    private Empresa empresa;
 
     public Usuarios() {
     }
@@ -131,14 +139,6 @@ public class Usuarios implements Serializable {
         this.admin = admin;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public String getSenha() {
         return senha;
     }
@@ -147,6 +147,23 @@ public class Usuarios implements Serializable {
         this.senha = senha;
     }
 
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

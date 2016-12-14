@@ -39,8 +39,8 @@ public class Categorias implements Serializable {
     @Size(max = 60)
     @Column(length = 60)
     private String nome;
-    @OneToMany(mappedBy = "categoria")
-    private List<Produtos> produtosList;
+//    @OneToMany(mappedBy = "categoria")
+//    private List<Produtos> produtosList;
 
     public Categorias() {
     }
@@ -65,14 +65,14 @@ public class Categorias implements Serializable {
         this.nome = nome;
     }
 
-    @XmlTransient
-    public List<Produtos> getProdutosList() {
-        return produtosList;
-    }
-
-    public void setProdutosList(List<Produtos> produtosList) {
-        this.produtosList = produtosList;
-    }
+//    @XmlTransient
+//    public List<Produtos> getProdutosList() {
+//        return produtosList;
+//    }
+//
+//    public void setProdutosList(List<Produtos> produtosList) {
+//        this.produtosList = produtosList;
+//    }
 
     @Override
     public int hashCode() {

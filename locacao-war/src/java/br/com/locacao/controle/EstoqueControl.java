@@ -5,6 +5,7 @@ import br.com.locacao.servicos.ServicoProduto;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 /**
@@ -12,7 +13,7 @@ import javax.inject.Named;
  * @author vitor
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class EstoqueControl extends BasicControl implements java.io.Serializable {
 
     @EJB

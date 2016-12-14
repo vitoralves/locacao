@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"                
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="titleOfPage">
+        Produtos
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h:form style="height: 35px;" >
+                <h:commandLink class="btn btn-default" title="Voltar" actionListener="#{produtoControl.esconde}" style="margin-right: 10px; float: left;">
+                    <i class="fa fa-reply"></i>
+                </h:commandLink>
+
+                <h:commandLink class="btn btn-success" title="Novo" actionListener="#{produtoControl.addNovo}" 
+                               style="float:left;margin-right: 10px;" 
+                               rendered="#{produtoControl.showAdd eq false and produtoControl.showEdit eq false}">
+                    <i class="fa fa-plus"></i>
+                </h:commandLink>
+
+                <h:commandLink class="btn btn-danger" title="Excluir" actionListener="#{produtoControl.doFinishExcluir}" 
+                               onclick="return confirm('Tem certeza que deseja excluir o produto selecionado?')" style="margin-right: 10px;float:left;" 
+                               rendered="#{produtoControl.showEdit eq true}">
+                    <i class="fa fa-remove"></i>
+                </h:commandLink>
+
+                <h:panelGroup rendered="#{produtoControl.showAdd eq false and produtoControl.showEdit eq false}">
+                    <div class="input-group input-group-sm  pesquisa" style="max-width: 30%;float:left;" >
+                        <h:inputText onkeypress="#{produtoControl.pesquisaProduto()}" class="form-control" value="#{produtoControl.localizarNome}"/>
+                        <span class="input-group-btn">
+                            <h:commandLink class="btn btn-info btn-flat" type="button" action="#{produtoControl.pesquisaProduto()}">
+                                <i class="fa fa-search"></i>
+                            </h:commandLink>
+                        </span>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-files-o"></i> Home</a></li>
+                <li><a href="#">Cadastro</a></li>
+                <li class="active">Produtos</li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <h:form id="form_message" style="margin: 0 10px;">
+                <p:messages id="msg" autoUpdate="form_message" closable="true"/>
+            </h:form>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <h:panelGroup rendered="#{produtoControl.showAdd eq false and produtoControl.showEdit eq false}">
+                            <div class="box-header">
+                                <h3 class="box-title">Produtos</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <h:form acceptcharset="ISO-8859-1">
+                                    <p:dataTable tableStyleClass="table table-bordered table-hover" var="item" 
+                                                 scrollable="true"                                                  
+                                                 value="#{produtoControl.listProdutos}" 
+                                                 selectionMode="single"
+                                                 selection="#{produtoControl.prodSelected}"
+                                                 rowKey="#{item.idProduto}"
+                                                 rows="30"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="30,50,100">
+
+                                        <p:ajax event="rowSelect"  listener="#{produtoControl.onRowSelect}" update="@all" />
+
+                                        <p:column headerText="Nome" sortBy="#{item.nome}">
+                                            <h:outputText value="#{item.nome}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Qntd" sortBy="#{item.quantidade}">
+                                            <h:outputText value="#{item.quantidade}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Custo" sortBy="#{item.valCusto}">
+                                            <h:outputText value="#{item.valCusto}">
+                                                <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Diária" sortBy="#{item.valDiaria}">
+                                            <h:outputText value="#{item.valDiaria}">
+                                                <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Categoria" sortBy="#{item.categoria}">
+                                            <h:outputText value="#{item.categoria.nome}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </div><!-- /.box-body -->
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{produtoControl.showAdd eq true}">
+                            <div class="box-header">
+                                <h3 class="box-title">Produtos &gt; Cadastro</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form class="form" enctype="multipart/form-data" acceptcharset="ISO-8859-1">
+                                    <div class="box-body col-md-3">
+                                        <img src="#{produtoControl.pathImage}" alt="Product Image" style="width: 100%; height: 200px;display: block;margin-left: auto;margin-right: auto;"/>
+                                        <br/>
+                                        <p:fileUpload value="#{produtoControl.file}" mode="simple" skinSimple="true" sizeLimit="500"/>
+                                        <br/>
+                                    </div>
+                                    <div class="box-body col-md-9">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Nome" for="nome" />
+                                                    <p:inputText styleClass="form-control" id="nome" value="#{produtoControl.prodSelected.nome}" required="true"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Descrição" for="desc" />
+                                                    <p:inputTextarea styleClass="form-control" id="desc" value="#{produtoControl.prodSelected.descricao}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Val. Custo" for="vcusto" />
+                                                    <p:inputText styleClass="form-control" id="vcusto" value="#{produtoControl.prodSelected.valCusto}" required="true">
+                                                        <f:convertNumber pattern="#,##0.00" minFractionDigits="2"   />
+                                                    </p:inputText>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Val. Diaria" for="vdiaria" />
+                                                    <p:inputText styleClass="form-control" id="vdiaria" value="#{produtoControl.prodSelected.valDiaria}" required="true">
+                                                        <f:convertNumber pattern="#,##0.00" minFractionDigits="2"    />
+                                                    </p:inputText>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Categoria" for="cat"/>
+                                                    <h:selectOneMenu styleClass="form-control" id="cat" converter="entityConverter" value="#{produtoControl.prodSelected.categoria}"
+                                                                     requiredMessage="Selecione uma categoria" required="true">
+
+                                                        <f:selectItem itemValue="#{null}" itemLabel="Selecione..."/>
+                                                        <f:selectItems var="cat" itemLabel="#{cat.nome}" 
+                                                                       itemValue="#{cat}" value="#{produtoControl.listCategorias}"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Quantidade" for="qntd"/>
+                                                    <p:inputText styleClass="form-control" id="qntd" value="#{produtoControl.prodSelected.quantidade}" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.box -->
+                                    <div class="box-footer">
+                                        <h:commandButton action="#{produtoControl.salvarNovo}" styleClass="btn btn-primary" value="Salvar" />
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box -->
+                        </h:panelGroup>
+
+                        <!-- ALTERAÇÃO *************** -->
+                        <h:panelGroup rendered="#{produtoControl.showEdit eq true}">
+                            <div class="box-header">
+                                <h3 class="box-title">Produtos &gt; Editar &gt; ${produtoControl.prodSelected.nome}</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form class="form" enctype="multipart/form-data" acceptcharset="ISO-8859-1">
+                                    <div class="box-body col-md-3">
+                                        <img src="#{produtoControl.pathImage}" alt="Product Image" style="width: 200px; height: 200px;display: block;margin-left: auto;margin-right: auto;"/>
+                                        <br/>
+                                        <p:fileUpload value="#{produtoControl.file}" mode="simple" skinSimple="true" sizeLimit="500"/>
+                                        <h:commandLink class="btn btn-danger" value="Excluir" title="Excluir" actionListener="#{produtoControl.excluirImagem}" 
+                                                       onclick="return confirm('Tem certeza que deseja excluir a imagem do produto?')"
+                                                       style="margin-bottom: 22px;">
+                                            <i class="fa fa-remove"></i>
+                                        </h:commandLink>
+                                        <br/>
+                                    </div>
+
+                                    <div class="box-body col-md-9">
+                                        <div class="row">                                            
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Nome" for="nome" />
+                                                    <p:inputText styleClass="form-control" id="nome" value="#{produtoControl.prodSelected.nome}" required="true"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Descrição" for="desc" />
+                                                    <p:inputTextarea styleClass="form-control" id="desc" value="#{produtoControl.prodSelected.descricao}" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Val. Custo" for="custo" />
+                                                    <p:inputText styleClass="form-control" id="custo" value="#{produtoControl.prodSelected.valCusto}" required="true">
+                                                        <f:convertNumber pattern="#,##0.00" minFractionDigits="2"    />
+                                                    </p:inputText>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Val. Diaria" for="diaria" />
+                                                    <p:inputText styleClass="form-control" id="diaria" value="#{produtoControl.prodSelected.valDiaria}" required="true">
+                                                        <f:convertNumber pattern="#,##0.00" minFractionDigits="2"   />
+                                                    </p:inputText>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">  
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Categoria" for="cat"/>
+                                                    <h:selectOneMenu styleClass="form-control" id="cat" converter="entityConverter" value="#{produtoControl.prodSelected.categoria}"
+                                                                     requiredMessage="Selecione uma categoria" required="true" >
+
+                                                        <f:selectItem itemValue="#{null}" itemLabel="Selecione..."/>
+                                                        <f:selectItems var="cat" itemLabel="#{cat.nome}" 
+                                                                       itemValue="#{cat}" value="#{produtoControl.listCategorias}"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Quantidade"/>
+                                                    <p:inputText styleClass="form-control" id="qntd" value="#{produtoControl.prodSelected.quantidade}" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.box -->
+                                    <div class="box-footer">
+                                        <h:commandButton action="#{produtoControl.salvarEditado}" styleClass="btn btn-primary" value="Salvar" />
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box -->
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </ui:define>
+</ui:composition>
