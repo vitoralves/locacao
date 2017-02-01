@@ -3,4 +3,13 @@ Solução web que controla o fluxo de locações de produtos da empresa, com cad
 Tecnologias utilizadas: JavaEE, Amazon EC2, PostgreSQL, Glassfish, Bootstrap.
 
 #Telas do sistema
-
+![alt tag](https://github.com/vitoralves/gerenciamentoBanca/blob/master/telasDecoville/login.png)
+![alt tag](https://github.com/vitoralves/gerenciamentoBanca/blob/master/telasDecoville/home.png)
+![alt tag](https://github.com/vitoralves/gerenciamentoBanca/blob/master/telasDecoville/clientes.png)
+![alt tag](https://github.com/vitoralves/gerenciamentoBanca/blob/master/telasDecoville/eventos.png)
+![alt tag](https://github.com/vitoralves/gerenciamentoBanca/blob/master/telasDecoville/orcamento.png)
+![alt tag](https://github.com/vitoralves/gerenciamentoBanca/blob/master/telasDecoville/check_list.png)
+![alt tag](https://github.com/vitoralves/gerenciamentoBanca/blob/master/telasDecoville/login_mobile.png)
+![alt tag](https://github.com/vitoralves/gerenciamentoBanca/blob/master/telasDecoville/home_mobile.png)
+![alt tag](https://github.com/vitoralves/gerenciamentoBanca/blob/master/telasDecoville/home_menu_mobile.png)
+![alt tag](https://github.com/vitoralves/gerenciamentoBanca/blob/master/telasDecoville/check_list_mobile.png)
