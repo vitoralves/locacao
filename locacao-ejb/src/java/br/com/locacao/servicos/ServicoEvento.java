@@ -18,46 +18,79 @@ import javax.persistence.PersistenceContext;
  *
  * @author vitor
  */
-
 @Stateless
 @LocalBean
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class ServicoEvento extends ServicoBasico{
-    
+public class ServicoEvento extends ServicoBasico {
+
     private static final long serialVersionUID = 1L;
-    
+
     @PersistenceContext
-    private EntityManager em;    
+    private EntityManager em;
     private RepositorioEvento evtRepositorio;
-    
+
     @PostConstruct
     @PostActivate
-    private void postConstruct(){
+    private void postConstruct() {
         evtRepositorio = new RepositorioEvento(em);
     }
-    
-    public ServicoEvento(){
-        
+
+    public ServicoEvento() {
+
     }
-    
-    public Eventos getEvento(int idEvento){
+
+    public Eventos getEvento(int idEvento) {
         return evtRepositorio.getEvento(idEvento);
     }
-    
-    public Eventos setEvento(Eventos usuario){
+
+    public Eventos setEvento(Eventos usuario) {
         return evtRepositorio.setEvento(usuario);
     }
-    
-    public void removeEvento(Eventos usuario){
+
+    public void removeEvento(Eventos usuario) {
         evtRepositorio.removeEvento(usuario);
     }
-    
-    public Eventos addEvento(Eventos usuario){
+
+    public Eventos addEvento(Eventos usuario) {
         return evtRepositorio.addEvento(usuario);
     }
-    
-    public List<Eventos> getEventos(){
+
+    public List<Eventos> getEventos() {
         return evtRepositorio.getEvento();
+    }
+
+    public int totalFinalizados(int ano) {
+        return evtRepositorio.totalFinalizados(ano);
+    }
+
+    public int totalPorAno(int ano) {
+        return evtRepositorio.totalPorAno(ano);
+    }
+
+    public void finalizaEvento(int id, boolean valor) {
+        evtRepositorio.finalizaEvento(id, valor);
+    }
+
+    public List<Eventos> getEventosEntregar() {
+        return evtRepositorio.getEventosEntregar();
+    }
+
+    public List<Eventos> getEventosRecolher() {
+        return evtRepositorio.getEventosRecolher();
+    }
+
+    public void imprimirCheckList(String titulo, int id, int empresa) {
+        evtRepositorio.imprimirCheckList(titulo, id, empresa);        
+    }
+
+    public List<Eventos> getEventoPorCliente(String cliente) {
+        return evtRepositorio.getEventoPorCliente(cliente);
+    }
+
+    public int getNmrEvtMesAno(int mes, int ano) {
+
+        return evtRepositorio.getNmrEvtMesAno(mes, ano);
+
     }
 }

@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+                xmlns:h="http://java.sun.com/jsf/html"  
+                xmlns:f="http://java.sun.com/jsf/core"  
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml">
+
+    <ui:define name="titleOfPage">
+        Categorias
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h:form style="height: 35px;" >
+                <h:commandLink class="btn btn-default" title="Voltar" actionListener="#{categoriaControl.esconde}" style="margin-right: 10px; float: left;">
+                    <i class="fa fa-reply"></i>
+                </h:commandLink>
+
+                <h:commandLink class="btn btn-success" title="Novo" actionListener="#{categoriaControl.addNovo}" 
+                               style="float:left;margin-right: 10px;" 
+                               rendered="#{categoriaControl.showAdd eq false and categoriaControl.showEdit eq false}">
+                    <i class="fa fa-plus"></i>
+                </h:commandLink>
+
+                <h:commandLink class="btn btn-danger" title="Excluir" actionListener="#{categoriaControl.doFinishExcluir}" 
+                               onclick="return confirm('Tem certeza que deseja excluir a categoria selecionado?')" style="margin-right: 10px;float:left;" 
+                               rendered="#{categoriaControl.showEdit eq true}">
+                    <i class="fa fa-remove"></i>
+                </h:commandLink>
+
+                <h:panelGroup rendered="#{categoriaControl.showAdd eq false and categoriaControl.showEdit eq false}">
+                    <div class="input-group input-group-sm pesquisa" style="max-width: 30%;float:left;" >
+                        <h:inputText onkeypress="#{categoriaControl.pesquisaCategoria()}" class="form-control" value="#{categoriaControl.localizarNome}"/>
+                        <span class="input-group-btn">
+                            <h:commandLink class="btn btn-info btn-flat" type="button" action="#{categoriaControl.pesquisaCategoria}">
+                                <i class="fa fa-search"></i>
+                            </h:commandLink>
+                        </span>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-files-o"></i> Home</a></li>
+                <li><a href="#">Cadastro</a></li>
+                <li class="active">Usuários</li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <h:form id="form_message" style="margin: 0 10px;">
+                <p:messages id="msg" autoUpdate="form_message" closable="true"/>
+            </h:form>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <h:panelGroup rendered="#{categoriaControl.showAdd eq false and categoriaControl.showEdit eq false}">
+                            <div class="box-header">
+                                <h3 class="box-title">Categorias Produtos</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <h:form>
+                                    <p:dataTable tableStyleClass="table table-bordered table-hover fonteMenor" var="item"                                                  
+                                                 selectionMode="single"
+                                                 selection="#{categoriaControl.catSelected}"
+                                                 rowKey="#{item.idCategoria}"
+                                                 value="#{categoriaControl.listCategorias}" rows="30"
+                                                 paginator="true"                                                 
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="30,50,100" scrollable="true">
+
+                                        <p:ajax event="rowSelect"  listener="#{categoriaControl.onRowSelect}" update="@all" />
+
+                                        <p:column headerText="Código" sortBy="#{item.idCategoria}">                                            
+                                            <h:outputText value="#{item.idCategoria}"/>                                                
+                                        </p:column>
+                                        <p:column headerText="Nome" sortBy="#{item.nome}">
+                                            <h:outputText value="#{item.nome}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </div><!-- /.box-body -->
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{categoriaControl.showAdd eq true}">
+                            <div class="box-header">
+                                <h3 class="box-title">Categorias &gt; Cadastro</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form class="form" acceptcharset="ISO-8859-1">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <p:outputLabel for="nome">Nome</p:outputLabel>
+                                                    <p:inputText styleClass="form-control" id="nome" value="#{categoriaControl.catSelected.nome}" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>   
+                                    </div><!-- /.box -->
+                                    <div class="box-footer">
+                                        <h:commandButton action="#{categoriaControl.salvarNovo}" styleClass="btn btn-primary" value="Salvar" />
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box -->
+                        </h:panelGroup>
+
+                        <!-- PAINEL DE EDIÇÃOO
+                        *********************
+                        **************
+                        -->
+
+                        <h:panelGroup rendered="#{categoriaControl.showEdit eq true}">
+                            <div class="box-header">
+                                <h3 class="box-title">Categorias &gt; Editar &gt; ${categoriaControl.catSelected.nome}</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form class="form" acceptcharset="ISO-8859-1">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <p:outputLabel for="nome">Nome</p:outputLabel>
+                                                    <p:inputText styleClass="form-control" id="nome" value="#{categoriaControl.catSelected.nome}" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.box -->
+                                    <div class="box-footer">
+                                        <h:commandButton action="#{categoriaControl.salvarEditado()}" styleClass="btn btn-primary" value="Salvar" />
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box -->
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </ui:define>
+
+</ui:composition>

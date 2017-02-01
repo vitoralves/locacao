@@ -1,0 +1,483 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"                
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="titleOfPage">
+        Aplicativo
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGroup rendered="#{aplicativoControl.painelPrincipal eq true}">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        Decoville Locações
+                        <small>Painel Administrativo - Aplicativo</small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="aplicativo.faces"><i class="fa fa-mobile"></i> Aplicativo</a></li>
+                    </ol>
+                </section>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{aplicativoControl.painelOrcamento eq true}">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <ol class="breadcrumb">
+                        <li><a href="aplicativo.faces"><i class="fa fa-mobile"></i> Aplicativo</a></li>
+                        <li><a href="aplicativo.faces"><i class="fa fa-pencil"></i> Orçamento</a></li>
+                    </ol>
+                </section>
+            </h:panelGroup>
+        </h:form>
+        <!-- Main content -->
+        <section class="content">
+            <h:form id="form_message" style="margin: 0 10px;">
+                <p:messages id="msg" autoUpdate="form_message" closable="true"/>
+            </h:form>
+            <h:panelGroup rendered="#{aplicativoControl.painelOrcamento eq true}">
+                <section class="content-header">
+                    <h:form style="height: 35px;" >
+                        <h:commandLink class="btn btn-default" title="Voltar" actionListener="#{aplicativoControl.voltar}" style="margin-right: 10px; float: left;">
+                            <i class="fa fa-reply"></i>
+                        </h:commandLink>
+                    </h:form>
+                </section>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{aplicativoControl.painelPrincipal eq true}">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-aqua">
+                            <div class="inner">
+                                <h3>#{aplicativoControl.totalClientes()}</h3>
+                                <p>Clientes Registrados</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>                        
+                        </div>
+                    </div><!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-green">
+                            <div class="inner">
+                                <h3>#{aplicativoControl.totalOrcamentos()}</h3>
+                                <p>Total Orçamentos</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>                        
+                        </div>
+                    </div><!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <h3>#{aplicativoControl.totalMensagens()}</h3>
+                                <p>Mensagens Recebidas</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-fw fa-commenting"></i>
+                            </div>           
+                            <!--<a href="mensagem.faces" class="small-box-footer">Mensagens <i class="fa fa-arrow-circle-right"></i></a>-->
+                        </div>
+                    </div><!-- ./col -->        
+                    <!--                <div class="col-md-12">
+                                        <h:form id="form_message" style="margin: 0 10px;">
+                                            <p:messages id="msg" autoUpdate="form_message" closable="true"/>
+                                        </h:form>
+                                    </div>-->
+
+                </div><!-- /.row -->
+                <!-- Main row -->
+                <div class="row">
+                    <!-- Left col -->
+                    <section class="col-md-12 connectedSortable">
+                        <!-- TO DO List -->
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <i class="fa fa-fw  fa-list-alt"></i>
+                                <h3 class="box-title">Listagem Orcamentos</h3>
+                                <div class="box-tools pull-right">
+                                </div>
+                            </div><!-- /.box-header -->                        
+                            <div class="box-body">
+                                <h:form acceptcharset="ISO-8859-1">
+                                    <p:dataTable tableStyleClass="table table-bordered table-hover fonteMenor" var="item" 
+                                                 scrollable="true" 
+                                                 selectionMode="single"
+                                                 selection="#{aplicativoControl.orcSelected}"
+                                                 value="#{aplicativoControl.listOrcamento}"
+                                                 rowKey="#{item.idOrcamento}"
+                                                 rows="30"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="30,50,100">
+
+                                        <p:ajax event="rowSelect" listener="#{aplicativoControl.onRowSelect}" update="@all" />
+
+                                        <p:column headerText="#" sortBy="#{item.idOrcamento}" style="text-align: center">
+                                            <h:outputText value="#{item.idOrcamento}" />
+                                        </p:column>
+
+                                        <p:column headerText="Cliente" sortBy="#{item.cliente.nome}"  style="text-align: center">
+                                            <h:outputText value="#{item.cliente.nome}"/>
+                                        </p:column>
+
+                                        <p:column headerText="E-mail" sortBy="#{item.cliente.email}"  style="text-align: center">
+                                            <h:outputText value="#{item.cliente.email}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Dt. Evento" sortBy="#{item.dataEvento}" style="text-align: center">
+                                            <h:outputText value="#{item.dataEvento}">
+                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Dt. Entrega" sortBy="#{item.dataEntrega}" style="text-align: center">
+                                            <h:outputText value="#{item.dataEntrega}">
+                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Dt. Devolução" sortBy="#{item.dataDevolucao}" style="text-align: center">
+                                            <h:outputText value="#{item.dataDevolucao}">
+                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Local" sortBy="#{item.localEvento}" style="text-align: center">
+                                            <h:outputText value="#{item.localEvento}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Situação" sortBy="#{item.situacao}" style="text-align: center">
+                                            <h:outputText value="#{item.situacao}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Enviado" style="width: 80px;text-align: center;">
+                                            <h:commandLink action="#{aplicativoControl.marcarEnviado}">
+                                                <f:setPropertyActionListener target="#{aplicativoControl.orcSelected}" value="#{item}"/>
+                                                <i class="fa fa-send"></i>
+                                            </h:commandLink>
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </h:form>
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
+                    </section><!-- /.Left col -->
+                </div>            
+
+                <!-- Tabela com listagem das mensagens recebidas -->
+                <div class="row">
+                    <!-- Left col -->
+                    <section class="col-md-12 connectedSortable">
+                        <!-- TO DO List -->
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <i class="fa fa-fw fa-commenting"></i>
+                                <h3 class="box-title">Listagem Mensagens</h3>
+                                <div class="box-tools pull-right">
+                                </div>
+                            </div><!-- /.box-header -->                        
+                            <div class="box-body">
+                                <h:form acceptcharset="ISO-8859-1">
+                                    <p:dataTable tableStyleClass="table table-bordered table-hover fonteMenor" var="item" 
+                                                 scrollable="true"                                                  
+                                                 value="#{aplicativoControl.listMensagem}" 
+                                                 rows="30"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="30,50,100">
+
+                                        <p:column headerText="#" sortBy="#{item.idMensagem}" style="text-align: center">
+                                            <h:outputText value="#{item.idMensagem}" />
+                                        </p:column>
+
+                                        <p:column headerText="Cliente" sortBy="#{item.cliente.nome}"  style="text-align: center">
+                                            <h:outputText value="#{item.cliente.nome}"/>
+                                        </p:column>
+
+                                        <p:column headerText="E-mail" sortBy="#{item.cliente.email}"  style="text-align: center">
+                                            <h:outputText value="#{item.cliente.email}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Assunto" sortBy="#{item.assunto}" style="text-align: center">
+                                            <h:outputText value="#{item.assunto}"></h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Mensagem" sortBy="#{item.mensagem}" style="text-align: center">
+                                            <h:outputText value="#{item.mensagem}"></h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Respondido" sortBy="#{item.respondido}" style="width: 80px; text-align: center;">
+                                            <h:panelGroup rendered="#{item.respondido eq true}">
+                                                <i class="fa fa-check"></i>
+                                            </h:panelGroup>
+
+                                            <h:panelGroup rendered="#{item.respondido eq false}">
+                                                <i class="fa fa-close"></i>
+                                            </h:panelGroup>  
+                                        </p:column>
+
+                                        <p:column headerText="Enviado" style="width: 80px;text-align: center;">
+                                            <h:commandLink action="#{aplicativoControl.marcarMsgEnviado}">
+                                                <f:setPropertyActionListener target="#{aplicativoControl.msgSelected}" value="#{item}"/>
+                                                <i class="fa fa-send"></i>
+                                            </h:commandLink>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
+                    </section><!-- /.Left col -->
+                </div>   
+
+                <!---PAINEL DE EMAIL -->
+                <div class="row">
+                    <!-- Left col -->
+                    <section class="col-md-12 connectedSortable">
+                        <h:form id="formEmail" enctype="multipart/form-data">
+                            <div class="box box-success">
+                                <div class="box-header">
+                                    <i class="fa fa-envelope"></i>
+                                    <h3 class="box-title">Email rápido</h3>
+                                    <!-- tools box -->
+                                </div>
+                                <div class="box-body">
+                                    <h:panelGroup id="painelLoad">
+                                        <div class="overlay" id="loading" style='display:none;'>
+                                            <i class="fa fa-refresh fa-spin"></i>
+                                        </div>
+                                        <!--<p:ajax event="submit" update="painelLoad"/>-->
+                                    </h:panelGroup>
+                                    <div class="form-group">
+                                        <h:inputText class="form-control" id="email" value="#{aplicativoControl.destinatario}" required="true" pt:placeholder="Destinatário:"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:inputText class="form-control" id="subject" value="#{aplicativoControl.assunto}" required="true" pt:placeholder="Assunto:"/>
+                                    </div>
+                                    <div>
+                                        <h:inputTextarea class="textarea" value="#{aplicativoControl.menssagem}" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" pt:placeholder="Mensagem:"></h:inputTextarea>
+                                    </div>
+                                    <br/>
+                                    <div class="form-group">
+                                        <h:outputLabel >Anexo</h:outputLabel>
+                                        <h:inputFile label="Anexo" value="#{aplicativoControl.anexoEmail}"/>
+                                    </div>
+                                </div>
+                                <div class="box-footer clearfix">
+                                    <h:commandButton class="pull-right btn btn-facebook" id="btnEnviaEmail"
+                                                     value="Enviar" action="#{aplicativoControl.enviaEmail}" onclick="document.getElementById('loading').style.display = 'block'">
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </h:form>
+                    </section>
+                </div>
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{aplicativoControl.painelOrcamento eq true}">
+                <div class="row">
+                    <!-- Left col -->
+                    <section class="col-md-12 connectedSortable">
+                        <!-- TO DO List -->
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <i class="fa fa-fw  fa-pencil"></i>
+                                <h3 class="box-title">Dados Orçamento</h3>
+                                <div class="box-tools pull-right">
+                                </div>
+                            </div><!-- /.box-header -->                        
+                            <div class="box-body">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Cliente</h3>
+                                </div><!-- /.box-header -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="nome">Nome</h:outputLabel>
+                                            <h:inputText class="form-control" id="nome" value="#{aplicativoControl.orcSelected.cliente.nome} #{aplicativoControl.orcSelected.cliente.sobrenome}" disabled="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="email">E-mail</h:outputLabel>
+                                            <h:inputText class="form-control" id="email" value="#{aplicativoControl.orcSelected.cliente.email}" disabled="true"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Evento</h3>
+                                </div><!-- /.box-header -->
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="dtevento">Dt Evento</h:outputLabel>
+                                            <h:inputText class="form-control" value="#{aplicativoControl.orcSelected.dataEvento}" disabled="true">
+                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                            </h:inputText> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="dten">Dt Entrega</h:outputLabel>
+                                            <h:inputText class="form-control" value="#{aplicativoControl.orcSelected.dataEntrega}" disabled="true">
+                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                            </h:inputText> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="dtdev">Dt Devolução</h:outputLabel>
+                                            <h:inputText class="form-control" value="#{aplicativoControl.orcSelected.dataDevolucao}" disabled="true">
+                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                            </h:inputText> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="end">Endereço</h:outputLabel>
+                                            <h:inputText  class="form-control" value="#{aplicativoControl.orcSelected.endereco}" disabled="true">
+                                            </h:inputText> 
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <h:outputLabel for="local">Local</h:outputLabel>
+                                            <h:inputText class="form-control" value="#{aplicativoControl.orcSelected.localEvento}" disabled="true">
+                                            </h:inputText> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <h:outputLabel for="cidade">Cidade</h:outputLabel>
+                                            <h:inputText class="form-control" value="#{aplicativoControl.orcSelected.cidade}" disabled="true">
+                                            </h:inputText> 
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Itens</h3>
+                                </div><!-- /.box-header -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p:dataTable tableStyleClass="table table-bordered table-hover fonteMenor" var="item" 
+                                                     scrollable="true"                                                  
+                                                     value="#{aplicativoControl.listagemItens}" >
+
+                                            <p:column headerText="Cód Produto" sortBy="#{item.produto.idProduto}" style="text-align: center">
+                                                <h:outputText value="#{item.produto.idProduto}" />
+                                            </p:column>
+
+                                            <p:column headerText="Produto" sortBy="#{item.produto.nome}" style="text-align: center">
+                                                <h:outputText value="#{item.produto.nome}" />
+                                            </p:column>
+
+                                            <p:column headerText="Quantidade" sortBy="#{item.quantidade}" style="text-align: center">
+                                                <h:outputText value="#{item.quantidade}" />
+                                            </p:column>
+
+                                            <p:column headerText="Val. Unitário" sortBy="#{item.produto.valDiaria}" style="text-align: center">
+                                                <h:outputText value="#{item.produto.valDiaria}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Orçamento</h3>
+                                </div><!-- /.box-header -->
+                                <h:form id="formTotal" acceptcharset="ISO-8859-1">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel >Diárias</h:outputLabel>
+                                                <h:inputText class="form-control" value="#{aplicativoControl.orcSelected.diarias}">
+                                                    <p:ajax  immediate="true" update="formTotal"/>
+                                                </h:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel >Frete</h:outputLabel>
+                                                <h:inputText class="form-control" value="#{aplicativoControl.orcSelected.frete}">
+                                                    <p:ajax  immediate="true" update="formTotal" />
+                                                </h:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel >Desconto</h:outputLabel>
+                                                <h:inputText class="form-control" value="#{aplicativoControl.orcSelected.desconto}">
+                                                    <p:ajax  immediate="true" update="formTotal" />
+                                                </h:inputText>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel for="forma_pg" value="Forma Pgto"/>
+                                                <h:selectOneMenu id="forma_pg" value="#{aplicativoControl.orcSelected.formaPagto}"
+                                                                 class="form-control"  requiredMessage="Forma Pgto" >
+                                                    <p:ajax immediate="true" />
+                                                    <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                    <f:selectItem itemValue="A" itemLabel="A vista"/>
+                                                    <f:selectItem itemValue="B" itemLabel="Antes do Evento"/>
+                                                    <f:selectItem itemValue="C" itemLabel="Na Entrega"/>
+                                                    <f:selectItem itemValue="D" itemLabel="Outro"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <p:outputLabel value="Observações" />
+                                                <h:inputTextarea value="#{aplicativoControl.orcSelected.observacao}" rows="5" style="width: 100%;"/>
+                                            </div>
+                                        </div>                                    
+                                    </div>
+                                    <hr></hr>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel >Total</h:outputLabel>
+                                                <h:inputText class="form-control" value="#{aplicativoControl.calcularTotal()}" disabled="true">
+                                                    <p:ajax immediate="true" />
+                                                </h:inputText>                                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr></hr>
+                                    <div class="row">
+                                        <div class="col-md-12" >
+                                            <div class="form-group">
+                                                <h:commandLink actionListener="#{aplicativoControl.imprimeOrcamento}" target="_blank" styleClass="btn btn-facebook" value="Imprimir"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
+                    </section><!-- /.Left col -->
+                </div>   
+            </h:panelGroup>
+        </section><!-- /.content -->
+    </ui:define>
+</ui:composition>

@@ -49,6 +49,10 @@ public class ServicoUsuario extends ServicoBasico{
         return usrRepositorio.setUsuario(usuario);
     }
     
+    public Usuarios alterUsuario(Usuarios usuario){
+        return usrRepositorio.alterUsuario(usuario);
+    }
+    
     public void removeUsuario(Usuarios usuario){
         usrRepositorio.removeUsuario(usuario);
     }

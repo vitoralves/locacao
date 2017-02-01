@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="20" uuid="28cda2a3-65ad-4293-a8a1-b9f64d898164">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="cpf" class="java.lang.String"/>
+	<parameter name="endereco" class="java.lang.String"/>
+	<parameter name="totalVenda" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataEntrega" class="java.util.Date"/>
+	<parameter name="dataDevolucao" class="java.util.Date"/>
+	<parameter name="localEvento" class="java.lang.String"/>
+	<parameter name="totalLocacao" class="java.lang.Double"/>
+	<parameter name="formaPagmto" class="java.lang.String"/>
+	<parameter name="somaValor" class="java.lang.Double"/>
+	<parameter name="desconto" class="java.lang.Double"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vitor/NetBeansProjects/locacao/locacao-war/web/relatorios/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="texto" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.Object"/>
+	<parameter name="somaValorDiaria" class="java.lang.Double"/>
+	<parameter name="somaValorTotal" class="java.lang.Double"/>
+	<parameter name="frete" class="java.lang.Double"/>
+	<parameter name="texto1" class="java.lang.String"/>
+	<parameter name="locacao" class="java.lang.Double"/>
+	<parameter name="cod" class="java.lang.Integer"/>
+	<parameter name="telefone" class="java.lang.String"/>
+	<field name="qntd" class="java.lang.Integer"/>
+	<field name="produto" class="java.lang.String"/>
+	<field name="valUnitario" class="java.lang.Double"/>
+	<field name="valDiaria" class="java.lang.Double"/>
+	<field name="valTotal" class="java.lang.Double"/>
+	<group name="pagina4">
+		<groupHeader>
+			<band height="384">
+				<staticText>
+					<reportElement uuid="9db4b107-e74e-4e95-95ce-dfcf01e47da7" mode="Opaque" x="1" y="149" width="573" height="20" forecolor="#000000" backcolor="#D2D2D2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[2 - LOCATÁRIO / CONTRATANTE]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="d9a6e29e-37eb-44de-a54c-b85f620b8944" x="1" y="357" width="574" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="680b6ef5-cac2-471e-938f-5104859196b8" x="0" y="363" width="1" height="20"/>
+				</line>
+				<staticText>
+					<reportElement uuid="bda39fc9-2132-41a8-b165-5a8811259ae8" x="481" y="363" width="93" height="19"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor Total Diária]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="990d8610-c844-459c-abf3-d88e2c35885b" stretchType="RelativeToBandHeight" x="1" y="280" width="73" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<text><![CDATA[Valor da locação:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="38547990-9375-4434-9c0e-d9650754d6df" stretchType="RelativeToBandHeight" x="79" y="321" width="475" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{formaPagmto} == "A" ? "À vista" : $P{formaPagmto} == "B" ? "Antes do evento" : $P{formaPagmto} == "C" ? "Na entrega" : $P{formaPagmto} == "D" ? "Outro" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="3c1c4982-bd2d-401f-b67e-2ff51b2bc10d" stretchType="RelativeToBandHeight" x="1" y="321" width="78" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<text><![CDATA[Forma Pagamento:]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="070ee9ed-70be-405f-8704-c0634d80ad1b" x="147" y="1" width="1" height="36"/>
+				</line>
+				<line>
+					<reportElement uuid="a580647e-d12a-4e05-9fcd-59d049c39339" x="0" y="149" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="f7bcd825-ab84-4eec-9802-758805bd4040" x="148" y="37" width="426" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="5c57751d-b1e5-4eea-8ab6-04195d400364" mode="Opaque" x="1" y="256" width="573" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#D2D2D2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[4 - VALOR TOTAL DA LOCAÇÃO E FORMA DE PAGAMENTO]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="3fafb922-977a-4a80-8daa-b7c8bf4eea60" x="38" y="363" width="1" height="20"/>
+				</line>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="05439b75-8bca-4825-af06-0d3557fc077d" stretchType="RelativeToBandHeight" x="116" y="228" width="116" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{dataDevolucao}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="5016422f-11f3-40e3-ba28-faed63518461" stretchType="RelativeToBandHeight" x="59" y="228" width="40" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{dataEntrega}]]></textFieldExpression>
+				</textField>
+				<image scaleImage="FillFrame">
+					<reportElement uuid="df492f32-c435-47ff-af70-1478d911f55c" mode="Transparent" x="1" y="1" width="137" height="78" forecolor="#FFFFFF"/>
+					<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement uuid="4ad5e6e6-5255-4b5f-adda-8b80540dc8e9" stretchType="RelativeToBandHeight" x="1" y="311" width="91" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<text><![CDATA[Valor total da locação:]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="5d52f50b-86e3-4c4e-9953-d4c716f038ae" x="1" y="108" width="575" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="c35eb405-8b13-42cf-b398-74af563ca586" stretchType="RelativeToBandHeight" x="1" y="290" width="76" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<text><![CDATA[Valor de desconto:]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="6d738719-d4fd-42c1-b84b-b642e1fc917a" x="0" y="337" width="1" height="21"/>
+				</line>
+				<line>
+					<reportElement uuid="abe92196-2197-4046-8ef8-ea765262a624" x="147" y="45" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="c95ece8f-76c6-4845-b28e-5aa1163bafc7" x="574" y="256" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="c7b62d88-e08c-4bd8-b7a9-c6084e49298c" x="0" y="336" width="575" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="316db54a-42ee-46e8-b828-37c5a7a4c632" x="279" y="363" width="107" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor Un.Comercial]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="f77972c5-a3c7-4072-a8aa-b1a1071d14d5" x="0" y="201" width="1" height="20"/>
+				</line>
+				<staticText>
+					<reportElement uuid="4006585d-1428-41bd-95fe-cc879ff0a74e" stretchType="RelativeToBandHeight" x="1" y="238" width="73" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<text><![CDATA[Local do Evento:]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="e37e494c-aab5-4960-a47d-a5503662ed44" x="0" y="255" width="575" height="1"/>
+				</line>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="f34c4ac3-0f10-4019-960c-90dc793be3c8" x="77" y="290" width="100" height="10"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{desconto}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="67115ac4-453f-49ef-869b-037a89322c4b" stretchType="RelativeToBandHeight" x="92" y="311" width="100" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{totalLocacao}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="c3319cca-c6d9-472b-8558-eefb1c80bce8" x="574" y="337" width="1" height="21"/>
+				</line>
+				<line>
+					<reportElement uuid="c5a28610-9a45-4fbb-a4e7-1975183ee256" x="0" y="87" width="575" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="b91a1e95-8c2d-48c6-b3ea-e3520b6b64db" mode="Opaque" x="1" y="337" width="573" height="20" forecolor="#000000" backcolor="#D2D2D2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[5 - MÓVEIS OU OBJETOS LOCADOS E VALORES COMERCIAIS POR UNIDADE]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="6b5a54a1-1ec2-4232-8164-8f24ec0d02d5" x="0" y="276" width="575" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="b95d1e64-8752-4991-81f0-3e166d1c2b33" stretchType="RelativeToBandHeight" x="99" y="228" width="17" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<text><![CDATA[até]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="8f5190d0-2b45-4b2f-a040-fd96f1824417" x="574" y="44" width="1" height="22"/>
+				</line>
+				<line>
+					<reportElement uuid="2ae2253c-eb30-4a8d-afa5-33b351f03d08" x="574" y="2" width="1" height="36"/>
+				</line>
+				<line>
+					<reportElement uuid="6dad2f59-9af7-456d-bfa0-c1827774618f" x="0" y="221" width="574" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="b9cbbc41-a6ae-4954-b608-1cd61c77c65d" x="147" y="44" width="427" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="3e819761-7f77-496c-ac64-4ffdf6cd5104" x="386" y="363" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="161de872-2ebe-418f-92ad-fc6857dea8c3" x="0" y="88" width="1" height="21"/>
+				</line>
+				<line>
+					<reportElement uuid="ec3479e4-a768-4b3c-bba2-479f0714453f" x="148" y="1" width="427" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="4dcff774-0325-4d52-8cd2-291435d9ce43" x="0" y="169" width="575" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="d9d6437e-bc0c-40b6-84a5-9230f421c171" x="575" y="363" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="6d7410c2-cfd5-40b1-b2c0-d0b646219437" x="147" y="65" width="427" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="a921f84f-9d5a-4cfe-8aa8-394f2a3e24b3" x="278" y="363" width="1" height="20"/>
+				</line>
+				<staticText>
+					<reportElement uuid="c1c39fc6-1453-4ee1-af88-109fa8c934bb" mode="Opaque" x="1" y="88" width="574" height="20" forecolor="#000000" backcolor="#D2D2D2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[1 - LOCADORA / CONTRATADA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="10445241-2746-4b10-8425-077f760b3c4e" x="1" y="363" width="37" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Qntd]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="9a3a749b-dbf4-45f5-95f7-1277f36e9588" x="0" y="148" width="575" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="d69c821d-dd9c-4bb7-b109-270e5361c1cf" mode="Opaque" x="148" y="45" width="426" height="20" forecolor="#000000" backcolor="#D2D2D2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Contato: 16 3017 3759 / 16 991814071]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="aa78d566-da76-41a6-ad17-00d611dd7678" x="574" y="149" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="e47407bf-8de7-4fa2-b690-f06516493cae" x="0" y="200" width="574" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="fa796e74-34af-433a-a7b0-f87022751442" x="1" y="112" width="575" height="32"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[L A F PANSANI LOCAÇÕES-ME (nome fantasia "DECOVILLE LOCAÇÕES") pessoa jurídica de direito privado, estabelecida na Rua Amazonas nº844, Jardim Rivieira, Franca - SP, 14402-025 , inscrita no CNPJ/MF sob n.  55.710.719/0001-08, neste ato representada por seu(s) representante(s) legal(is) abaixo assinado(s), doravante denominada simplesmente LOCADORA.]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="a649fedd-2145-4861-bbf0-a6cc1c7d1bcd" stretchType="RelativeToBandHeight" x="74" y="238" width="480" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{localEvento}.toUpperCase()]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="979a4c2e-1eee-42ed-a21e-ceae6370bb7f" x="0" y="256" width="1" height="20"/>
+				</line>
+				<staticText>
+					<reportElement uuid="83809d4c-e52a-4384-a0db-8f77e4efa907" mode="Opaque" x="148" y="2" width="426" height="35" forecolor="#000000" backcolor="#D2D2D2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CONTRATO DE LOCAÇÃO DE MÓVEIS E OBJETOS COM PRESTAÇÃO DE SERVIÇOS E OUTRAS AVENÇAS - CL.nº. 67459]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="24cf1b0c-1674-415a-b67d-1f51c5933f01" mode="Opaque" x="1" y="201" width="573" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#D2D2D2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[3 - DATAS DE INÍCIO E TÉRMINO DA LOCAÇÃO E LOCAL DO EVENTO]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="ca31932d-1683-4bcf-952e-4c11aaac0b11" x="575" y="87" width="1" height="21"/>
+				</line>
+				<staticText>
+					<reportElement uuid="f1c47e1e-c1a8-434e-b17a-920dc9cd1a62" x="386" y="363" width="93" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor Un. Diária]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="e50203bb-7b13-4bf8-96ba-7ba82ad8c1af" x="480" y="363" width="1" height="20"/>
+				</line>
+				<staticText>
+					<reportElement uuid="3c85498c-4610-412e-9579-519ee4b92cd8" x="39" y="363" width="232" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Produto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ea4e627-a1ce-4ead-b0f0-0a6eb9d6c2ab" stretchType="RelativeToBandHeight" x="1" y="228" width="58" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<text><![CDATA[Início / Término:]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="f8b92b05-51b3-48d1-b80f-a0634d58f6b0" x="0" y="362" width="576" height="1"/>
+				</line>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="b923f5c1-42c1-4f08-ace9-1ca85cee8295" stretchType="RelativeToBandHeight" x="75" y="280" width="100" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{somaValorTotal}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="34dc4289-3c32-4a8f-83c2-c9a596265313" x="0" y="173" width="574" height="22"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{cliente}.toUpperCase()+" portador(a) do CPF "+$P{cpf}+", residente à "+$P{endereco}.toUpperCase()+$P{telefone}+" doravante denominada(o) simplesmente LOCATÁRIA(O)."]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="2b2df118-8715-47e6-9f75-062ec27fcfe8" x="574" y="200" width="1" height="22"/>
+				</line>
+				<staticText>
+					<reportElement uuid="233ac9ed-1487-4f68-9a81-2d4fa18bcdd9" stretchType="RelativeToBandHeight" x="1" y="300" width="58" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<text><![CDATA[Valor do frete:]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="8266c692-e5dc-43d2-bfc0-8528a635a31a" stretchType="RelativeToBandHeight" x="59" y="300" width="100" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{frete}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="003672e6-2583-4aea-94f7-7af056a823f2" stretchType="RelativeToBandHeight" x="503" y="280" width="33" height="10" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<text><![CDATA[Código:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="8c79c5c8-6eab-44ed-bc7d-69287a745d4c" x="536" y="280" width="40" height="10"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{cod}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="pagina5">
+		<groupExpression><![CDATA[$V{pagina4_COUNT}]]></groupExpression>
+	</group>
+	<group name="pagina6">
+		<groupExpression><![CDATA[$V{pagina5_COUNT}]]></groupExpression>
+	</group>
+	<group name="pagina7">
+		<groupExpression><![CDATA[$V{pagina6_COUNT}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="22">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement uuid="46aab911-b73f-4606-a613-8b07aa85fe8b" positionType="Float" stretchType="RelativeToBandHeight" x="1" y="1" width="37" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qntd}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="f231c8bd-8a7d-4e1f-9ba1-7bd7d9fd8844" positionType="Float" stretchType="RelativeToBandHeight" x="278" y="1" width="107" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valUnitario}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+				<reportElement uuid="ba2fec9a-c138-4433-b631-292dee130ec2" stretchType="RelativeToBandHeight" x="386" y="1" width="93" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valDiaria}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement uuid="c07d1f01-8e93-4af3-a44f-f8e99d05613e" positionType="Float" stretchType="RelativeToBandHeight" x="42" y="1" width="229" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{produto}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="12429fc6-e7f1-4d81-8dbd-d4a9f9754077" x="1" y="21" width="574" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="309da8c7-af70-4c66-b880-b6779f70ac56" x="575" y="0" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="95f668c2-672d-44bc-90dd-e32d82d3e81a" x="480" y="0" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="48269630-2c88-4a5c-b7bc-255a84206761" x="386" y="0" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="d2ab09d4-2bef-409e-acc9-34b41f381ec2" x="278" y="0" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="93ed29bb-b528-408b-8082-5bd1a88b73f8" x="0" y="0" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="dc2f7747-b54d-48f7-8d70-9d03d1c2b440" x="38" y="0" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="2af511eb-beeb-4c03-8842-428c21c6db3f" x="1" y="-1" width="574" height="1"/>
+			</line>
+			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+				<reportElement uuid="68c388f1-a764-43b2-b70a-dbd7079bdea8" stretchType="RelativeToBandHeight" x="481" y="1" width="93" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="33" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="35691d39-15f5-4788-9e7e-bb404fe2c530" x="0" y="21" width="576" height="12"/>
+				<subreportParameter name="texto">
+					<subreportParameterExpression><![CDATA[$P{texto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cliente">
+					<subreportParameterExpression><![CDATA[$P{cliente}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "/report2.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement uuid="1d036aae-c2ca-4625-8bb3-de53aaf1cef2" x="438" y="0" width="42" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="837cd549-d114-4b92-b69f-e659f42bef72" x="0" y="20" width="576" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="ad9aaf6c-b7bc-4678-ac92-606bddbda8c0" x="575" y="-1" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="bbe8fdd2-bba6-42db-9b2d-22f6c7a92214" x="480" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="9700501a-d388-4bb8-91b7-b02af6625d40" x="0" y="-1" width="1" height="21"/>
+			</line>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="28a123d4-4130-4164-9622-b94a9269124d" x="481" y="0" width="94" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalLocacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

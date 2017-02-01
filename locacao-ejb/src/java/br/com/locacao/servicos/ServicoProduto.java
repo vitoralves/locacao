@@ -61,7 +61,15 @@ public class ServicoProduto extends ServicoBasico{
         return prodRepositorio.getProduto();
     }
     
+    public List<Produtos> get10Produtos(){
+        return  prodRepositorio.get10Produtos();
+    }
+    
     public List<Produtos> getProdutosByName(String nome){
         return prodRepositorio.getProdutosByName(nome);
+    }
+    
+    public int getQuantidadeEstoque(){
+        return prodRepositorio.getQuantidadeEstoque();
     }
 }

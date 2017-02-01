@@ -16,8 +16,8 @@ public class RepositorioCategoria extends RepositorioBasico{
         super(entityManager);
     }
     
-    public Categorias addCategoria(Categorias categoria){
-        return setEntity(Categorias.class, categoria);
+    public Categorias addCategoria(Categorias cat){
+        return addEntity(Categorias.class, cat);
     }
     
     public Categorias setCategoria(Categorias categoria){
@@ -37,6 +37,6 @@ public class RepositorioCategoria extends RepositorioBasico{
     }
     
     public List<Categorias> getCategoriaByNome(String nome){
-        return getPureList(Categorias.class, "select c from Categoiastring c where c.nome like ?1", nome+"%");
+        return getPureList(Categorias.class, "select c from Categorias c where c.nome like upper(?1) ", nome.toUpperCase()+"%");
     }
 }

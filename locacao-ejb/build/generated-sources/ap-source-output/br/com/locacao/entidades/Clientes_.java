@@ -1,12 +1,10 @@
 package br.com.locacao.entidades;
 
-import br.com.locacao.entidades.Eventos;
 import javax.annotation.Generated;
-import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-03-15T19:39:20")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-01-19T19:07:26")
 @StaticMetamodel(Clientes.class)
 public class Clientes_ { 
 
@@ -19,9 +17,11 @@ public class Clientes_ {
     public static volatile SingularAttribute<Clientes, String> endereco;
     public static volatile SingularAttribute<Clientes, String> bairro;
     public static volatile SingularAttribute<Clientes, String> nome;
-    public static volatile SingularAttribute<Clientes, Integer> cep;
+    public static volatile SingularAttribute<Clientes, String> cnpj;
+    public static volatile SingularAttribute<Clientes, String> cep;
+    public static volatile SingularAttribute<Clientes, String> complemento;
     public static volatile SingularAttribute<Clientes, Integer> idCliente;
-    public static volatile ListAttribute<Clientes, Eventos> eventosList;
+    public static volatile SingularAttribute<Clientes, String> rg;
     public static volatile SingularAttribute<Clientes, String> cpf;
     public static volatile SingularAttribute<Clientes, String> celular;
     public static volatile SingularAttribute<Clientes, String> razaoSocial;

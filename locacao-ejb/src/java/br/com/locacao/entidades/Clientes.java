@@ -6,7 +6,6 @@
 package br.com.locacao.entidades;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,12 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -51,16 +47,25 @@ public class Clientes implements Serializable {
     @Size(max = 20)
     @Column(length = 20)
     private String cpf;
+    @Size(max = 20)
+    @Column(length = 20)
+    private String rg;
+    @Size(max = 20)
+    @Column(length = 20)
+    private String cnpj;
     @Size(max = 60)
     @Column(length = 60)
     private String cidade;
     @Size(max = 30)
     @Column(length = 30)
     private String inscricao;
+    @Size(max = 60)
+    @Column(length = 60)
+    private String endereco;
     @Size(max = 40)
     @Column(length = 40)
-    private String endereco;
-    private Integer cep;
+    private String complemento;
+    private String cep;
     @Size(max = 30)
     @Column(length = 30)
     private String telefone;
@@ -69,14 +74,11 @@ public class Clientes implements Serializable {
     private String celular;
     @Column(length = 2)
     private String estado;
-    @Column(length = 2)
     private String bairro;
     @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="E-mail inválido")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 60)
     @Column(length = 60)
     private String email;
-    @OneToMany(mappedBy = "cliente")
-    private List<Eventos> eventosList;
 
     public Clientes() {
     }
@@ -141,22 +143,14 @@ public class Clientes implements Serializable {
         this.endereco = endereco;
     }
 
-    public Integer getCep() {
+    public String getCep() {
         return cep;
     }
 
-    public void setCep(Integer cep) {
+    public void setCep(String cep) {
         this.cep = cep;
     }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
+    
     public String getCelular() {
         return celular;
     }
@@ -205,15 +199,38 @@ public class Clientes implements Serializable {
         this.bairro = bairro;
     }
 
-    @XmlTransient
-    public List<Eventos> getEventosList() {
-        return eventosList;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setEventosList(List<Eventos> eventosList) {
-        this.eventosList = eventosList;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

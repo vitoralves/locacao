@@ -1,46 +1,140 @@
 package br.com.locacao.controle;
 
+import br.com.locacao.entidades.Clientes;
 import br.com.locacao.entidades.Eventos;
+import br.com.locacao.entidades.ItensOrcamento;
+import br.com.locacao.entidades.Orcamento;
+import br.com.locacao.servicos.ServicoCliente;
 import br.com.locacao.servicos.ServicoEvento;
-import br.com.locacao.servicos.ServicoEvento;
+import br.com.locacao.servicos.ServicoItensOrcamento;
+import br.com.locacao.servicos.ServicoOrcamento;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.primefaces.model.UploadedFile;
-import sun.font.FontUtilities;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
  * @author vitor
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class EventoControl extends BasicControl implements java.io.Serializable {
 
     @EJB
     private ServicoEvento evtService;
-    private Eventos loggedUser;
-    @NotNull(message = "Digite um usuário")
-    private String username;
-    @NotNull(message = "Digite uma senha")
-    private String senha;
+    @EJB
+    private ServicoCliente cliService;
+    @EJB
+    private ServicoItensOrcamento itemOrcService;
+    @EJB
+    private ServicoOrcamento orcService;
+
+    @Inject
+    private OrcamentoControl evtSelectedOrc;
+    @Inject
+    private ComumControl comumControl;
+    @Inject
+    private UsuarioControl userControl;
+
     private List<Eventos> listEventos;
+    private List<Eventos> listEventosFinalizados;
+    private List<Clientes> listClientes;
+    private List<ItensOrcamento> listItensOrcamento;
+
+    private Clientes cliSelected;
+    private Eventos evtSelected;
+    private Eventos evento;
+    private ItensOrcamento itemEvento;
+    private ItensOrcamento itemEventoTemporario;
+    private Orcamento orcSelected;
+
+    private String localizarNome;
+    private String localizarCli;
+    private String existente = "";
+    private ArrayList<String> selectedCheck;
+    private ArrayList<SelectItem> listTipo;
+
     private boolean showAdd = false;
     private boolean showEdit = false;
-    private Eventos evtSelected;
-    private String localizarNome;
+    private boolean eventoSalvo;
+    private boolean entrega;
+    private boolean cpf = true;
+    private boolean cpfReq = false;
+    private boolean cnpj = true;
+    private boolean cnpjReq = false;
+
+    private int quantidade = 0;
+    private int dataInt;
 
     @PostConstruct
     public void init() {
         esconde();
         pesquisaTodos();
+        selectedCheck = null;
+//        pesquisaTodosProdutos();
+        pesquisaTodosClientes();
+        String dataString = comumControl.anoAtual();
+        dataInt = Integer.parseInt(dataString.trim());
+    }
+
+    public void onRowSelect(SelectEvent event) {
+        showAdd = false;
+        showEdit = true;
+    }
+
+    public void inicializaCliente() {
+        cliSelected = new Clientes();
+    }
+
+    public void mudaVisible() {
+        if (cliSelected.getTipo() != null && cliSelected.getTipo().equals("F")) {
+            cpf = false;
+            cpfReq = true;
+            cnpj = true;
+            cnpjReq = false;
+            getCliSelected().setCnpj(null);
+        } else if (cliSelected.getTipo() != null && cliSelected.getTipo().equals("J")) {
+            cpf = true;
+            cpfReq = false;
+            cnpj = false;
+            cnpjReq = true;
+            getCliSelected().setCpf(null);
+        }
+    }
+
+    public List<Eventos> listaEntregar() {
+        listEventos = null;
+        listEventos = evtService.getEventosEntregar();
+        return listEventos;
+    }
+
+    public List<Eventos> listaRecolher() {
+        listEventos = null;
+        listEventos = evtService.getEventosRecolher();
+        return listEventos;
+    }
+
+    public void imprimirCheckList(boolean entrega, int id) {
+        String e;
+        if (entrega) {
+            e = "Entrega";
+            evtService.imprimirCheckList(e, id, userControl.getLoggedUser().getEmpresa().getIdEmpresa());
+        } else {
+            e = "Devolução";
+            evtService.imprimirCheckList(e, id, userControl.getLoggedUser().getEmpresa().getIdEmpresa());
+        }
     }
 
     public List<Eventos> pesquisaTodos() {
@@ -52,13 +146,113 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
         }
         return listEventos;
     }
-    
+
+    public List<Clientes> pesquisaTodosClientes() {
+        if (listClientes == null) {
+            listClientes = cliService.getClientes();
+        } else {
+            listClientes = null;
+            listClientes = cliService.getClientes();
+        }
+        return listClientes;
+    }
+
+    public void removeProdutoLista(int p) {
+        itemEvento = null;
+
+    }
+
+    public void finalizarEvento() {
+        Date date = new Date();
+        if (evtSelected.getDataDevolucao().after(date)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Você não pode encerrar esse evento antes de sua data de devolução!", null));
+        } else {
+            evtService.finalizaEvento(evtSelected.getIdEvento(), evtSelected.getFinalizado());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Evento Alterado!", null));
+        }
+    }
+
+    public void cancelarEvento() {
+        evtSelected.setFgAtivo(0);
+        evtService.setEvento(evtSelected);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Evento cancelado!", null));
+    }
+
+    public String iniciarOrcamento() {
+        //verificar se já existe orçamento para esse evento
+        orcSelected = orcService.getOrcamentoPorEvento(evtSelected.getIdEvento());
+
+        if (orcSelected == null) {
+            evtSelectedOrc.novoOrcamento(evtSelected);
+            return "/restrito/admin/orcamentos.faces?faces-redirect=true";
+        } else {
+            evtSelectedOrc.setOrcSelected(orcSelected);
+            return "/restrito/admin/orcamentos.faces?faces-redirect=true";
+        }
+
+    }
+
+    public String salvarNovoOrcamento() {
+        try {
+            Date dataAtual = new Date();
+            if (evtSelected.getDataEvento().before(dataAtual) || evtSelected.getDataEntrega().before(dataAtual) || evtSelected.getDataDevolucao().before(dataAtual)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Data inferior a data atual!", null));
+                return "";
+            } else {
+                evtSelected.setFinalizado(false);
+                evtSelected.setConfirmado(false);
+                evtSelected.setFgAtivo(1);
+                evtService.addEvento(evtSelected);
+                showAdd = false;
+                evtSelectedOrc.novoOrcamento(evtSelected);
+                return "/restrito/admin/orcamentos.faces?faces-redirect=true";
+
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Erro ao salvar!", null));
+            return "";
+        }
+    }
+
+    public void insereEvento() {
+        evtService.addEvento(evtSelected);
+    }
+
+    public List<Clientes> autoComplete(String query) {
+        List<Clientes> allCli = cliService.getClientes();
+        List<Clientes> filteredCli = new ArrayList<Clientes>();
+
+        for (int i = 0; i < allCli.size(); i++) {
+            Clientes c = allCli.get(i);
+            if (c.getNome().toLowerCase().startsWith(query.toLowerCase())) {
+                filteredCli.add(c);
+            }
+        }
+
+        return filteredCli;
+    }
+
+    public void pesquisaCliente() {
+        if (localizarCli == null) {
+            pesquisaTodosClientes();
+            localizarCli = null;
+        } else {
+            listClientes = null;
+            listClientes = cliService.getClientesByParam(localizarCli);
+            localizarCli = null;
+        }
+    }
 
     public void pesquisaEvento() {
-        if (localizarNome.isEmpty() || localizarNome == null) {
+        if (localizarNome == null) {
             pesquisaTodos();
         } else {
-            listEventos = evtService.getEventos();
+            listEventos = evtService.getEventoPorCliente(localizarNome);
         }
     }
 
@@ -68,6 +262,7 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
     }
 
     public void addNovo() {
+        evtSelected = null;
         evtSelected = new Eventos();
         showAdd = true;
         showEdit = false;
@@ -83,6 +278,24 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
         showEdit = true;
     }
 
+    public void salvarCliente() {
+        existente = cliService.verificaExistente(cliSelected.getCpf() == null ? "" : cliSelected.getCpf(),
+                cliSelected.getCnpj() == null ? "" : cliSelected.getCnpj(),
+                cliSelected.getRg() == null ? "" : cliSelected.getRg());
+        
+        if (existente.length() == 0) {
+            cliService.addCliente(cliSelected);
+            Clientes c = cliService.getClienteRg(cliSelected.getRg());
+            evtSelected.setCliente(c);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Cliente salvo com sucesso!!", null));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "" + existente, null));
+        }
+
+    }
+
     public void doFinishExcluir() {
         evtService.removeEvento(evtSelected);
         showEdit = false;
@@ -93,48 +306,57 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
     }
 
     public void salvarEditado() {
+//        Date dataAtual = new Date();
+//        if (evtSelected.getDataEvento().before(dataAtual) || evtSelected.getDataEntrega().before(dataAtual) || evtSelected.getDataDevolucao().before(dataAtual)) {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "Data inferior a data atual!", null));
+//        } else {
         evtService.setEvento(evtSelected);
         esconde();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "Alterado com sucesso!", null));
+//        }
     }
 
     public void salvarNovo() {
         try {
-            evtService.addEvento(evtSelected);
-            showAdd = false;
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Inserido com sucesso!", null));
+            Date dataAtual = new Date();
+            if (evtSelected.getDataEvento().before(dataAtual) || evtSelected.getDataEntrega().before(dataAtual) || evtSelected.getDataDevolucao().before(dataAtual)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Data inferior a data atual!", null));
+            } else {
+                evtSelected.setFinalizado(false);
+                evtSelected.setConfirmado(false);
+                evtSelected.setFgAtivo(1);
+                evtService.addEvento(evtSelected);
+                showAdd = false;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Inserido com sucesso!", null));
+
+            }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Erro ao salvar!", null));
         }
     }
 
-    public Eventos getLoggedUser() {
-        return loggedUser;
+    public int totalEventosFinalizados() {
+        int totalFinalizados = 0;
+        totalFinalizados = evtService.totalFinalizados(dataInt);
+        return totalFinalizados;
     }
 
-    public void setLoggedUser(Eventos loggedUser) {
-        this.loggedUser = loggedUser;
+    public int totalEventosPorAno() {
+        int totalPorAno = 0;
+        totalPorAno = evtService.totalPorAno(dataInt);
+        return totalPorAno;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
+    /**
+     * ********************************************
+     ********************************
+     * *******************************
+     */
     public List<Eventos> getListEventos() {
         return listEventos;
     }
@@ -173,6 +395,166 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
 
     public void setLocalizarNome(String localizarNome) {
         this.localizarNome = localizarNome;
+    }
+
+    public List<Clientes> getListClientes() {
+        return listClientes;
+    }
+
+    public void setListClientes(List<Clientes> listClientes) {
+        this.listClientes = listClientes;
+    }
+
+    public Clientes getCliSelected() {
+        return cliSelected;
+    }
+
+    public void setCliSelected(Clientes cliSelected) {
+        this.cliSelected = cliSelected;
+    }
+
+    public String getLocalizarCli() {
+        return localizarCli;
+    }
+
+    public void setLocalizarCli(String localizarCli) {
+        this.localizarCli = localizarCli;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public Eventos getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Eventos evento) {
+        this.evento = evento;
+    }
+
+//    public List<ItensOrcamento> getListItensOrcamento() {
+//        if (listItensOrcamento != null) {
+//            listItensOrcamento = null;
+//        }
+//        if (evtSelected.getIdEvento() == null) {
+//            listItensOrcamento = itemOrcService.getItemEventosParametro(9999999);
+//        } else {
+//            listItensOrcamento = itemOrcService.getItemEventosParametro(evtSelected.getIdEvento());
+//        }
+//        return listItensOrcamento;
+//    }
+    public void setListItensOrcamento(List<ItensOrcamento> listItensOrcamento) {
+        this.listItensOrcamento = listItensOrcamento;
+    }
+
+    public ItensOrcamento getItemEvento() {
+        return itemEvento;
+    }
+
+    public void setItemEvento(ItensOrcamento itemEvento) {
+        this.itemEvento = itemEvento;
+    }
+
+    public ServicoItensOrcamento getItemEvtService() {
+        return itemOrcService;
+    }
+
+    public void setItemEvtService(ServicoItensOrcamento itemOrcService) {
+        this.itemOrcService = itemOrcService;
+    }
+
+    public ItensOrcamento getItemEventoTemporario() {
+        return itemEventoTemporario;
+    }
+
+    public void setItemEventoTemporario(ItensOrcamento itemEventoTemporario) {
+        this.itemEventoTemporario = itemEventoTemporario;
+    }
+
+    public boolean isEventoSalvo() {
+        return eventoSalvo;
+    }
+
+    public void setEventoSalvo(boolean eventoSalvo) {
+        this.eventoSalvo = eventoSalvo;
+    }
+
+    public OrcamentoControl getEvtSelectedOrc() {
+        return evtSelectedOrc;
+    }
+
+    public void setEvtSelectedOrc(OrcamentoControl evtSelectedOrc) {
+        this.evtSelectedOrc = evtSelectedOrc;
+    }
+
+    public ArrayList<String> getSelectedCheck() {
+        return selectedCheck;
+    }
+
+    public void setSelectedCheck(ArrayList<String> selectedCheck) {
+        this.selectedCheck = selectedCheck;
+    }
+
+    public boolean isEntrega() {
+        return entrega;
+    }
+
+    public void setEntrega(boolean entrega) {
+        this.entrega = entrega;
+    }
+
+    public UsuarioControl getUserControl() {
+        return userControl;
+    }
+
+    public ArrayList<SelectItem> getListTipo() {
+        if (listTipo == null || listTipo.size() == 0) {
+            listTipo = new ArrayList<SelectItem>();
+            listTipo.add(new SelectItem("F", "Física"));
+            listTipo.add(new SelectItem("J", "Jurídica"));
+        }
+        return listTipo;
+    }
+
+    public void setListTipo(ArrayList<SelectItem> listTipo) {
+        this.listTipo = listTipo;
+    }
+
+    public boolean isCpf() {
+        return cpf;
+    }
+
+    public void setCpf(boolean cpf) {
+        this.cpf = cpf;
+    }
+
+    public boolean isCpfReq() {
+        return cpfReq;
+    }
+
+    public void setCpfReq(boolean cpfReq) {
+        this.cpfReq = cpfReq;
+    }
+
+    public boolean isCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(boolean cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public boolean isCnpjReq() {
+        return cnpjReq;
+    }
+
+    public void setCnpjReq(boolean cnpjReq) {
+        this.cnpjReq = cnpjReq;
     }
 
 }

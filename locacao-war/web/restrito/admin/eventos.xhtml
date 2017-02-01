@@ -1,0 +1,683 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+                xmlns:h="http://java.sun.com/jsf/html"  
+                xmlns:f="http://java.sun.com/jsf/core"  
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./templateNoJs.xhtml">
+
+    <!-- Para o correto funcionamento do autoupdate é necessário chamar o templateNoJs 
+    ***********
+    **************
+    ***********
+    -->  
+
+    <ui:define name="titleOfPage">
+        Eventos
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h:form style="height: 35px;" >
+                <h:commandLink class="btn btn-default" title="Voltar" actionListener="#{eventoControl.esconde}" style="margin-right: 10px; float: left;">
+                    <i class="fa fa-reply"></i>
+                </h:commandLink>
+
+                <h:commandLink class="btn btn-success" title="Novo" actionListener="#{eventoControl.addNovo}" 
+                               style="float:left;margin-right: 10px;" 
+                               rendered="#{eventoControl.showAdd eq false and eventoControl.showEdit eq false}">
+                    <i class="fa fa-plus"></i>
+                </h:commandLink>
+
+                <h:commandLink class="btn btn-danger" title="Excluir" actionListener="#{eventoControl.doFinishExcluir}" onclick="return confirm('Tem certeza que deseja excluir o evento?')" style="margin-right: 10px;float:left;" rendered="#{eventoControl.showEdit eq true}">
+                    <i class="fa fa-remove"></i>
+                </h:commandLink>
+
+                <h:panelGroup rendered="#{eventoControl.showAdd eq false and eventoControl.showEdit eq false}">
+                    <div class="input-group input-group-sm  pesquisa" style="max-width: 30%;float:left;" >
+                        <h:inputText onkeypress="#{eventoControl.pesquisaEvento()}" class="form-control" value="#{eventoControl.localizarNome}"/>
+                        <span class="input-group-btn">
+                            <h:commandLink class="btn btn-info btn-flat" type="button" action="#{eventoControl.pesquisaEvento}">
+                                <i class="fa fa-search"></i>
+                            </h:commandLink>
+                        </span>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+            <ol class="breadcrumb">
+                <li><a href="index.faces"><i class="fa fa-files-o"></i> Home</a></li>
+                <li><a href="cadastros.faces">Cadastro</a></li>
+                <li class="active">Eventos</li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <h:form id="form_message" style="margin: 0 10px;">
+                <p:messages id="msg" autoUpdate="form_message" closable="true"/>
+            </h:form>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <h:panelGroup rendered="#{eventoControl.showAdd eq false and eventoControl.showEdit eq false}">
+                            <div class="box-header">
+                                <h3 class="box-title">Eventos</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <h:form acceptcharset="ISO-8859-1">
+                                    <p:dataTable tableStyleClass="table table-bordered table-hover fonteMenor" var="item" 
+                                                 value="#{eventoControl.listEventos}" 
+                                                 selectionMode="single"
+                                                 selection="#{eventoControl.evtSelected}"
+                                                 rowKey="#{item.idEvento}"
+                                                 rows="30"                                                 
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="30,50,100" scrollable="true">
+
+                                        <p:ajax event="rowSelect"  listener="#{eventoControl.onRowSelect}" update="@all" />
+
+                                        <p:column headerText="#" sortBy="#{item.idEvento}" style="width: 49px;">                                        
+                                            <h:outputText value="#{item.idEvento}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Cliente" sortBy="#{item.cliente}">
+                                            <h:outputText value="#{item.cliente.nome}" />
+                                        </p:column>
+
+                                        <p:column headerText="Dt. Evento" sortBy="#{item.dataEvento}">
+                                            <h:outputText value="#{item.dataEvento}" >
+                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                            </h:outputText> 
+                                        </p:column>
+
+                                        <p:column headerText="Dt. Entrega" sortBy="#{item.dataEntrega}">
+                                            <h:outputText value="#{item.dataEntrega}" >
+                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Dt. Devolução" sortBy="#{item.dataDevolucao}">
+                                            <h:outputText value="#{item.dataDevolucao}" >
+                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Retirada" sortBy="#{item.retirada}">
+                                            <h:outputText value="#{item.retirada}" />
+                                        </p:column>
+
+                                        <p:column headerText="Endereço" sortBy="#{item.endereco}">
+                                            <h:outputText value="#{item.endereco}" />
+                                        </p:column>
+
+                                        <p:column headerText="Cidade" sortBy="#{item.cidade}">
+                                            <h:outputText value="#{item.cidade}" />
+                                        </p:column>
+
+                                        <p:column headerText="Finalizado" sortBy="#{item.finalizado}" style="text-align: center">
+                                            <h:graphicImage rendered="#{item.finalizado eq true}">
+                                                <i class="fa fa-fw fa-check"/>                                         
+                                            </h:graphicImage>
+                                            <h:graphicImage rendered="#{item.finalizado ne true}">
+                                                <i class="fa fa-fw fa-close"/>                                         
+                                            </h:graphicImage>                   
+                                        </p:column>
+
+                                        <p:column headerText="Confirmado" sortBy="#{item.confirmado}" style="text-align: center">
+                                            <h:graphicImage rendered="#{item.confirmado eq true}">
+                                                <i class="fa fa-fw fa-check"/>                                         
+                                            </h:graphicImage>
+                                            <h:graphicImage rendered="#{item.confirmado ne true}">
+                                                <i class="fa fa-fw fa-close"/>                                         
+                                            </h:graphicImage>                   
+                                        </p:column>
+
+                                        <p:column headerText="Ação" style="width: 160px;">
+                                            <h:commandLink class="btn btn-primary" title="Orçamento" 
+                                                           action="#{eventoControl.iniciarOrcamento}">
+                                                <f:setPropertyActionListener value="#{item}" target="#{eventoControl.evtSelected}"/> 
+                                                <i class="fa fa-caret-square-o-down" style="color:#fff"></i>
+                                            </h:commandLink> &nbsp;    
+                                            <h:commandLink class="btn btn-warning" title="Finaliza Evento" 
+                                                           action="#{eventoControl.finalizarEvento}">
+                                                <f:setPropertyActionListener value="#{item}" target="#{eventoControl.evtSelected}"/> 
+                                                <i class="fa fa-sort-amount-desc" style="color:#fff"></i>
+                                            </h:commandLink> &nbsp;        
+                                            <h:commandLink class="btn btn-danger" title="Cancela Evento" 
+                                                           action="#{eventoControl.cancelarEvento}">
+                                                <f:setPropertyActionListener value="#{item}" target="#{eventoControl.evtSelected}"/> 
+                                                <i class="fa fa-times-circle-o" style="color:#fff"></i>
+                                            </h:commandLink>                                                    
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </h:form>
+                            </div><!-- /.box-body -->
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{eventoControl.showAdd eq true}">
+                            <div class="box-header">
+                                <h3 class="box-title">Evento &gt; Orçamento</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form class="form" acceptcharset="ISO-8859-1">
+                                    <div class="box-body">
+                                        <h:form class="form">
+                                            <div class="box-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-sm" style="float:left;" >                                                        
+                                                                <p:outputLabel for="pesquisaCli" value="Cliente *"/>
+                                                                <p:autoComplete id="pesquisaCli"
+                                                                                value="#{eventoControl.evtSelected.cliente}"
+                                                                                completeMethod="#{eventoControl.autoComplete}"
+                                                                                converter="entityConverter"
+                                                                                var="e" itemLabel="#{e.nome}" itemValue="#{e}"
+                                                                                styleClass="form-control" 
+                                                                                />
+                                                            </div>
+                                                            <span class="input-group-btn">
+                                                                <h:commandLink styleClass="btn btn-success btn-flat" type="button" onclick="PF('dlgCliente').show();"
+                                                                               style="margin-top:26px;"  >
+                                                                    <i class="fa fa-plus"></i>
+                                                                    <f:ajax event="click" listener="#{eventoControl.inicializaCliente}"/>
+                                                                </h:commandLink>
+                                                            </span>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="tipoEvento" value="Tipo Evento"/>
+                                                            <h:selectOneMenu id="tipoEvento" value="#{eventoControl.evtSelected.tipo}"
+                                                                             class="form-control"  requiredMessage="Tipo Evento" required="true">
+
+                                                                <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                                <f:selectItem itemValue="Jantar" itemLabel="Jantar"/>
+                                                                <f:selectItem itemValue="Casamento" itemLabel="Casamento"/>
+                                                                <f:selectItem itemValue="Aniversario" itemLabel="Aniversário"/>
+                                                                <f:selectItem itemValue="Outro" itemLabel="Outro"/>
+                                                            </h:selectOneMenu>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="dtevento" value="Dt Evento"/>
+                                                            <p:inputMask styleClass="form-control" id="dtevento" value="#{eventoControl.evtSelected.dataEvento}" mask="99/99/9999" required="true">
+                                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                            </p:inputMask>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="dtentrega" value="Dt Entrega"/>
+                                                            <p:inputMask styleClass="form-control" id="dtentrega" value="#{eventoControl.evtSelected.dataEntrega}" mask="99/99/9999" required="true">
+                                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                            </p:inputMask>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <p:outputLabel for="dt_devo" value="Dt Devolução"/>
+                                                        <p:inputMask styleClass="form-control" id="dt_devo" value="#{eventoControl.evtSelected.dataDevolucao}" mask="99/99/9999" required="true">
+                                                            <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                        </p:inputMask>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="entrega" value="Quem Entrega"/>
+                                                            <h:selectOneMenu id="entrega" value="#{eventoControl.evtSelected.retirada}"
+                                                                             styleClass="form-control" requiredMessage="Entrega" required="true">
+
+                                                                <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                                <f:selectItem itemValue="Locadora" itemLabel="Locadora"/>
+                                                                <f:selectItem itemValue="Cliente" itemLabel="Cliente"/>                                                        
+                                                            </h:selectOneMenu>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="devolucao" value="Quem Devolve"/>
+                                                            <h:selectOneMenu id="devolucao" value="#{eventoControl.evtSelected.devolucao}"
+                                                                             styleClass="form-control" requiredMessage="Entrega" required="true">
+
+                                                                <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                                <f:selectItem itemValue="Locadora" itemLabel="Locadora"/>
+                                                                <f:selectItem itemValue="Cliente" itemLabel="Cliente"/>                                                        
+                                                            </h:selectOneMenu>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="end" value="Endereço"/>
+                                                            <p:inputText styleClass="form-control" id="end" value="#{eventoControl.evtSelected.endereco}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="n" value="Nº"/>
+                                                            <p:inputText styleClass="form-control" id="n" value="#{eventoControl.evtSelected.numero}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="bairro" value="Bairro"/>
+                                                            <p:inputText styleClass="form-control" id="bairro" value="#{eventoControl.evtSelected.bairro}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="cidade" value="Cidade"/>
+                                                            <p:inputText styleClass="form-control" id="cidade" value="#{eventoControl.evtSelected.cidade}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="cep" value="CEP"/>
+                                                            <p:inputMask styleClass="form-control" id="cep" mask="99999-999" value="#{eventoControl.evtSelected.cep}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="est" value="Estado"/>
+                                                            <h:selectOneMenu id="est" value="#{eventoControl.evtSelected.estado}"
+                                                                             styleClass="form-control" requiredMessage="Estado">
+                                                                <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                                <f:selectItem itemValue="AC" itemLabel="AC"/>
+                                                                <f:selectItem itemValue="AP" itemLabel="AP"/>
+                                                                <f:selectItem itemValue="BA" itemLabel="BA"/>
+                                                                <f:selectItem itemValue="CE" itemLabel="CE"/>
+                                                                <f:selectItem itemValue="DF" itemLabel="DF"/>
+                                                                <f:selectItem itemValue="ES" itemLabel="ES"/>
+                                                                <f:selectItem itemValue="GO" itemLabel="GO"/>
+                                                                <f:selectItem itemValue="MA" itemLabel="MA"/>
+                                                                <f:selectItem itemValue="MT" itemLabel="MT"/>
+                                                                <f:selectItem itemValue="ES" itemLabel="ES"/>
+                                                                <f:selectItem itemValue="MG" itemLabel="MG"/>
+                                                                <f:selectItem itemValue="PA" itemLabel="PA"/>
+                                                                <f:selectItem itemValue="PB" itemLabel="PB"/>
+                                                                <f:selectItem itemValue="PR" itemLabel="PB"/>
+                                                                <f:selectItem itemValue="PE" itemLabel="PE"/>
+                                                                <f:selectItem itemValue="PI" itemLabel="PI"/>
+                                                                <f:selectItem itemValue="RJ" itemLabel="RJ"/>
+                                                                <f:selectItem itemValue="RN" itemLabel="RN"/>
+                                                                <f:selectItem itemValue="RS" itemLabel="RS"/>
+                                                                <f:selectItem itemValue="RO" itemLabel="RO"/>
+                                                                <f:selectItem itemValue="RR" itemLabel="RR"/>
+                                                                <f:selectItem itemValue="SC" itemLabel="SC"/>
+                                                                <f:selectItem itemValue="SP" itemLabel="SP"/>
+                                                                <f:selectItem itemValue="SE" itemLabel="SE"/>
+                                                                <f:selectItem itemValue="TO" itemLabel="TO"/>
+                                                            </h:selectOneMenu>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <p:outputLabel for="local_e" value="Local Evento"/>
+                                                            <p:inputText styleClass="form-control" id="local_e" value="#{eventoControl.evtSelected.localEvento}" required="true"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h:commandButton action="#{eventoControl.salvarNovo}" styleClass="btn btn-primary" value="Salvar &bull; Fechar" />
+                                                &nbsp;&nbsp;
+                                                <h:commandButton action="#{eventoControl.salvarNovoOrcamento}" styleClass="btn btn-vimeo" value="Salvar &bull; Vincular Orçamento" />
+                                            </div>
+                                        </h:form>
+                                    </div><!-- /.box -->                                    
+                                </h:form>
+                            </div><!-- /.box -->
+                        </h:panelGroup>
+
+                        <!-- PAINEL DE EDIÇÃOO
+                        *********************
+                        **************
+                        -->
+
+                        <h:panelGroup rendered="#{eventoControl.showEdit eq true}">
+                            <div class="box-header">
+                                <h3 class="box-title">Evento &gt; Editar &gt; #{eventoControl.evtSelected.idEvento}</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form class="form" acceptcharset="ISO-8859-1">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <div class="input-group input-group-sm" style="float:left;" >                                                        
+                                                        <p:outputLabel for="pesquisaC" value="Cliente"/>
+                                                        <p:autoComplete id="pesquisaC"
+                                                                        value="#{eventoControl.evtSelected.cliente}"
+                                                                        completeMethod="#{eventoControl.autoComplete}"
+                                                                        converter="entityConverter"
+                                                                        var="e" itemLabel="#{e.nome}" itemValue="#{e}"
+                                                                        styleClass="form-control" required="true"
+                                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel  value="Tipo Evento"/>
+                                                    <h:selectOneMenu  value="#{eventoControl.evtSelected.tipo}"
+                                                                      styleClass="form-control"  requiredMessage="Tipo Evento" required="true">
+
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                        <f:selectItem itemValue="Jantar" itemLabel="Jantar"/>
+                                                        <f:selectItem itemValue="Casamento" itemLabel="Casamento"/>
+                                                        <f:selectItem itemValue="Aniversario" itemLabel="Aniversário"/>
+                                                        <f:selectItem itemValue="Outro" itemLabel="Outro"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel for="dt_evt" value="Dt Evento"/>
+                                                    <p:inputMask id="dt_evt" styleClass="form-control" value="#{eventoControl.evtSelected.dataEvento}" mask="99/99/9999" required="true">
+                                                        <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                    </p:inputMask>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel for="dt_entrega" value="Dt Entrega"/>
+                                                    <p:inputMask id="dt_entrega" styleClass="form-control" value="#{eventoControl.evtSelected.dataEntrega}" mask="99/99/9999" required="true">
+                                                        <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                    </p:inputMask>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <p:outputLabel for="dt_dev" value="Dt Devolução"/>
+                                                <p:inputMask id="dt_dev" styleClass="form-control" value="#{eventoControl.evtSelected.dataDevolucao}" mask="99/99/9999" required="true">
+                                                    <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                </p:inputMask>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel for="quem_entrega" value="Quem Entrega"/>
+                                                    <h:selectOneMenu id="quem_entrega" value="#{eventoControl.evtSelected.retirada}"
+                                                                     styleClass="form-control" requiredMessage="Entrega" required="true">
+
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                        <f:selectItem itemValue="Locadora" itemLabel="Locadora"/>
+                                                        <f:selectItem itemValue="Cliente" itemLabel="Cliente"/>                                                        
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel for="quem_dev" value="Quem Devolve"/>
+                                                    <h:selectOneMenu id="quem_dev" value="#{eventoControl.evtSelected.devolucao}"
+                                                                     styleClass="form-control" requiredMessage="Devolução" required="true">
+
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                        <f:selectItem itemValue="Locadora" itemLabel="Locadora"/>
+                                                        <f:selectItem itemValue="Cliente" itemLabel="Cliente"/>                                                        
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <p:outputLabel for="end" value="Endereço"/>
+                                                    <p:inputText id="end" styleClass="form-control" value="#{eventoControl.evtSelected.endereco}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Nº"/>
+                                                    <p:inputText styleClass="form-control" value="#{eventoControl.evtSelected.numero}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Bairro"/>
+                                                    <p:inputText  styleClass="form-control" value="#{eventoControl.evtSelected.bairro}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Cidade"/>
+                                                    <p:inputText styleClass="form-control" value="#{eventoControl.evtSelected.cidade}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="CEP"/>
+                                                    <p:inputMask styleClass="form-control" mask="99999-999" value="#{eventoControl.evtSelected.cep}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <p:outputLabel value="Estado"/>
+                                                    <h:selectOneMenu value="#{eventoControl.evtSelected.estado}"
+                                                                     styleClass="form-control" requiredMessage="Estado">
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                        <f:selectItem itemValue="AC" itemLabel="AC"/>
+                                                        <f:selectItem itemValue="AP" itemLabel="AP"/>
+                                                        <f:selectItem itemValue="BA" itemLabel="BA"/>
+                                                        <f:selectItem itemValue="CE" itemLabel="CE"/>
+                                                        <f:selectItem itemValue="DF" itemLabel="DF"/>
+                                                        <f:selectItem itemValue="ES" itemLabel="ES"/>
+                                                        <f:selectItem itemValue="GO" itemLabel="GO"/>
+                                                        <f:selectItem itemValue="MA" itemLabel="MA"/>
+                                                        <f:selectItem itemValue="MT" itemLabel="MT"/>
+                                                        <f:selectItem itemValue="ES" itemLabel="ES"/>
+                                                        <f:selectItem itemValue="MG" itemLabel="MG"/>
+                                                        <f:selectItem itemValue="PA" itemLabel="PA"/>
+                                                        <f:selectItem itemValue="PB" itemLabel="PB"/>
+                                                        <f:selectItem itemValue="PR" itemLabel="PB"/>
+                                                        <f:selectItem itemValue="PE" itemLabel="PE"/>
+                                                        <f:selectItem itemValue="PI" itemLabel="PI"/>
+                                                        <f:selectItem itemValue="RJ" itemLabel="RJ"/>
+                                                        <f:selectItem itemValue="RN" itemLabel="RN"/>
+                                                        <f:selectItem itemValue="RS" itemLabel="RS"/>
+                                                        <f:selectItem itemValue="RO" itemLabel="RO"/>
+                                                        <f:selectItem itemValue="RR" itemLabel="RR"/>
+                                                        <f:selectItem itemValue="SC" itemLabel="SC"/>
+                                                        <f:selectItem itemValue="SP" itemLabel="SP"/>
+                                                        <f:selectItem itemValue="SE" itemLabel="SE"/>
+                                                        <f:selectItem itemValue="TO" itemLabel="TO"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <p:outputLabel for="local_evt" value="Local Evento"/>
+                                                    <p:inputText id="local_evt" styleClass="form-control" value="#{eventoControl.evtSelected.localEvento}" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h:commandButton action="#{eventoControl.salvarEditado()}" styleClass="btn btn-primary" value="Salvar &bull; Fechar" />                                        
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box -->
+                        </h:panelGroup>
+
+                        <p:dialog header="Cadastro de cliente" widgetVar="dlgCliente" minHeight="40" modal="true">
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <h:form id="form_1" class="form" acceptcharset="ISO-8859-1">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="nome">Nome*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="nome" value="#{eventoControl.cliSelected.nome}" required="true"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="email">E-mail*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="email" value="#{eventoControl.cliSelected.email}" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div  class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="Telefone" for="tel" />
+                                                    <p:inputMask id="tel" styleClass="form-control" value="#{eventoControl.cliSelected.telefone}" mask="(99) 9999-9999" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="Celular" for="cel"/>
+                                                    <p:inputMask styleClass="form-control" id="cel" value="#{eventoControl.cliSelected.celular}" mask="(99)9 9999-9999"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="end">Endereço*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="end" value="#{eventoControl.cliSelected.endereco}" required="true"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="comp">Complemento</h:outputLabel>
+                                                    <h:inputText class="form-control" id="comp" value="#{eventoControl.cliSelected.complemento}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cid">Cidade*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="cid" value="#{eventoControl.cliSelected.cidade}" required="true"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="bai">Bairro*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="bai" value="#{eventoControl.cliSelected.bairro}" required="true"/>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        <div class="row">                                          
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="n">N°*</h:outputLabel>
+                                                    <h:inputText class="form-control" id="n" value="#{eventoControl.cliSelected.numero}" required="true"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="cep">CEP*</h:outputLabel>
+                                                    <p:inputMask styleClass="form-control" id="cep" value="#{eventoControl.cliSelected.cep}" mask="99999-999" required="true"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="est">Estado*</h:outputLabel>
+                                                    <br/>
+                                                    <h:selectOneMenu id="est" value="#{eventoControl.cliSelected.estado}"
+                                                                     requiredMessage="Estado" styleClass="selectOne" style="height:34px; width: 100%;" required="true">
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                        <f:selectItem itemValue="AC" itemLabel="AC"/>
+                                                        <f:selectItem itemValue="AP" itemLabel="AP"/>
+                                                        <f:selectItem itemValue="BA" itemLabel="BA"/>
+                                                        <f:selectItem itemValue="CE" itemLabel="CE"/>
+                                                        <f:selectItem itemValue="DF" itemLabel="DF"/>
+                                                        <f:selectItem itemValue="ES" itemLabel="ES"/>
+                                                        <f:selectItem itemValue="GO" itemLabel="GO"/>
+                                                        <f:selectItem itemValue="MA" itemLabel="MA"/>
+                                                        <f:selectItem itemValue="MT" itemLabel="MT"/>
+                                                        <f:selectItem itemValue="ES" itemLabel="ES"/>
+                                                        <f:selectItem itemValue="MG" itemLabel="MG"/>
+                                                        <f:selectItem itemValue="PA" itemLabel="PA"/>
+                                                        <f:selectItem itemValue="PB" itemLabel="PB"/>
+                                                        <f:selectItem itemValue="PR" itemLabel="PB"/>
+                                                        <f:selectItem itemValue="PE" itemLabel="PE"/>
+                                                        <f:selectItem itemValue="PI" itemLabel="PI"/>
+                                                        <f:selectItem itemValue="RJ" itemLabel="RJ"/>
+                                                        <f:selectItem itemValue="RN" itemLabel="RN"/>
+                                                        <f:selectItem itemValue="RS" itemLabel="RS"/>
+                                                        <f:selectItem itemValue="RO" itemLabel="RO"/>
+                                                        <f:selectItem itemValue="RR" itemLabel="RR"/>
+                                                        <f:selectItem itemValue="SC" itemLabel="SC"/>
+                                                        <f:selectItem itemValue="SP" itemLabel="SP"/>
+                                                        <f:selectItem itemValue="SE" itemLabel="SE"/>
+                                                        <f:selectItem itemValue="TO" itemLabel="TO"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="tipo">Tipo*</h:outputLabel>
+                                                    <br/>
+                                                    <h:selectOneMenu id="tipo" value="#{eventoControl.cliSelected.tipo}"
+                                                                     requiredMessage="Tipo" styleClass="selectOne" style="height:34px;width: 100%;" required="true">
+
+                                                        <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                        <f:selectItems value="#{eventoControl.listTipo}"/>
+                                                        <f:ajax render="cpf1" listener="#{eventoControl.mudaVisible()}"/>
+                                                        <f:ajax render="cnpj"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel id="labelTipo" value="CPF*" for="cpf1"/>
+                                                    <p:inputMask id="cpf1" mask="999.999.999-99" disabled="#{eventoControl.cpf}" styleClass="form-control" value="#{eventoControl.cliSelected.cpf}" required="#{eventoControl.cpfReq}"/>                                                        
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-2" >
+                                                <div class="form-group">
+                                                    <h:outputLabel id="labelTipo1" value="CNPJ*" for="cnpj"/>
+                                                    <p:inputMask id="cnpj" mask="99.999.999/9999-99" disabled="#{eventoControl.cnpj}" styleClass="form-control" value="#{eventoControl.cliSelected.cnpj}" required="#{eventoControl.cnpjReq}"/>
+                                                </div>
+                                            </div>    
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="RG*" for="rg"/>
+                                                    <p:inputMask mask="99.999.999-9" styleClass="form-control" id="rg" value="#{eventoControl.cliSelected.rg}" required="true"/>
+                                                </div>
+                                            </div> 
+                                        </div>
+
+                                    </div><!-- /.box -->
+                                    <div class="box-footer">
+                                        <h:commandButton action="#{eventoControl.salvarCliente}" styleClass="btn btn-primary" value="Salvar" />
+                                    </div>
+                                </h:form>
+                            </div><!-- /.box -->
+                        </p:dialog>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </ui:define>
+
+</ui:composition>

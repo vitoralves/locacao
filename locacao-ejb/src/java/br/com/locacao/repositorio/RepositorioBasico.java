@@ -10,7 +10,7 @@ public abstract class RepositorioBasico {
     
     public static final long serialVersionUID = 1L;
     
-    private final EntityManager entityManager;
+    final EntityManager entityManager;
     public RepositorioBasico(EntityManager entityManager){
         this.entityManager = entityManager;
     }

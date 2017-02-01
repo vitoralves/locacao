@@ -46,19 +46,23 @@ public class ServicoCategoria extends ServicoBasico{
         return catRepositorio.getCategoria(idCategoria);
     }
     
-    public Categorias setCategoria(Categorias usuario){
-        return catRepositorio.setCategoria(usuario);
+    public Categorias setCategoria(Categorias categoria){
+        return catRepositorio.setCategoria(categoria);
     }
     
-    public void removeCategoria(Categorias usuario){
-        catRepositorio.removeCategoria(usuario);
+    public void removeCategoria(Categorias categoria){
+        catRepositorio.removeCategoria(categoria);
     }
     
-    public Categorias addCategoria(Categorias usuario){
-        return catRepositorio.addCategoria(usuario);
+    public Categorias addCategoria(Categorias categoria){
+        return catRepositorio.addCategoria(categoria);
     }
     
     public List<Categorias> getCategorias(){
         return catRepositorio.getCategoria();
+    }
+    
+    public List<Categorias> getCategoriaParametro(String nome){
+        return catRepositorio.getCategoriaByNome(nome);
     }
 }

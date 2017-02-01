@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="checkList" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ae8d2b98-46cd-4f49-a6b2-3c7f164f2b62">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="cpf" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.Object"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vitor/NetBeansProjects/locacao_old/locacao-war/web/relatorios/"]]></defaultValueExpression>
+	</parameter>
+	<field name="cod" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="quantidade" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="121" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4dca256b-2c04-4a19-b88d-7e7ed88d3c18" x="278" y="48" width="277" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Fone: 16 3017 3759 / 16 991814071]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="19b536f9-48ed-4f3f-b84b-31b81025907d" x="278" y="28" width="277" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[R. Amazonas nº844]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="866a3a95-1a7a-418b-a25f-3ec5fb90bab5" x="278" y="0" width="277" height="28"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONCEITUS LOCAÇÕES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4a37b5c1-fcf9-438b-a4c4-868a2963f0e9" x="278" y="68" width="277" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Seg a Sexta: 8:00 á 18:00h]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f96bc6fe-0cc8-4193-897f-4ec28ff9b601" x="0" y="99" width="278" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CNPJ: 55.710.719/0001-08]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e21d9737-cc42-4a37-b8a4-fb266bdda5b5" x="0" y="79" width="278" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[L A F PANSANI LOCAÇÕES-ME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ce9486a4-5566-4f9d-b37d-d83ed81febf0" x="278" y="88" width="277" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Sáb 8:00 á 12:00h]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="ed9aa302-5a03-47a2-b2f9-7502bbc62172" x="0" y="0" width="266" height="79"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="95" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="6967f6f3-feb1-45b8-99ba-2046cd496221" x="121" y="12" width="145" height="28"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CHECK-LIST -]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="22e0f13d-a739-4e2f-8b05-e5861d2ee900" x="266" y="12" width="258" height="28"/>
+				<textElement verticalAlignment="Top">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="38bd427f-9a2c-4695-9ecf-d1d9cd415b54" x="0" y="65" width="68" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="54386dcc-b954-4da5-bfc9-2eda1ede2d97" x="68" y="65" width="135" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRODUTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0d347dc6-c82b-4775-b224-c9007cebc1a6" x="204" y="65" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUANTIDADE]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="5f5db31b-b467-4c4e-a03e-4f9130a520b2" x="0" y="86" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="de07b2d1-acc8-47f1-ae4a-f1b36eac52c1" x="323" y="65" width="232" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBSERVAÇÕES]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="53" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="897f317b-178b-4bdc-ab12-584f5599df4a" x="0" y="0" width="555" height="52"/>
+				<subreportParameter name="quantidade">
+					<subreportParameterExpression><![CDATA[$F{quantidade}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cod">
+					<subreportParameterExpression><![CDATA[$F{cod}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nome">
+					<subreportParameterExpression><![CDATA[$F{nome}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "report5.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement uuid="12955b88-f074-4c42-bf9a-3ea1cae86611" x="0" y="52" width="555" height="1"/>
+			</break>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="53" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e5c1d5f2-6ba0-4cfa-b321-27c92303f2e7" x="24" y="28" width="206" height="20"/>
+				<textElement/>
+				<text><![CDATA[Entrega de acordo           /      /       ]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="a22909da-774e-4c0e-a5d2-59a669c77dd0" x="278" y="32" width="224" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="d64d7cd3-f72a-4ebd-8bee-a13b15e5cde0" x="278" y="33" width="121" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6ea7853b-0c98-4f56-a97a-c3f328425d0c" x="402" y="33" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{cpf}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -24,7 +24,7 @@ public class AutocompleteControl extends BasicControl implements java.io.Seriali
     
     @EJB
     private ServicoProduto prodService;
-    private String produto;
+    private Produtos produto;
     
     public List<Produtos> completeProdutos(String produto) {
         List<Produtos> allProds = prodService.getProdutos();
@@ -35,18 +35,19 @@ public class AutocompleteControl extends BasicControl implements java.io.Seriali
             if(prod.getNome().toLowerCase().startsWith(produto)) {
                 filteredProds.add(prod);
             }
-        }
-         
+        }         
         return filteredProds;
-    }
+    }    
 
-    public String getProduto() {
+    public Produtos getProduto() {
         return produto;
     }
 
-    public void setProduto(String produto) {
+    public void setProduto(Produtos produto) {
         this.produto = produto;
     }
+
+    
     
     
 }
