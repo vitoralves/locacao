@@ -66,8 +66,11 @@
             <included-library dirs="200">file.reference.jasperreports-applet-5.2.0.jar</included-library>
             <included-library dirs="200">file.reference.jasperreports-fonts-5.2.0.jar</included-library>
             <included-library dirs="200">file.reference.jasperreports-javaflow-5.2.0.jar</included-library>
+<<<<<<< HEAD
             <included-library dirs="200">file.reference.commons-email-1.2.jar</included-library>
             <included-library dirs="200">file.reference.mail.jar</included-library>
+=======
+>>>>>>> 60a63e0de8dceb26987bbbb977f0cfea0a59e304
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>

@@ -7,8 +7,12 @@
             <file>file:/C:/Users/vitor/Documents/NetBeansProjects/locacao/locacao-war/web/restrito/admin/orcamentos.xhtml</file>
         </group>
         <group name="locacao"/>
+<<<<<<< HEAD
         <group>
             <file>file:/home/vitor/NetBeansProjects/locacao/locacao-war/src/java/br/com/locacao/controle/AplicativoControl.java</file>
         </group>
+=======
+        <group/>
+>>>>>>> 60a63e0de8dceb26987bbbb977f0cfea0a59e304
     </open-files>
 </project-private>

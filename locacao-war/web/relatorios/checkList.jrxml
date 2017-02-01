@@ -12,6 +12,7 @@
 	<parameter name="local" class="java.lang.String"/>
 	<parameter name="cod" class="java.lang.Integer"/>
 	<parameter name="obs" class="java.lang.String"/>
+
 	<field name="cod" class="java.lang.String"/>
 	<field name="nome" class="java.lang.String"/>
 	<field name="quantidade" class="java.lang.Integer"/>

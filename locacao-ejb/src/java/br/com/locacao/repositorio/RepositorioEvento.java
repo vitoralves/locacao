@@ -125,6 +125,7 @@ public class RepositorioEvento extends RepositorioBasico {
         byte[] logo = null;
 
         //comando para buscar logo no BD
+
         Query queryLogo = entityManager.createNativeQuery("select e.logo from Empresa e where e.id_empresa = ?1");
         queryLogo.setParameter(1, empresa);
         byte[] l = (byte[]) queryLogo.getSingleResult();

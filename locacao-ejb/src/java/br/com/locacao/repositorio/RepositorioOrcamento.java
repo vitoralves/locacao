@@ -253,6 +253,7 @@ public class RepositorioOrcamento extends RepositorioBasico {
             if (telefone.length() == 0 && celular.length() > 0){
                 contato = ", contato "+celular;
             }
+
             param.put("cliente", r.get(0)[0]);
             param.put("cpf", r.get(0)[4]);
             param.put("endereco", r.get(0)[1].toString() + " " + r.get(0)[5].toString() + " " + r.get(0)[2].toString() + " " + r.get(0)[3].toString());
@@ -265,6 +266,7 @@ public class RepositorioOrcamento extends RepositorioBasico {
             param.put("desconto", de.doubleValue());
             param.put("cod", r.get(0)[18]);
             param.put("telefone", contato);
+
         }
         //Pesquisa produtos        
         Query query3 = entityManager.createNativeQuery("select i.quantidade, p.nome, p.val_custo,p.val_diaria, p.val_diaria*i.quantidade\n"

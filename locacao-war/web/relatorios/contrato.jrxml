@@ -28,6 +28,7 @@
 	<parameter name="locacao" class="java.lang.Double"/>
 	<parameter name="cod" class="java.lang.Integer"/>
 	<parameter name="telefone" class="java.lang.String"/>
+
 	<field name="qntd" class="java.lang.Integer"/>
 	<field name="produto" class="java.lang.String"/>
 	<field name="valUnitario" class="java.lang.Double"/>
