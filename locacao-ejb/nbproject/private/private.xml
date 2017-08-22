@@ -5,5 +5,12 @@
         <group name="ProvedorWSCalculadora"/>
         <group name="locacao"/>
         <group/>
+        <group name="Decoville">
+            <file>file:/home/vitor/NetBeansProjects/locacao/locacao-ejb/src/java/br/com/locacao/servicos/ServicoCliente.java</file>
+            <file>file:/home/vitor/NetBeansProjects/locacao/locacao-ejb/src/java/br/com/locacao/servicos/ServicoOrcamento.java</file>
+            <file>file:/home/vitor/NetBeansProjects/locacao/locacao-ejb/src/java/br/com/locacao/repositorio/RepositorioCliente.java</file>
+            <file>file:/home/vitor/NetBeansProjects/locacao/locacao-ejb/src/java/br/com/locacao/entidades/Clientes.java</file>
+            <file>file:/home/vitor/NetBeansProjects/locacao/locacao-ejb/src/java/br/com/locacao/repositorio/RepositorioOrcamento.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -98,7 +98,7 @@
                                             </h:outputText>
                                         </p:column>
 
-                                        <p:column headerText="Dt. Devolução" sortBy="#{item.dataDevolucao}">
+                                        <p:column headerText="Dt. Devol." sortBy="#{item.dataDevolucao}">
                                             <h:outputText value="#{item.dataDevolucao}" >
                                                 <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
                                             </h:outputText>
@@ -212,7 +212,7 @@
                                                         <div class="form-group">
                                                             <p:outputLabel for="dtevento" value="Dt Evento"/>
                                                             <p:inputMask styleClass="form-control" id="dtevento" value="#{eventoControl.evtSelected.dataEvento}" mask="99/99/9999" required="true">
-                                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date" timeZone="America/Sao_Paulo"/>
                                                             </p:inputMask>
                                                         </div>
                                                     </div>
@@ -221,7 +221,7 @@
                                                         <div class="form-group">
                                                             <p:outputLabel for="dtentrega" value="Dt Entrega"/>
                                                             <p:inputMask styleClass="form-control" id="dtentrega" value="#{eventoControl.evtSelected.dataEntrega}" mask="99/99/9999" required="true">
-                                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                                <f:convertDateTime  pattern="dd/MM/yyyy" type="date" timeZone="America/Sao_Paulo"/>
                                                             </p:inputMask>
                                                         </div>
                                                     </div>
@@ -229,7 +229,7 @@
                                                     <div class="col-md-2">
                                                         <p:outputLabel for="dt_devo" value="Dt Devolução"/>
                                                         <p:inputMask styleClass="form-control" id="dt_devo" value="#{eventoControl.evtSelected.dataDevolucao}" mask="99/99/9999" required="true">
-                                                            <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                            <f:convertDateTime  pattern="dd/MM/yyyy" type="date" timeZone="America/Sao_Paulo"/>
                                                         </p:inputMask>
                                                     </div>
 
@@ -395,7 +395,7 @@
                                                 <div class="form-group">
                                                     <p:outputLabel for="dt_evt" value="Dt Evento"/>
                                                     <p:inputMask id="dt_evt" styleClass="form-control" value="#{eventoControl.evtSelected.dataEvento}" mask="99/99/9999" required="true">
-                                                        <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                        <f:convertDateTime  pattern="dd/MM/yyyy" type="date" timeZone="America/Sao_Paulo"/>
                                                     </p:inputMask>
                                                 </div>
                                             </div>
@@ -404,7 +404,7 @@
                                                 <div class="form-group">
                                                     <p:outputLabel for="dt_entrega" value="Dt Entrega"/>
                                                     <p:inputMask id="dt_entrega" styleClass="form-control" value="#{eventoControl.evtSelected.dataEntrega}" mask="99/99/9999" required="true">
-                                                        <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                        <f:convertDateTime  pattern="dd/MM/yyyy" type="date" timeZone="America/Sao_Paulo"/>
                                                     </p:inputMask>
                                                 </div>
                                             </div>
@@ -412,7 +412,7 @@
                                             <div class="col-md-2">
                                                 <p:outputLabel for="dt_dev" value="Dt Devolução"/>
                                                 <p:inputMask id="dt_dev" styleClass="form-control" value="#{eventoControl.evtSelected.dataDevolucao}" mask="99/99/9999" required="true">
-                                                    <f:convertDateTime  pattern="dd/MM/yyyy" type="date"/>
+                                                    <f:convertDateTime  pattern="dd/MM/yyyy" type="date" timeZone="America/Sao_Paulo"/>
                                                 </p:inputMask>
                                             </div>
 

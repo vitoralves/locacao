@@ -9,7 +9,9 @@ import br.com.locacao.servicos.ServicoEvento;
 import br.com.locacao.servicos.ServicoItensOrcamento;
 import br.com.locacao.servicos.ServicoOrcamento;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -197,8 +199,17 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
 
     public String salvarNovoOrcamento() {
         try {
-            Date dataAtual = new Date();
-            if (evtSelected.getDataEvento().before(dataAtual) || evtSelected.getDataEntrega().before(dataAtual) || evtSelected.getDataDevolucao().before(dataAtual)) {
+            Calendar dataAtual = DateToCalendar(new Date(), true);
+            Calendar dataEvento = Calendar.getInstance();
+            dataEvento.setTime(evtSelected.getDataEvento());
+
+            Calendar dataEntrega = Calendar.getInstance();
+            dataEntrega.setTime(evtSelected.getDataEntrega());
+
+            Calendar dataDev = Calendar.getInstance();
+            dataDev.setTime(evtSelected.getDataDevolucao());
+
+            if (dataEvento.compareTo(dataAtual) < 0 || dataEntrega.compareTo(dataAtual) < 0 || dataDev.compareTo(dataAtual) < 0) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                         "Data inferior a data atual!", null));
                 return "";
@@ -249,8 +260,15 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
     }
 
     public void pesquisaEvento() {
-        if (localizarNome == null) {
+        if (localizarNome == null || localizarNome.isEmpty()) {
             pesquisaTodos();
+        } else if (localizarNome.matches("[0-9]*")) {
+            Eventos e = new Eventos();
+            e = evtService.getEvento(Integer.parseInt(localizarNome));
+            listEventos.clear();
+            if (e != null) {
+                listEventos.add(e);
+            }
         } else {
             listEventos = evtService.getEventoPorCliente(localizarNome);
         }
@@ -282,7 +300,7 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
         existente = cliService.verificaExistente(cliSelected.getCpf() == null ? "" : cliSelected.getCpf(),
                 cliSelected.getCnpj() == null ? "" : cliSelected.getCnpj(),
                 cliSelected.getRg() == null ? "" : cliSelected.getRg());
-        
+
         if (existente.length() == 0) {
             cliService.addCliente(cliSelected);
             Clientes c = cliService.getClienteRg(cliSelected.getRg());
@@ -307,7 +325,7 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
 
     public void salvarEditado() {
 //        Date dataAtual = new Date();
-//        if (evtSelected.getDataEvento().before(dataAtual) || evtSelected.getDataEntrega().before(dataAtual) || evtSelected.getDataDevolucao().before(dataAtual)) {
+//        if (evtSelected.getDataEvento().compareTo(dataAtual) || evtSelected.getDataEntrega().compareTo(dataAtual) || evtSelected.getDataDevolucao().compareTo(dataAtual)) {
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 //                    "Data inferior a data atual!", null));
 //        } else {
@@ -318,10 +336,31 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
 //        }
     }
 
+    public static Calendar DateToCalendar(Date date, boolean setTimeToZero) {
+        Calendar calendario = Calendar.getInstance();
+        calendario.setTime(date);
+        if (setTimeToZero) {
+            calendario.set(Calendar.HOUR_OF_DAY, 0);
+            calendario.set(Calendar.MINUTE, 0);
+            calendario.set(Calendar.SECOND, 0);
+            calendario.set(Calendar.MILLISECOND, 0);
+        }
+        return calendario;
+    }
+
     public void salvarNovo() {
         try {
-            Date dataAtual = new Date();
-            if (evtSelected.getDataEvento().before(dataAtual) || evtSelected.getDataEntrega().before(dataAtual) || evtSelected.getDataDevolucao().before(dataAtual)) {
+            Calendar dataAtual = DateToCalendar(new Date(), true);
+            Calendar dataEvento = Calendar.getInstance();
+            dataEvento.setTime(evtSelected.getDataEvento());
+
+            Calendar dataEntrega = Calendar.getInstance();
+            dataEntrega.setTime(evtSelected.getDataEntrega());
+
+            Calendar dataDev = Calendar.getInstance();
+            dataDev.setTime(evtSelected.getDataDevolucao());
+
+            if (dataEvento.compareTo(dataAtual) < 0 || dataEntrega.compareTo(dataAtual) < 0 || dataDev.compareTo(dataAtual) < 0) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                         "Data inferior a data atual!", null));
             } else {

@@ -853,12 +853,8 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.jasperreports-5.2.0.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.jasperreports-applet-5.2.0.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.jasperreports-fonts-5.2.0.jar}" todir="${build.classes.dir}"/>
-        <copyfiles files="${file.reference.jasperreports-javaflow-5.2.0.jar}" todir="${build.classes.dir}"/>
-<<<<<<< HEAD
-        <copyfiles files="${file.reference.commons-email-1.2.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-email-1.2.jar-1}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.mail.jar}" todir="${build.classes.dir}"/>
-=======
->>>>>>> 60a63e0de8dceb26987bbbb977f0cfea0a59e304
     </target>
     <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
         <basename file="${file.reference.ant-1.7.1.jar}" property="manifest.file.reference.ant-1.7.1.jar"/>
@@ -921,16 +917,10 @@ exists or setup the property manually. For example like this:
         <basename file="${file.reference.jasperreports-5.2.0.jar}" property="manifest.file.reference.jasperreports-5.2.0.jar"/>
         <basename file="${file.reference.jasperreports-applet-5.2.0.jar}" property="manifest.file.reference.jasperreports-applet-5.2.0.jar"/>
         <basename file="${file.reference.jasperreports-fonts-5.2.0.jar}" property="manifest.file.reference.jasperreports-fonts-5.2.0.jar"/>
-        <basename file="${file.reference.jasperreports-javaflow-5.2.0.jar}" property="manifest.file.reference.jasperreports-javaflow-5.2.0.jar"/>
-<<<<<<< HEAD
-        <basename file="${file.reference.commons-email-1.2.jar}" property="manifest.file.reference.commons-email-1.2.jar"/>
+        <basename file="${file.reference.commons-email-1.2.jar-1}" property="manifest.file.reference.commons-email-1.2.jar-1"/>
         <basename file="${file.reference.mail.jar}" property="manifest.file.reference.mail.jar"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 jar-8 jar-9 jar-10 jar-11 jar-12 jar-13 jar-14 jar-15 jar-16 jar-17 jar-18 jar-19 jar-20 jar-21 jar-22 jar-23 jar-24 jar-25 jar-26 jar-27 jar-28 jar-29 jar-30 jar-31 jar-32 jar-33 jar-34 jar-35 jar-36 jar-37 jar-38 jar-39 jar-40 jar-41 jar-42 jar-43 jar-44 jar-45 jar-46 jar-47 jar-48 jar-49 jar-50 jar-51 jar-52 jar-53 jar-54 jar-55 jar-56 jar-57 jar-58 jar-59 jar-60 jar-61 jar-62 jar-63 "/>
-=======
-        <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 jar-8 jar-9 jar-10 jar-11 jar-12 jar-13 jar-14 jar-15 jar-16 jar-17 jar-18 jar-19 jar-20 jar-21 jar-22 jar-23 jar-24 jar-25 jar-26 jar-27 jar-28 jar-29 jar-30 jar-31 jar-32 jar-33 jar-34 jar-35 jar-36 jar-37 jar-38 jar-39 jar-40 jar-41 jar-42 jar-43 jar-44 jar-45 jar-46 jar-47 jar-48 jar-49 jar-50 jar-51 jar-52 jar-53 jar-54 jar-55 jar-56 jar-57 jar-58 jar-59 jar-60 jar-61 "/>
->>>>>>> 60a63e0de8dceb26987bbbb977f0cfea0a59e304
+            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 jar-8 jar-9 jar-10 jar-11 jar-12 jar-13 jar-14 jar-15 jar-16 jar-17 jar-18 jar-19 jar-20 jar-21 jar-22 jar-23 jar-24 jar-25 jar-26 jar-27 jar-28 jar-29 jar-30 jar-31 jar-32 jar-33 jar-34 jar-35 jar-36 jar-37 jar-38 jar-39 jar-40 jar-41 jar-42 jar-43 jar-44 jar-45 jar-46 jar-47 jar-48 jar-49 jar-50 jar-51 jar-52 jar-53 jar-54 jar-55 jar-56 jar-57 jar-58 jar-59 jar-60 jar-61 jar-62 "/>
             <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.ant-1.7.1.jar}"/>
             <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.antlr-2.7.5.jar}"/>
             <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.barbecue-1.5-beta1.jar}"/>
@@ -991,12 +981,8 @@ exists or setup the property manually. For example like this:
             <attribute name="jar-58-Extension-Name" value="${manifest.file.reference.jasperreports-5.2.0.jar}"/>
             <attribute name="jar-59-Extension-Name" value="${manifest.file.reference.jasperreports-applet-5.2.0.jar}"/>
             <attribute name="jar-60-Extension-Name" value="${manifest.file.reference.jasperreports-fonts-5.2.0.jar}"/>
-            <attribute name="jar-61-Extension-Name" value="${manifest.file.reference.jasperreports-javaflow-5.2.0.jar}"/>
-<<<<<<< HEAD
-            <attribute name="jar-62-Extension-Name" value="${manifest.file.reference.commons-email-1.2.jar}"/>
-            <attribute name="jar-63-Extension-Name" value="${manifest.file.reference.mail.jar}"/>
-=======
->>>>>>> 60a63e0de8dceb26987bbbb977f0cfea0a59e304
+            <attribute name="jar-61-Extension-Name" value="${manifest.file.reference.commons-email-1.2.jar-1}"/>
+            <attribute name="jar-62-Extension-Name" value="${manifest.file.reference.mail.jar}"/>
         </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
@@ -1060,12 +1046,8 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.jasperreports-5.2.0.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.jasperreports-applet-5.2.0.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.jasperreports-fonts-5.2.0.jar}" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.jasperreports-javaflow-5.2.0.jar}" todir="${dist.ear.dir}/lib"/>
-<<<<<<< HEAD
-        <copyfiles files="${file.reference.commons-email-1.2.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-email-1.2.jar-1}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.mail.jar}" todir="${dist.ear.dir}/lib"/>
-=======
->>>>>>> 60a63e0de8dceb26987bbbb977f0cfea0a59e304
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target name="-copy-meta-inf">

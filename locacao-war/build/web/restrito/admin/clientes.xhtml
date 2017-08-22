@@ -61,11 +61,7 @@
                             </div><!-- /.box-header -->
                             <div class="box-body">
                                 <h:form acceptcharset="ISO-8859-1">
-<<<<<<< HEAD
                                     <p:dataTable tableStyleClass="table table-bordered table-hover fonteMenor" var="item" 
-=======
-                                    <p:dataTable tableStyleClass="table table-bordered table-hover" var="item" 
->>>>>>> 60a63e0de8dceb26987bbbb977f0cfea0a59e304
                                                  value="#{clientesControl.listClientes}" 
                                                  selectionMode="single"
                                                  selection="#{clientesControl.cliSelected}"
@@ -132,8 +128,8 @@
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="email">E-mail*</h:outputLabel>
-                                                    <h:inputText class="form-control" id="email" value="#{clientesControl.cliSelected.email}" required="true"/>
+                                                    <h:outputLabel for="email">E-mail</h:outputLabel>
+                                                    <h:inputText class="form-control" id="email" value="#{clientesControl.cliSelected.email}" />
                                                 </div>
                                             </div>
                                         </div>
@@ -255,8 +251,15 @@
 
                                             <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel value="RG*" for="rg"/>
-                                                    <p:inputMask mask="99.999.999-9" styleClass="form-control" id="rg" value="#{clientesControl.cliSelected.rg}" required="true"/>
+                                                    <h:outputLabel value="RG" for="rg"/>
+                                                    <p:inputMask mask="99.999.999-9" styleClass="form-control" id="rg" value="#{clientesControl.cliSelected.rg}" />
+                                                </div>
+                                            </div> 
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="Inscrição" for="ic"/>
+                                                    <h:inputText class="form-control" id="ic" value="#{clientesControl.cliSelected.inscricao}" />
                                                 </div>
                                             </div> 
                                         </div>
@@ -292,8 +295,8 @@
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="email">E-mail*</h:outputLabel>
-                                                    <h:inputText class="form-control" id="email" value="#{clientesControl.cliSelected.email}" required="true"/>
+                                                    <h:outputLabel for="email">E-mail</h:outputLabel>
+                                                    <h:inputText class="form-control" id="email" value="#{clientesControl.cliSelected.email}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -415,8 +418,15 @@
 
                                             <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <h:outputLabel value="RG*" for="rg"/>
-                                                    <p:inputMask mask="99.999.999-9" styleClass="form-control" id="rg" value="#{clientesControl.cliSelected.rg}" required="true"/>
+                                                    <h:outputLabel value="RG" for="rg"/>
+                                                    <p:inputMask mask="99.999.999-9" styleClass="form-control" id="rg" value="#{clientesControl.cliSelected.rg}" />
+                                                </div>
+                                            </div> 
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel value="Inscrição" for="ic"/>
+                                                    <h:inputText class="form-control" id="ic" value="#{clientesControl.cliSelected.inscricao}" />
                                                 </div>
                                             </div> 
                                         </div>

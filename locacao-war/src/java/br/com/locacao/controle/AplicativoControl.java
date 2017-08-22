@@ -98,7 +98,7 @@ public class AplicativoControl extends BasicControl implements java.io.Serializa
         return msgService.getQuantidadeMensagens();
     }
 
-    public void enviaEmail() throws EmailException, FileNotFoundException {
+    public void enviaEmail() throws FileNotFoundException {
         String caminho = null;
         //resgato o caminho da pasta anexo que salvará o orçamento temporariamente
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -120,7 +120,11 @@ public class AplicativoControl extends BasicControl implements java.io.Serializa
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                 "Falha ao ler anexo "+ex, null));
         }
-        emailService.enviaEmail(assunto, menssagem, destinatario, caminho);
+        try {
+            emailService.enviaEmail(assunto, menssagem, destinatario, caminho);
+        } catch (EmailException ex) {
+            Logger.getLogger(AplicativoControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         assunto = null;
         menssagem = null;
         destinatario = null;

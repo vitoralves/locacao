@@ -49,6 +49,9 @@ public class Orcamento implements Serializable {
     @Size(max = 500)
     @Column(name = "observacao", length = 500)
     private String observacao;
+    @Size(max = 100)
+    @Column(name = "observacao_pagamento", length = 100)
+    private String observacaoPagamento;
     @JoinColumn(name = "evento", referencedColumnName = "id_evento")
     @ManyToOne
     private Eventos evento;
@@ -131,7 +134,15 @@ public class Orcamento implements Serializable {
     public void setObservacao(String observacao) {
         this.observacao = observacao;
     }
-    
+
+    public String getObservacaoPagamento() {
+        return observacaoPagamento;
+    }
+
+    public void setObservacaoPagamento(String observacaoPagamento) {
+        this.observacaoPagamento = observacaoPagamento;
+    }
+        
     @Override
     public int hashCode() {
         int hash = 0;

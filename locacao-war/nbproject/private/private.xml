@@ -2,17 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="ProvedorWSCalculadora">
-            <file>file:/C:/Users/vitor/Documents/NetBeansProjects/locacao/locacao-war/src/java/br/com/locacao/controle/EventoControl.java</file>
-            <file>file:/C:/Users/vitor/Documents/NetBeansProjects/locacao/locacao-war/web/restrito/admin/orcamentos.xhtml</file>
+        <group name="Decoville">
+            <file>file:/home/vitor/NetBeansProjects/locacao/locacao-war/src/java/br/com/locacao/controle/ClientesControl.java</file>
+            <file>file:/home/vitor/NetBeansProjects/locacao/locacao-war/src/java/br/com/locacao/controle/OrcamentoControl.java</file>
         </group>
-        <group name="locacao"/>
-<<<<<<< HEAD
-        <group>
-            <file>file:/home/vitor/NetBeansProjects/locacao/locacao-war/src/java/br/com/locacao/controle/AplicativoControl.java</file>
-        </group>
-=======
-        <group/>
->>>>>>> 60a63e0de8dceb26987bbbb977f0cfea0a59e304
     </open-files>
 </project-private>

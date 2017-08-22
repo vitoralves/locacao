@@ -2,6 +2,7 @@ package br.com.locacao.repositorio;
 
 import br.com.locacao.biblioteca.ReportGenerator;
 import br.com.locacao.entidades.Orcamento;
+import br.com.locacao.entidades.OrcamentoRapidoEntity;
 import br.com.locacao.repositorio.RepositorioEvento;
 import java.awt.Toolkit;
 import java.io.FileInputStream;
@@ -26,7 +27,7 @@ import javax.swing.ImageIcon;
 public class RepositorioOrcamento extends RepositorioBasico {
 
     public static final long serialVersionUID = 1L;
-    
+
     @EJB
     private RepositorioEvento repositorioEvt;
 
@@ -74,6 +75,67 @@ public class RepositorioOrcamento extends RepositorioBasico {
         Query qr = entityManager.createQuery("update Eventos e set e.confirmado = true where e.idEvento = ?1");
         qr.setParameter(1, idEvento);
         qr.executeUpdate();
+    }
+
+    public void imprimeOrcamentoRapido(String usuario, int empresa, Date dataEntrega, Date dataDevolucao, double desconto, double frete, double total, String formaPagto, String obs,
+            double subtotal, List<OrcamentoRapidoEntity> produtosList) {
+
+        Date data = new Date();
+        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
+        String dataFormatada = dt.format(data);
+        byte[] img = null;
+        byte[] logo = null;
+
+        Map param = new HashMap();
+        ArrayList<HashMap> lst = new ArrayList<HashMap>();
+
+        param.put("atendente", usuario);
+        param.put("data", dataFormatada);
+        param.put("dt_entrega", dataEntrega);
+        param.put("dt_devolucao", dataDevolucao);
+        param.put("desconto", desconto);
+        param.put("frete", frete);
+        param.put("total", total);
+        param.put("forma_pagto", formaPagto);
+        param.put("observacao", obs);
+        param.put("subtotal", subtotal);
+
+        //comando para buscar logo no BD
+        Query queryLogo = entityManager.createNativeQuery("select e.logo from Empresa e where e.id_empresa = ?1");
+        queryLogo.setParameter(1, empresa);
+        byte[] l = (byte[]) queryLogo.getSingleResult();
+        if (l.length > 0) {
+            logo = l;
+            if (logo.length > 0) {
+                ImageIcon imgLogo = new ImageIcon();
+                imgLogo.setImage(Toolkit.getDefaultToolkit().createImage(logo));
+                if (imgLogo.getImage() != null) {
+                    param.put("logo", imgLogo.getImage());
+                }
+            }
+        }
+
+        for (OrcamentoRapidoEntity o : produtosList) {
+            HashMap fields = new HashMap();
+            fields.put("cod_prod", o.getProduto().getIdProduto());
+            fields.put("descricao_prod", o.getProduto().getNome());
+            fields.put("qntd", o.getQuantidade());
+            fields.put("val_unit", o.getProduto().getValDiaria());
+            // se não achar nada inicializa como 0
+            img = (byte[]) (o.getProduto().getImagem() == null ? new byte[0] : (byte[]) o.getProduto().getImagem());
+            if (img.length > 0) {
+                ImageIcon imgProd = new ImageIcon();
+                imgProd.setImage(Toolkit.getDefaultToolkit().createImage(img));
+                if (imgProd.getImage() != null) {
+                    fields.put("img_prod", imgProd.getImage());
+                }
+            }
+            fields.put("val_total", o.getProduto().getValDiaria() * o.getQuantidade());
+            lst.add(fields);
+        }
+
+        ReportGenerator rg = new ReportGenerator();
+        rg.jasperReport("orcamento-rapido", "application/pdf", lst, param, "orcamento-rapido", "/relatorios/");
     }
 
     public void imprimeOrcamento(int orc, int evt, String usuario, int empresa) {
@@ -225,14 +287,14 @@ public class RepositorioOrcamento extends RepositorioBasico {
         }
 
         Query query1 = entityManager.createNativeQuery("select c.nome, c.endereco, c.bairro, c.estado, c.cpf, c.numero, e.data_entrega,"
-                + " e.data_devolucao, e.endereco, e.numero, e.bairro, e.cidade, e.estado, o.forma_pagto, o.val_total, o.val_frete, o.desconto, e.local_evento, e.id_evento, c.telefone, c.celular \n"
+                + " e.data_devolucao, e.endereco, e.numero, e.bairro, e.cidade, e.estado, o.forma_pagto, o.val_total, o.val_frete, o.desconto, e.local_evento, e.id_evento, c.telefone, c.celular, o.observacao, o.observacao_pagamento \n"
                 + "from itensorcamento i\n"
                 + "join orcamento o on i.orcamento = o.id_orcamento\n"
                 + "join produtos p on i.produto = p.id_produto\n"
                 + "join eventos e on o.evento = e.id_evento\n"
                 + "join clientes c on e.cliente = c.id_cliente\n"
                 + "where e.id_evento = ?1\n"
-                + "group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18, 19,20,21");
+                + "group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18, 19,20,21,22,23");
         query1.setParameter(1, evt);
         List<Object[]> r = query1.getResultList();
         //tirar o for
@@ -240,18 +302,18 @@ public class RepositorioOrcamento extends RepositorioBasico {
             BigDecimal bd = (BigDecimal) r.get(0)[14];
             BigDecimal ft = (BigDecimal) r.get(0)[15];
             BigDecimal de = (BigDecimal) r.get(0)[16];
-            String endereco = r.get(0)[8] == null ? "" : r.get(0)[8].toString()+" ";
-            String numero = r.get(0)[9] == null ? "" : r.get(0)[9].toString()+" ";
-            String bairro = r.get(0)[10] == null ? "" : r.get(0)[10].toString()+" ";
-            String cidade =  r.get(0)[11] == null ? "" : r.get(0)[11].toString()+" ";
-            String estado = r.get(0)[12] == null ? "" : r.get(0)[12].toString()+" ";
-            String local = r.get(0)[17] == null ? "" :  r.get(0)[17].toString();
+            String endereco = r.get(0)[8] == null ? "" : r.get(0)[8].toString() + " ";
+            String numero = r.get(0)[9] == null ? "" : r.get(0)[9].toString() + " ";
+            String bairro = r.get(0)[10] == null ? "" : r.get(0)[10].toString() + " ";
+            String cidade = r.get(0)[11] == null ? "" : r.get(0)[11].toString() + " ";
+            String estado = r.get(0)[12] == null ? "" : r.get(0)[12].toString() + " ";
+            String local = r.get(0)[17] == null ? "" : r.get(0)[17].toString();
             String telefone = r.get(0)[19].toString();
             String celular = r.get(0)[20].toString();
-            String contato = telefone.length() > 0 ? ", contato: "+telefone : "";
-            contato += celular.length() > 0 ? " "+celular : "";
-            if (telefone.length() == 0 && celular.length() > 0){
-                contato = ", contato "+celular;
+            String contato = telefone.length() > 0 ? ", contato: " + telefone : "";
+            contato += celular.length() > 0 ? " " + celular : "";
+            if (telefone.length() == 0 && celular.length() > 0) {
+                contato = ", contato " + celular;
             }
 
             param.put("cliente", r.get(0)[0]);
@@ -259,13 +321,14 @@ public class RepositorioOrcamento extends RepositorioBasico {
             param.put("endereco", r.get(0)[1].toString() + " " + r.get(0)[5].toString() + " " + r.get(0)[2].toString() + " " + r.get(0)[3].toString());
             param.put("dataEntrega", r.get(0)[6]);
             param.put("dataDevolucao", r.get(0)[7]);
-            param.put("localEvento",  endereco + numero + bairro + cidade + estado + local);
-            param.put("formaPagmto", r.get(0)[13]);            
+            param.put("localEvento", endereco + numero + bairro + cidade + estado + local);
+            param.put("formaPagmto", r.get(0)[13]);
             param.put("totalLocacao", bd.doubleValue());
             param.put("frete", ft.doubleValue());
             param.put("desconto", de.doubleValue());
             param.put("cod", r.get(0)[18]);
             param.put("telefone", contato);
+            param.put("observacao", montaObservacao(r.get(0)[21], r.get(0)[22]));
 
         }
         //Pesquisa produtos        
@@ -288,7 +351,7 @@ public class RepositorioOrcamento extends RepositorioBasico {
                 fields.put("valTotal", p.get(i)[4]);
                 somaValorBD = (BigDecimal) p.get(i)[2];
                 somaValorD = (BigDecimal) p.get(i)[3]; //somar o valor da diária
-                BigDecimal val =  (BigDecimal) p.get(i)[4];
+                BigDecimal val = (BigDecimal) p.get(i)[4];
                 somaValorT += val.doubleValue(); //somar o Total                
                 somaValor += somaValorBD.doubleValue();
                 somaValorDiaria += somaValorD.doubleValue();
@@ -327,6 +390,34 @@ public class RepositorioOrcamento extends RepositorioBasico {
         ReportGenerator rg = new ReportGenerator();
         rg.jasperReport("contrato", "application/pdf", lst, param, "contrato" + evt, "/relatorios/");
 
+    }
+
+    public String montaObservacao(Object o1, Object o2) {
+
+        try {
+            String result = "";
+            if (o1 == null && o2 == null) {
+                return "";
+            }
+
+            if (o1 != null && !o1.toString().isEmpty()) {
+                result += "Observações: " + o1.toString().substring(0, 1).toUpperCase() + o1.toString().substring(1, o1.toString().length());
+            }
+
+            if (o1 != null && o2 != null && o1.toString().isEmpty() && !o2.toString().isEmpty()) {
+                result += "Observações: " + o2.toString().substring(0, 1).toUpperCase() + o2.toString().substring(1, o2.toString().length());
+            }
+
+            if (o1 != null && o2 != null && !o1.toString().isEmpty() && !o2.toString().isEmpty()) {
+                result = "";
+                result += "Observações: " + o1.toString().substring(0, 1).toUpperCase() + o1.toString().substring(1, o1.toString().length()) + ". " + o2.toString().substring(0, 1).toUpperCase() + o2.toString().substring(1, o2.toString().length());;
+            }
+
+            return result;
+        } catch (Exception e) {
+            System.out.println("erro ao montar observação " + e);
+            return "";
+        }
     }
 
 }

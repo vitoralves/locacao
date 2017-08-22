@@ -4,7 +4,8 @@
         <jta-data-source>jdbc/locacaopool</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-
+            <property name="javax.persistence.query.timeout" value="15000"/>
+            <property name="hdm2ddl.auto" value="create" />
         </properties>
         
     </persistence-unit>

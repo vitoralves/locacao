@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"                
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="titleOfPage">
+        Orçamento Rápido
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header" style="height: 35px;">
+            <ol class="breadcrumb">
+                <li><a href="index.faces"><i class="fa fa-files-o"></i> Home</a></li>
+                <li class="active">Orçamento Rápido</li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <h:form id="form_message" style="margin: 0 10px;">
+                <p:messages id="msg" autoUpdate="form_message" closable="true"/>
+            </h:form>
+            <h:form acceptcharset="ISO-8859-1">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <h:panelGroup>
+                                <div class="box-header">
+                                    <h3>Imprimir orçamento</h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <p:outputLabel for="dtevento" value="Dt Entrega"/>
+                                                <p:inputMask styleClass="form-control" id="dtevento" value="#{orcamentoRapidoControl.dataEntrega}" mask="99/99/9999" >
+                                                    <f:convertDateTime  pattern="dd/MM/yyyy" type="date" timeZone="America/Sao_Paulo"/>
+                                                    <f:ajax immediate="true" />
+                                                </p:inputMask>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <p:outputLabel for="dtDev" value="Dt Devolução"/>
+                                                <p:inputMask styleClass="form-control" id="dtDev" value="#{orcamentoRapidoControl.dataDevolucao}" mask="99/99/9999" >
+                                                    <f:convertDateTime  pattern="dd/MM/yyyy" type="date" timeZone="America/Sao_Paulo"/>
+                                                    <f:ajax immediate="true" />
+                                                </p:inputMask>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <p:outputLabel value="Quantidade" id="qntd"/>
+                                                <p:inputText styleClass="form-control" value="#{orcamentoRapidoControl.quantidade}">
+                                                    <f:ajax immediate="true" />
+                                                </p:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <div class="input-group input-group-sm" style="margin-bottom: 15px;float:left;" >
+                                                    <p:outputLabel for="pesquisaProd" value="Produto"/>
+                                                    <h:inputText id="pesquisaProd" class="form-control" 
+                                                                 value="#{orcamentoRapidoControl.localizarNome}">
+                                                        <p:ajax event="keyup" update="prodTable" listener="#{orcamentoRapidoControl.pesquisaProduto()}"/>
+                                                    </h:inputText>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <p:dataTable var="prod" value="#{orcamentoRapidoControl.listProdutos}" id="prodTable"
+                                                             emptyMessage="Nenhum produto Cadastrado" 
+                                                             selectionMode="single" selection="#{orcamentoRapidoControl.prodSelected}" rowKey="#{prod.idProduto}"
+                                                             >
+                                                    <p:ajax event="rowSelect" listener="#{orcamentoRapidoControl.onRowSelect}" update="@all"  />
+                                                    <p:ajax event="rowUnselect" listener="#{orcamentoRapidoControl.onRowUnselect}" />
+                                                    <p:column headerText="Nome">
+                                                        <h:outputText value="#{prod.nome}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="Quantidade">
+                                                        <h:outputText value="#{prod.quantidade}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="Val. Diária">
+                                                        <h:outputText value="#{prod.valDiaria}" >
+                                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                                        </h:outputText>
+                                                    </p:column>
+
+                                                    <p:column headerText="Val. Custo">
+                                                        <h:outputText value="#{prod.valCusto}">
+                                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                                        </h:outputText>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </div>                                    
+                                        </div>
+                                    </div>      
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:form id="listFinal">
+                                                    <p:dataTable var="orc" value="#{orcamentoRapidoControl.listProdutosPorOrcamento}" id="prodTable"
+                                                                 emptyMessage="Nada Selecionado" >
+                                                        <p:column headerText="Produto">
+                                                            <h:outputText value="#{orc.produto.nome}" />
+                                                        </p:column>
+                                                        <p:column headerText="Categoria">
+                                                            <h:outputText value="#{orc.produto.categoria.nome}" />
+                                                        </p:column>
+                                                        <p:column headerText="Val. Diária">
+                                                            <h:outputText value="#{orc.produto.valDiaria}" >
+                                                                <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column headerText="Quantidade">
+                                                            <h:outputText value="#{orc.quantidade}" />
+                                                        </p:column>
+                                                        <p:column headerText="Total">
+                                                            <h:outputText  value="#{orc.quantidade*orc.produto.valDiaria}">
+                                                                <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column style="width:100px;text-align: center">
+                                                            <p:commandLink>
+                                                                <i class="fa fa-fw fa-remove"></i>
+                                                                <p:ajax update="@all" listener="#{orcamentoRapidoControl.removeProdLista(orc)}"/> 
+                                                            </p:commandLink>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </h:form>
+                                                <br/>
+                                                <p:outputLabel value="Observações" />
+                                                <h:inputTextarea value="#{orcamentoRapidoControl.observacao}" rows="5" style="width: 100%;"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:form id="formFinal">
+                                                    <div class="box box-solid bg-gray-light">
+                                                        <div class="box-header">
+                                                            <i class="fa-shopping-cart"></i>
+                                                            <h3 class="box-title" style="color:#000;">Total da Locação</h3>
+                                                        </div>
+                                                        <div class="box-body">    
+                                                            <div  class="row">
+                                                                <div class="col-md-6">
+                                                                    <h:outputLabel value="Diárias" for="totalDiarias"/>&nbsp;
+                                                                    <h:inputText id="totalDiarias" value="#{orcamentoRapidoControl.nroDiarias}" style="width: 30px;">
+                                                                        <p:ajax immediate="true" update="formFinal"/>
+                                                                    </h:inputText>
+                                                                </div>
+                                                            </div>
+                                                            <div  class="row">
+                                                                <div class="col-md-6">
+                                                                    <h:outputLabel value="Val. Frete" for="frete"/>&nbsp;
+                                                                    <h:inputText id="frete" value="#{orcamentoRapidoControl.frete}" style="width: 50px;">
+                                                                        <p:ajax immediate="true" update="formFinal"/>
+                                                                    </h:inputText>
+                                                                </div>
+                                                            </div>
+                                                            <div  class="row">
+                                                                <div class="col-md-6">
+                                                                    <h:outputLabel value="Desconto em R$" for="desc"/>&nbsp;
+                                                                    <h:inputText id="desc" value="#{orcamentoRapidoControl.desconto}" style="width: 50px;">
+                                                                        <p:ajax immediate="true" update="formFinal"/>
+                                                                    </h:inputText>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <h:outputLabel for="forma_pg" value="Forma Pgto"/>
+                                                                        <h:selectOneMenu id="forma_pg" value="#{orcamentoRapidoControl.formaPagto}"
+                                                                                         class="form-control"  requiredMessage="Forma Pgto" >
+                                                                            <p:ajax immediate="true" />
+                                                                            <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                                                            <f:selectItem itemValue="A" itemLabel="A vista"/>
+                                                                            <f:selectItem itemValue="B" itemLabel="Antes do Evento"/>
+                                                                            <f:selectItem itemValue="C" itemLabel="Na Entrega"/>
+                                                                            <f:selectItem itemValue="D" itemLabel="Outro"/>
+                                                                        </h:selectOneMenu>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div  class="row">
+                                                                <div class="col-md-6">
+                                                                    <h:outputLabel value="Total Itens:"/>&nbsp;
+                                                                    <h:outputLabel value="#{orcamentoRapidoControl.totalItens}"/>
+                                                                </div>
+                                                            </div>
+                                                            <div  class="row">
+                                                                <div class="col-md-6" id="total">
+                                                                    <h:outputLabel value="Total Orçamento:"/>&nbsp;
+                                                                    <h:outputLabel value="#{orcamentoRapidoControl.totalOrcamento} R$" />                                                                       
+                                                                </div>
+                                                            </div>                                                           
+                                                        </div>
+                                                    </div>  
+                                                </h:form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-md-6" style="float:right">
+                                            <div style="float:right">                                                   
+                                                <h:commandLink styleClass="btn btn-primary" value="Imprimir Orçamento" action="#{orcamentoRapidoControl.imprimeOrcamento}" target="_blank"/>                                     
+                                                &nbsp;
+                                                <h:commandLink action="#{orcamentoRapidoControl.novo}" styleClass="btn btn-success" value="Novo" />                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </section>
+    </ui:define>
+</ui:composition>
