@@ -153,8 +153,8 @@ public class OrcamentoRapidoControl extends BasicControl implements java.io.Seri
     }
 
     public void imprimeOrcamento() {
-        orcService.imprimeOrcamentoRapido(usuControl.getLoggedUser().getNome(), usuControl.getLoggedUser().getEmpresa().getIdEmpresa(), dataEntrega, dataDevolucao, desconto, frete, totalOrcamento,
-        formaPagto, observacao, subtotal, listProdutosPorOrcamento);
+        orcService.imprimeOrcamentoRapido(usuControl.getLoggedUser().getNome(), usuControl.getLoggedUser().getEmpresa().getIdEmpresa(), dataEntrega, dataDevolucao, desconto, 
+                frete, totalOrcamento, formaPagto, observacao, subtotal, listProdutosPorOrcamento);
     }
 
     /**
@@ -250,7 +250,9 @@ public class OrcamentoRapidoControl extends BasicControl implements java.io.Seri
         }
         freteTotal = frete;
         valTotal = ((totalOrcamento * nroDiarias) - desconto) + freteTotal;
-        subtotal = (totalOrcamento * nroDiarias) + desconto;
+        subtotal = (totalOrcamento * nroDiarias) + freteTotal;
+        //toda vez que atualizar o valor é preciso setar na variavel
+        setTotalOrcamento(valTotal);
         return valTotal;
     }
 

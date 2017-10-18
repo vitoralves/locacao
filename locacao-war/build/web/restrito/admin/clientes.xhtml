@@ -34,7 +34,7 @@
                     <div class="input-group input-group-sm  pesquisa" style="max-width: 30%;float:left;" >
                         <h:inputText onkeypress="#{clientesControl.pesquisaCliente()}" class="form-control" value="#{clientesControl.localizarNome}"/>
                         <span class="input-group-btn">
-                            <h:commandLink class="btn btn-info btn-flat" type="button" action="#{clientesControl.pesquisaCliente}">
+                            <h:commandLink class="btn btn-info btn-flat" type="button" action="#{clientesControl.pesquisaCliente()}">
                                 <i class="fa fa-search"></i>
                             </h:commandLink>
                         </span>

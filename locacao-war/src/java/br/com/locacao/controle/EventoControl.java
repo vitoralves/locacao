@@ -8,13 +8,13 @@ import br.com.locacao.servicos.ServicoCliente;
 import br.com.locacao.servicos.ServicoEvento;
 import br.com.locacao.servicos.ServicoItensOrcamento;
 import br.com.locacao.servicos.ServicoOrcamento;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -23,7 +23,6 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -270,7 +269,17 @@ public class EventoControl extends BasicControl implements java.io.Serializable 
                 listEventos.add(e);
             }
         } else {
-            listEventos = evtService.getEventoPorCliente(localizarNome);
+//            verifica se é uma data
+            DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+            Date d;
+
+            try {
+                d = new Date(f.parse(localizarNome).getTime());
+                listEventos = evtService.getEventoPorData(d);
+            } catch (ParseException ex) {
+//                nao é data 
+                listEventos = evtService.getEventoPorCliente(localizarNome);
+            }
         }
     }
 

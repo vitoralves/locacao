@@ -80,7 +80,6 @@ public class ClientesControl extends BasicControl implements java.io.Serializabl
         } else {
             listClientes = null;
             listClientes = cliService.getClientesByParam(localizarNome);
-            localizarNome = null;
         }
     }
 

@@ -52,13 +52,21 @@ public class RepositorioItensOrcamento extends RepositorioBasico {
     }
 
     public int getQuantidadeProdutoPorData(Date dtEntrega, Date dtDevolucao, int produto) {
+        String dtIguais = "";
+        if (dtEntrega.equals(dtDevolucao)){
+            dtIguais = " or (e.data_entrega >= ?1 and e.data_devolucao <= ?1))";
+        }else{
+            dtIguais = ")";
+        }
+        
         Query query = entityManager.createNativeQuery("select sum(i.quantidade) from\n"
                 + "itensorcamento i\n"
                 + "join orcamento o on i.orcamento = o.id_orcamento\n"
                 + "join eventos e on o.evento = e.id_evento\n"
-                + "where e.data_entrega >= ?1 and e.data_entrega <= ?2\n"
+                + "where (e.data_entrega between ?1 and ?2 or e.data_devolucao between ?1 and ?2 "+dtIguais
                 + "and i.produto = ?3\n"
                 + "and e.fg_ativo = 1 "
+                + "and e.confirmado = true "
                 + "and e.finalizado = false ");
         query.setParameter(1, dtEntrega);
         query.setParameter(2, dtDevolucao);

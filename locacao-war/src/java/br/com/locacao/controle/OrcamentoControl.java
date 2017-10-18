@@ -75,6 +75,9 @@ public class OrcamentoControl extends BasicControl implements java.io.Serializab
             frete = orcSelected.getValFrete() == null ? 0 : orcSelected.getValFrete();
             desconto = orcSelected.getDesconto() == null ? 0 : orcSelected.getDesconto();
         }
+        quantidade = 0;
+        localizarNome = "";
+        listProdutos = null;
     }
 
     public void novoOrcamento(Eventos evt) {
@@ -92,7 +95,7 @@ public class OrcamentoControl extends BasicControl implements java.io.Serializab
     public void pesquisaProduto() {
         if (localizarNome == null || localizarNome.isEmpty()) {
             pesquisaTodosProdutos();
-        } else if (localizarNome.length()>2){
+        } else if (localizarNome.length() > 2) {
             listProdutos = null;
             listProdutos = prodService.getProdutosByName(localizarNome);
         }
@@ -176,13 +179,13 @@ public class OrcamentoControl extends BasicControl implements java.io.Serializab
     public void imprimeContrato() throws InterruptedException {
         if (orcSelected.getValTotal() < 0) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Orçamento está com valor negativo!", null));            
+                    "Orçamento está com valor negativo!", null));
         } else {
             orcService.confirma(orcSelected.getEvento().getIdEvento());
             orcService.setOrcamento(orcSelected);
             orcService.imprimeContrato(orcSelected.getEvento().getIdEvento(), usuControl.getLoggedUser().getEmpresa().getIdEmpresa());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Contrato emitido e evento confirmado!", null));            
+                    "Contrato emitido e evento confirmado!", null));
         }
     }
 

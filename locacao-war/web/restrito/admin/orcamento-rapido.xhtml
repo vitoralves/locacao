@@ -177,6 +177,7 @@
                                                                     <h:outputLabel value="Desconto em R$" for="desc"/>&nbsp;
                                                                     <h:inputText id="desc" value="#{orcamentoRapidoControl.desconto}" style="width: 50px;">
                                                                         <p:ajax immediate="true" update="formFinal"/>
+                                                                        <f:convertNumber pattern="####.##" currencySymbol="R$" type="currency"/>
                                                                     </h:inputText>
                                                                 </div>
                                                             </div>

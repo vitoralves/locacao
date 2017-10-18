@@ -186,6 +186,12 @@ public class RepositorioEvento extends RepositorioBasico {
                 + "where upper(c.nome) like upper(?1) ", "%" + cliente + "%");
 
     }
+    
+    public List<Eventos> getEventoPorData(Date d) {
+        return getPureList(Eventos.class, "select e from Eventos e "
+                + "where e.dataEntrega = ?1 or e.dataDevolucao = ?1", d);
+
+    }
 
     public int getNmrEvtMesAno(int mes, int ano) {
         mes = mes - 1;

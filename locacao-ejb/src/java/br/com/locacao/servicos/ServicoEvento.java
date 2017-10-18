@@ -2,6 +2,7 @@ package br.com.locacao.servicos;
 
 import br.com.locacao.entidades.Eventos;
 import br.com.locacao.repositorio.RepositorioEvento;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
@@ -86,6 +87,10 @@ public class ServicoEvento extends ServicoBasico {
 
     public List<Eventos> getEventoPorCliente(String cliente) {
         return evtRepositorio.getEventoPorCliente(cliente);
+    }
+    
+    public List<Eventos> getEventoPorData(Date d){
+        return evtRepositorio.getEventoPorData(d);
     }
 
     public int getNmrEvtMesAno(int mes, int ano) {
