@@ -12,7 +12,9 @@
 	<parameter name="local" class="java.lang.String"/>
 	<parameter name="cod" class="java.lang.Integer"/>
 	<parameter name="obs" class="java.lang.String"/>
-
+	<parameter name="dtEntrega" class="java.util.Date"/>
+	<parameter name="dtEvento" class="java.util.Date"/>
+	<parameter name="dtDevolucao" class="java.util.Date"/>
 	<field name="cod" class="java.lang.String"/>
 	<field name="nome" class="java.lang.String"/>
 	<field name="quantidade" class="java.lang.Integer"/>
@@ -69,7 +71,7 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="158" splitType="Stretch">
+		<band height="184" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="6967f6f3-feb1-45b8-99ba-2046cd496221" x="142" y="12" width="145" height="28"/>
 				<textElement textAlignment="Center">
@@ -85,31 +87,31 @@
 				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="38bd427f-9a2c-4695-9ecf-d1d9cd415b54" x="-1" y="136" width="68" height="20"/>
+				<reportElement uuid="38bd427f-9a2c-4695-9ecf-d1d9cd415b54" x="0" y="162" width="68" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[CÓDIGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="54386dcc-b954-4da5-bfc9-2eda1ede2d97" x="67" y="136" width="135" height="20"/>
+				<reportElement uuid="54386dcc-b954-4da5-bfc9-2eda1ede2d97" x="68" y="162" width="135" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[PRODUTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="0d347dc6-c82b-4775-b224-c9007cebc1a6" x="203" y="136" width="75" height="20"/>
+				<reportElement uuid="0d347dc6-c82b-4775-b224-c9007cebc1a6" x="204" y="162" width="75" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[QUANTIDADE]]></text>
 			</staticText>
 			<line>
-				<reportElement uuid="5f5db31b-b467-4c4e-a03e-4f9130a520b2" x="-1" y="157" width="555" height="1"/>
+				<reportElement uuid="5f5db31b-b467-4c4e-a03e-4f9130a520b2" x="0" y="183" width="555" height="1"/>
 			</line>
 			<staticText>
-				<reportElement uuid="de07b2d1-acc8-47f1-ae4a-f1b36eac52c1" x="322" y="136" width="232" height="20"/>
+				<reportElement uuid="de07b2d1-acc8-47f1-ae4a-f1b36eac52c1" x="323" y="162" width="232" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -171,21 +173,57 @@
 				<textFieldExpression><![CDATA[$P{cod}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement uuid="888aced2-236b-4d26-a0cf-3a9b7d3bd6ee" x="1" y="104" width="554" height="29" isPrintWhenDetailOverflows="true"/>
+				<reportElement uuid="888aced2-236b-4d26-a0cf-3a9b7d3bd6ee" x="0" y="130" width="554" height="29" isPrintWhenDetailOverflows="true"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{obs}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement uuid="e788647c-69b8-4deb-b96b-985a76ed5885" x="0" y="103" width="555" height="1"/>
+				<reportElement uuid="e788647c-69b8-4deb-b96b-985a76ed5885" x="-1" y="129" width="555" height="1"/>
 			</line>
 			<staticText>
-				<reportElement uuid="39a518a5-4145-4406-b880-d57202012797" x="1" y="91" width="89" height="12"/>
+				<reportElement uuid="39a518a5-4145-4406-b880-d57202012797" x="0" y="117" width="117" height="12"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[OBSERVAÇÕES:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="22de7d5c-c01c-4afd-a2db-b75751f5c8c8" x="1" y="91" width="79" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DT. ENTREGA:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="11b73a66-7b63-4ea6-9be2-d33d90f2bc19" x="80" y="91" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{dtEntrega}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="c77818c5-e42b-4cef-ab74-d41763d5e3a9" x="181" y="91" width="72" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DT. EVENTO:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="5524e1f6-e6f6-4747-843d-198b314eafbb" x="253" y="91" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{dtEvento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="aa626ad3-4267-44f8-8142-2f290a43f458" x="454" y="91" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{dtDevolucao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b1da13f1-2024-4ea9-b51f-6e9fffc5bdff" x="354" y="91" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DT. DEVOLUÇÃO:]]></text>
 			</staticText>
 		</band>
 	</pageHeader>

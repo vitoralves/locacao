@@ -157,7 +157,7 @@ public class RepositorioEvento extends RepositorioBasico {
             }
         }
 
-        Query qr = entityManager.createQuery("select c.nome, c.cpf, e.endereco, e.localEvento, c.telefone, c.celular, e.idEvento, o.observacao "
+        Query qr = entityManager.createQuery("select c.nome, c.cpf, e.endereco, e.localEvento, c.telefone, c.celular, e.idEvento, o.observacao, e.dataEvento, e.dataEntrega, e.dataDevolucao "
                 + "from Orcamento o "
                 + "join o.evento e "
                 + "join e.cliente c "
@@ -174,6 +174,9 @@ public class RepositorioEvento extends RepositorioBasico {
             param.put("contato", result.get(0)[4] + " " + result.get(0)[5]);
             param.put("cod", result.get(0)[6]);
             param.put("obs", result.get(0)[7]);
+            param.put("dtEvento", result.get(0)[8]);
+            param.put("dtEntrega", result.get(0)[9]);
+            param.put("dtDevolucao", result.get(0)[10]);
 
             ReportGenerator rg = new ReportGenerator();
             rg.jasperReport("checkList", "application/pdf", lst, param, "checkList" + id_evento, "/relatorios/");
